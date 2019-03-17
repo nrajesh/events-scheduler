@@ -16,6 +16,15 @@ function showNxtPattern() {
     }
 }
 
+function fnFetch() {
+    
+    stompClient.send("/schedule/fetchAllEvents", {}, "");
+
+    document.getElementById('weekPattern').hidden=true;
+    document.getElementById('monthPattern').hidden=true;
+    document.getElementById('repeatPattern').hidden=true;
+}
+
 function fnSubmit() {
     var weekPattern = document.getElementById('weekPattern');
     var monthPattern = document.getElementById('monthPattern');

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Events Scheduler</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/scheduler.js"></script>
+
+    <style id="compiled-css" type="text/css">
+        label {
+            display: block;
+        }
+
+        .vl {
+            border-left: 2px solid gray;
+            margin-left: 50px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body onload="fnConnect();">
+    <center>
+    <table>
+        <tr>
+            <th>Single Entry</th>
+            <th>&nbsp;</th>
+            <th>Multiple Entry</th>
+        </tr>
+        <tr><td colspan="3">&nbsp;</td></tr>
+        <tr>
+            <td>
+                <!--form method="GET"-->
+                    <div>
+                        <b>Event Name*</b>&nbsp;&nbsp;&nbsp;<input type="text" id="eventName" name="eventName" style="width:150px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <br>
+                        <br>
+                        <label><b>Start Date*</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="startDate" id="startDate" type="date" required onchange="if(this.value){document.getElementById('endDate').min = this.value}"></label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label><b>End Date</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="endDate" id="endDate" type="date" onchange="if(this.value){document.getElementById('startDate').max = this.value}"></label>
+
+                        <br>
+                        <br>
+                        <b>Recurrance</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurNum" type="number" style="width: 38px;" value="0">&nbsp;
+                        <select id="recurPattern" onchange="showNxtPattern();">
+                            <option id="0" value="days">Daily</option>
+                            <option id="1" value="weeks">Weekly</option>
+                            <option id="2" value="months">Monthly</option>
+                            <option id="3" value="quarter">Quarterly</option>
+                            <option id="4" value="years">Yearly</option>
+                        </select>&nbsp;&nbsp;&nbsp;
+
+                        <div id="repeatPattern" style="visibility:hidden">
+                        <br>
+                        <b>Occurs every</b>&nbsp;&nbsp;&nbsp;
+                        <select multiple id="weekPattern" hidden>
+                            <option id="10" value="mon">Monday</option>
+                            <option id="11" value="tue">Tuesday</option>
+                            <option id="12" value="wed">Wednesday</option>
+                            <option id="13" value="thu">Thursday</option>
+                            <option id="14" value="fri">Friday</option>
+                            <option id="15" value="sat">Saturday</option>
+                            <option id="16" value="sun">Sunday</option>
+                        </select>
+                        <select multiple id="monthPattern" hidden>
+                            <option id="200" value="jan">January</option>
+                            <option id="201" value="feb">February</option>
+                            <option id="202" value="mar">March</option>
+                            <option id="203" value="apr">April</option>
+                            <option id="204" value="may">May</option>
+                            <option id="205" value="jun">June</option>
+                            <option id="206" value="jul">July</option>
+                            <option id="207" value="aug">August</option>
+                            <option id="208" value="sep">September</option>
+                            <option id="209" value="oct">October</option>
+                            <option id="210" value="nov">November</option>
+                            <option id="211" value="dec">December</option>
+                        </select>
+
+                        <br>
+                        <br>
+                        </div>
+                        <b>Repeat</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurFreq" min="1" type="number" value="1" style="width: 40px;">&nbsp;time(s)
+                        
+                    </div>
+                    <div>
+                        <p id="finalData"></p>
+                    </div>
+                <!--/form-->
+            </td>
+            <td>
+                <div class="vl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            </td>
+            <td>
+                <textarea style="height:200px;width:550px;text-align:left">{eventName:"Holiday", ordinal:"2", day:"Saturday", repeat:"monthly"}
+                </textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                
+                <input name="btnFetch" type="submit" style="width:100px" value="FETCH" onclick="fnFetch();">
+            </td>
+            <td>
+                <input name="btnSubmit" type="submit" style="width:100px" value="SUBMIT" onclick="fnSubmit();">
+                <!--input name="btnReset" type="reset" value="RESET" onclick="document.forms[0].reset();fnConnect();"-->
+            </td>
+            <td>
+                <input name="btnPurge" type="submit" style="width:100px" value="PURGE" onclick="fnPurge();">
+            </td>
+        </tr>
+    </table>
+    </center>
+</body>
+</html>

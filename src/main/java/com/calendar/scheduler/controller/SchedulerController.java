@@ -1,5 +1,6 @@
 package com.calendar.scheduler.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.tomcat.util.json.JSONParser;
@@ -9,6 +10,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.calendar.scheduler.dto.ISchedulerMongoDB;
 import com.calendar.scheduler.model.EventObj;
@@ -25,12 +27,19 @@ public class SchedulerController {
 	}
     @Autowired
     private ISchedulerMongoDB schedulerMongo;
+    
+	@RequestMapping(value="/fetchAllEvents", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<EventObj> fetchAllEvents() {
+		return this.schedulerMongo.findAll();
+	}
 	
-	@MessageMapping(value="/schedule/setupEvent")
-	public String setupEvent(@RequestBody String selectedData) {
+	@MessageMapping(value="/saveSingleEvent")
+	@ResponseBody
+	public EventObj setupEvent(@RequestBody String selectedData) {
 		JSONParser jp = new JSONParser(selectedData);
 		
-		EventObj eventObj;
+		EventObj eventObj = new EventObj();
 		EventSchedulerUtil eventUtil = new EventSchedulerUtil();
 		try {
 			Map<String,Object> jpObj=jp.object();
@@ -51,7 +60,18 @@ public class SchedulerController {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return selectedData;
+		return eventObj;
+	}
+	
+	@RequestMapping(value="/purgeAllEvents", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public String purgeAllEvents() {
+
+		schedulerMongo.deleteAll();
+		return "Purged";
 	}
 }

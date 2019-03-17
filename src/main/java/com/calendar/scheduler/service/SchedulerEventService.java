@@ -3,7 +3,7 @@ package com.calendar.scheduler.service;
 import java.util.Date;
 
 public class SchedulerEventService implements ISchedulerService {
-
+    
 	@Override
 	public Date startDate() {
 		// TODO Auto-generated method stub
@@ -29,15 +29,15 @@ public class SchedulerEventService implements ISchedulerService {
 	}
 
 	@Override
-	public String getAllOccurrences() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getNumberOfOccurences() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public String getAllOccurrences() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

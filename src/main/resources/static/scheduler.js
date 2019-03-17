@@ -18,11 +18,14 @@ function showNxtPattern() {
 
 function fnFetch() {
     
-    stompClient.send("/schedule/fetchAllEvents", {}, "");
+    stompClient.send("/fetchAllEvents", {}, "");
 
     document.getElementById('weekPattern').hidden=true;
     document.getElementById('monthPattern').hidden=true;
     document.getElementById('repeatPattern').hidden=true;
+
+    fnDisconnect();
+    fnConnect();
 }
 
 function fnSubmit() {
@@ -54,14 +57,10 @@ function fnSubmit() {
         +'}';
 
     //var selectedData = JSON.parse(jsonObj);
-    stompClient.send("/schedule/setupEvent", {}, jsonObj);
+    stompClient.send("/saveSingleEvent", {}, jsonObj);
 
     fnDisconnect();
     fnConnect();
-    
-    /*document.getElementById("finalData").innerHTML =
-        selectedData.scheduleEvent[0].startDate + " " + selectedData.scheduleEvent[0].endDate;*/
-
     document.getElementById('weekPattern').hidden=true;
     document.getElementById('monthPattern').hidden=true;
     document.getElementById('repeatPattern').hidden=true;
@@ -69,7 +68,7 @@ function fnSubmit() {
 
 function fnPurge() {
     
-    stompClient.send("/schedule/purgeAllEvents", {}, "");
+    stompClient.send("/purgeAllEvents", {}, "");
 
     document.getElementById('weekPattern').hidden=true;
     document.getElementById('monthPattern').hidden=true;
@@ -81,9 +80,6 @@ function fnConnect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        /*stompClient.subscribe('/scheduler/result',function(resultMsg) {
-            displayResult(JSON.parse(resultMsg.body));
-        });*/
     });
 }
 

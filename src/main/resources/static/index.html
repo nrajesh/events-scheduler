@@ -6,6 +6,7 @@
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script src="/scheduler.js"></script>
+    <script type="text/javascript" src="webjars/jquery/jquery.min.js"></script>
 
     <style id="compiled-css" type="text/css">
         label {
@@ -99,18 +100,51 @@
         </tr>
         <tr>
             <td>
-                
-                <input name="btnFetch" type="submit" style="width:100px" value="FETCH" onclick="fnFetch();">
+                <input id="fetchAllEvents" type="submit" style="width:100px" value="FETCH">
             </td>
             <td>
-                <input name="btnSubmit" type="submit" style="width:100px" value="SUBMIT" onclick="fnSubmit();">
+                <input id="saveSingleEvent" type="submit" style="width:100px" value="SUBMIT">
                 <!--input name="btnReset" type="reset" value="RESET" onclick="document.forms[0].reset();fnConnect();"-->
             </td>
             <td>
-                <input name="btnPurge" type="submit" style="width:100px" value="PURGE" onclick="fnPurge();">
+                <input id="purgeAllEvents" type="submit" style="width:100px" value="PURGE">
             </td>
         </tr>
     </table>
+    <div>
+        <ul id="output">
+
+        </ul>
+    </div>
+    <script>
+    $('#fetchAllEvents').click(function () {
+
+        $.getJSON('fetchAllEvents', function (data) {
+
+            $("ul#output > li").remove();
+
+            $.each(data, function (key, value) {
+                $("#output").append('<li>' + value['eventName'] + " " + value['startDate'] + '</li>');
+            });
+        });
+    });
+    $('#saveSingleEvent').click(function () {
+
+        fnSubmit();
+        $("ul#output > li").remove();
+
+        $("#output").append('<li>Saved</li>');
+    });
+    $('#purgeAllEvents').click(function () {
+
+        $.getJSON('purgeAllEvents', function (data) {
+        });
+
+        $("ul#output > li").remove();
+
+        $("#output").append('<li>Purged</li>');
+    });
+    </script>
     </center>
 </body>
 </html>

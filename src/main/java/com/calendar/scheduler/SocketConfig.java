@@ -12,6 +12,7 @@ public class SocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	
 	@Override
     public void configureMessageBroker(MessageBrokerRegistry messageBrokerConfig) {
+		messageBrokerConfig.enableSimpleBroker("/topic");
 		messageBrokerConfig.enableSimpleBroker("/schedule");
     }	
 	

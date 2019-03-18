@@ -5,11 +5,11 @@ var weekVal = [{"key":"Mon","val":"Monday"},{"key":"Tue","val":"Tuesday"}];
 function showNxtPattern() {
     var selPattern = document.getElementById('recurPattern').value;
     document.getElementById('repeatPattern').style.visibility="visible";
-    if(selPattern == 'weeks') {
+    if(selPattern == 'weekly') {
         document.getElementById('weekPattern').hidden=false;
         document.getElementById('monthPattern').hidden=true;
         document.getElementById('repeatPattern').hidden=false;
-    } else if(selPattern == 'months') {
+    } else if(selPattern == 'monthly') {
         document.getElementById('weekPattern').hidden=true;
         document.getElementById('monthPattern').hidden=false;
         document.getElementById('repeatPattern').hidden=false;
@@ -56,12 +56,15 @@ function fnSubmit(eventObj) {
         +'"recurFreq":"'+eventObj.recurFreq+'"'
         +'}';
 
-    //var selectedData = JSON.parse(jsonObj);
     stompClient.send("/saveSingleEvent", {}, jsonObj);
     
     document.getElementById('weekPattern').hidden=true;
     document.getElementById('monthPattern').hidden=true;
     document.getElementById('repeatPattern').hidden=true;
+}
+
+function fnInsertSchedule(jsonObj) {
+    stompClient.send("/insertSchedule", {}, jsonObj);
 }
 
 function fnPurge() {
@@ -78,6 +81,10 @@ function fnConnect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/saveSingleEvent',function(message) {
+            fnInsertSchedule(message.body);
+        });
+
     });
 }
 

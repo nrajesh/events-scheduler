@@ -6,7 +6,7 @@ import java.util.Date;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
  
-public interface ISchedulerMongoDB extends MongoRepository<EventObj, Integer> {
+public interface IEventsMongoDB extends MongoRepository<EventObj, Integer> {
 	EventObj findByEventName(String eventName);
 	EventObj findByStartDate(Date startDate);
 	void deleteAll();

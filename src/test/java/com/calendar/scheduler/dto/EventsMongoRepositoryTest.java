@@ -17,14 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.calendar.scheduler.dto.ISchedulerMongoDB;
+import com.calendar.scheduler.dto.IEventsMongoDB;
 import com.calendar.scheduler.model.EventObj;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class EventsMongoRepositoryTest {
     @Autowired
-    private ISchedulerMongoDB schedulerMongo;
+    private IEventsMongoDB schedulerMongo;
     
     DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     

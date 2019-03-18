@@ -28,39 +28,37 @@ function fnFetch() {
     fnConnect();
 }
 
-function fnSubmit() {
-    var weekPattern = document.getElementById('weekPattern');
-    var monthPattern = document.getElementById('monthPattern');
+function fnTypePattern(pattern) {
 
-    var weekValues = [];
-    for (var i = 0; i < weekPattern.options.length; i++) {
-        if (weekPattern.options[i].selected) {
-            weekValues.push(weekPattern.options[i].value);
+    var patternVal = [];
+    if(undefined==pattern) {
+        return "";
+    }
+    for (var i = 0; i < pattern.options.length; i++) {
+        if (pattern.options[i].selected) {
+            patternVal.push(pattern.options[i].value);
         }
     }
-    var monthValues = [];
-    for (var i = 0; i < monthPattern.options.length; i++) {
-        if (monthPattern.options[i].selected) {
-            monthValues.push(monthPattern.options[i].value);
-        }
-    }
-    jsonObj = 
+
+    return patternVal;
+}
+
+function fnSubmit(eventObj) {
+    var jsonObj = 
         '{'
-        +'"eventName":"'+document.getElementById('eventName').value+'",'
-        +'"startDate":"'+document.getElementById('startDate').value+'",'
-        +'"endDate":"'+document.getElementById('endDate').value+'",'
-        +'"recurNum":"'+document.getElementById('recurNum').value+'",'
-        +'"recurPattern":"'+document.getElementById('recurPattern').value+'",'
-        +'"weekPattern":"'+weekValues+'",'
-        +'"monthPattern":"'+monthValues+'",'
-        +'"recurFreq":"'+document.getElementById('recurFreq').value+'"'
+        +'"eventName":"'+eventObj.eventName+'",'
+        +'"startDate":"'+eventObj.startDate+'",'
+        +'"endDate":"'+eventObj.endDate+'",'
+        +'"recurNum":"'+eventObj.recurNum+'",'
+        +'"recurPattern":"'+eventObj.recurPattern+'",'
+        +'"weekPattern":"'+eventObj.weekPattern+'",'
+        +'"monthPattern":"'+eventObj.monthPattern+'",'
+        +'"recurFreq":"'+eventObj.recurFreq+'"'
         +'}';
 
     //var selectedData = JSON.parse(jsonObj);
     stompClient.send("/saveSingleEvent", {}, jsonObj);
-
-    fnDisconnect();
-    fnConnect();
+    
     document.getElementById('weekPattern').hidden=true;
     document.getElementById('monthPattern').hidden=true;
     document.getElementById('repeatPattern').hidden=true;

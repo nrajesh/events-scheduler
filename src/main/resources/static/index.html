@@ -84,6 +84,9 @@
                         </div>
                         <b>Repeat</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurFreq" min="1" type="number" value="1" style="width: 40px;">&nbsp;time(s)
                         
+                        <br>
+                        <br>
+                        <center><input id="saveSingleEvent" type="submit" style="width:100px" value="SUBMIT"></center>
                     </div>
                     <div>
                         <p id="finalData"></p>
@@ -94,20 +97,21 @@
                 <div class="vl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
             </td>
             <td>
-                <textarea style="height:200px;width:550px;text-align:left">{eventName:"Holiday", ordinal:"2", day:"Saturday", repeat:"monthly"}
-                </textarea>
+                <textarea id="multiEvents" style="height:200px;width:550px;text-align:left">{"eventName":"Holiday","startDate":"2019-03-17","endDate":"2019-03-17","recurNum":"2","recurPattern":"weeks","weekPattern":"sat,sun","monthPattern":"","recurFreq":"2"}
+{"eventName":"Bonus","startDate":"2019-03-18","endDate":"2020-03-17","recurNum":"1","recurPattern":"months","weekPattern":"","monthPattern":"jan,mar","recurFreq":"1"}</textarea>
+            
+                <br>
+                <br>
+                <center><input id="saveMultipleEvent" type="submit" style="width:100px" value="MULTI SUBMIT"></center>
             </td>
         </tr>
         <tr>
-            <td>
-                <input id="fetchAllEvents" type="submit" style="width:100px" value="FETCH">
-            </td>
-            <td>
-                <input id="saveSingleEvent" type="submit" style="width:100px" value="SUBMIT">
-                <!--input name="btnReset" type="reset" value="RESET" onclick="document.forms[0].reset();fnConnect();"-->
-            </td>
-            <td>
-                <input id="purgeAllEvents" type="submit" style="width:100px" value="PURGE">
+            <td colspan="3">
+                <center>
+                    <input id="fetchAllEvents" type="submit" style="width:100px" value="FETCH">
+            
+                    <input id="purgeAllEvents" type="submit" style="width:100px" value="PURGE">
+                </center>
             </td>
         </tr>
     </table>
@@ -117,6 +121,7 @@
         </ul>
     </div>
     <script>
+    var eventObj;
     $('#fetchAllEvents').click(function () {
 
         $.getJSON('fetchAllEvents', function (data) {
@@ -128,13 +133,39 @@
             });
         });
     });
-    $('#saveSingleEvent').click(function () {
 
-        fnSubmit();
+    $('#saveSingleEvent').click(function () {
+        
+        eventObj = {
+            "eventName":document.getElementById('eventName').value,
+            "startDate":document.getElementById('startDate').value,
+            "endDate":document.getElementById('endDate').value,
+            "recurNum":document.getElementById('recurNum').value,
+            "recurPattern":document.getElementById('recurPattern').value,
+            "weekPattern":fnTypePattern(document.getElementById('weekPattern')),
+            "monthPattern":fnTypePattern(document.getElementById('monthPattern')),
+            "recurFreq":document.getElementById('recurFreq').value};
+        fnSubmit(eventObj);
         $("ul#output > li").remove();
 
         $("#output").append('<li>Saved</li>');
     });
+
+    $('#saveMultipleEvent').click(function () {
+        
+        var lines = document.getElementById('multiEvents').value.split('\n');
+        
+        for(var i = 0;i < lines.length;i++){
+
+            if(""!=lines[i]) {
+                fnSubmit(JSON.parse(lines[i]));
+            }
+        }
+        $("ul#output > li").remove();
+
+        $("#output").append('<li>Saved</li>');
+    });
+
     $('#purgeAllEvents').click(function () {
 
         $.getJSON('purgeAllEvents', function (data) {

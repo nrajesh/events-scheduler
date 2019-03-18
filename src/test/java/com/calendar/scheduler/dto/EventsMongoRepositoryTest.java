@@ -35,7 +35,7 @@ public class EventsMongoRepositoryTest {
         		format.parse("2019-03-25"),
         		format.parse("2019-03-26"),
         		2,
-        		"months",
+        		'm',
         		"",
         		"1",
         		1);
@@ -44,7 +44,7 @@ public class EventsMongoRepositoryTest {
         		format.parse("2019-04-25"),
         		format.parse("2019-05-26"),
         		1,
-        		"weeks",
+        		'w',
         		"2",
         		"",
         		2);

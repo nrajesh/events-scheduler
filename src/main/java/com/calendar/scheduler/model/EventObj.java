@@ -15,7 +15,7 @@ public class EventObj {
 	private Date startDate;
 	private Date endDate;
 	private int recurNum;
-	private String recurPattern;
+	private char recurPattern;
 	private String weekPattern;
 	private String monthPattern;
 	private int recurFreq;
@@ -25,7 +25,7 @@ public class EventObj {
     		Date startDate, 
     		Date endDate,
     		int recurNum,
-    		String recurPattern,
+    		char recurPattern,
     		String weekPattern,
     		String monthPattern,
     		int recurFreq) {
@@ -108,13 +108,13 @@ public class EventObj {
 	/**
 	 * @return the recurPattern
 	 */
-	public String getRecurPattern() {
+	public char getRecurPattern() {
 		return recurPattern;
 	}
 	/**
 	 * @param recurPattern the recurPattern to set
 	 */
-	public void setRecurPattern(String recurPattern) {
+	public void setRecurPattern(char recurPattern) {
 		this.recurPattern = recurPattern;
 	}
 	/**

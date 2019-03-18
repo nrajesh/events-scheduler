@@ -43,13 +43,13 @@
 
                         <br>
                         <br>
-                        <b>Recurrance</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurNum" type="number" style="width: 38px;" value="0">&nbsp;
+                        <b>Recur Every</b>&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurNum" min="1" type="number" value="1" style="width: 38px;">&nbsp;
                         <select id="recurPattern" onchange="showNxtPattern();">
-                            <option id="0" value="daily">Daily</option>
-                            <option id="1" value="weekly">Weekly</option>
-                            <option id="2" value="monthly">Monthly</option>
-                            <option id="3" value="quarterly">Quarterly</option>
-                            <option id="4" value="yearly">Yearly</option>
+                            <option id="0" value="d">Day</option>
+                            <option id="1" value="w">Week</option>
+                            <option id="2" value="m">Month</option>
+                            <option id="3" value="q">Quarter</option>
+                            <option id="4" value="y">Year</option>
                         </select>&nbsp;&nbsp;&nbsp;
 
                         <div id="repeatPattern" style="visibility:hidden">
@@ -82,7 +82,7 @@
                         <br>
                         <br>
                         </div>
-                        <b>Repeat</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurFreq" min="1" type="number" value="1" style="width: 40px;">&nbsp;time(s)
+                        <b>Stop after</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurFreq" min="1" type="number" value="1" style="width: 40px;">&nbsp;entries
                         
                         <br>
                         <br>
@@ -108,9 +108,11 @@
         <tr>
             <td colspan="3">
                 <center>
-                    <input id="fetchAllEvents" type="submit" style="width:100px" value="FETCH">
+                    <input id="fetchAllEvents" type="submit" style="width:150px" value="FETCH EVENTS">
             
-                    <input id="purgeAllEvents" type="submit" style="width:100px" value="PURGE">
+                    <input id="purgeAllEvents" type="submit" style="width:150px" value="PURGE EVENTS">
+
+                    <input id="purgeAllSchedules" type="submit" style="width:150px" value="PURGE SCHEDULES">
                 </center>
             </td>
         </tr>
@@ -135,7 +137,6 @@
     });
 
     $('#saveSingleEvent').click(function () {
-        
         eventObj = {
             "eventName":document.getElementById('eventName').value,
             "startDate":document.getElementById('startDate').value,
@@ -173,7 +174,17 @@
 
         $("ul#output > li").remove();
 
-        $("#output").append('<li>Purged</li>');
+        $("#output").append('<li>Purged events</li>');
+    });
+
+    $('#purgeAllSchedules').click(function () {
+
+        $.getJSON('purgeAllSchedules', function (data) {
+        });
+
+        $("ul#output > li").remove();
+
+        $("#output").append('<li>Purged schedules</li>');
     });
     </script>
     </center>

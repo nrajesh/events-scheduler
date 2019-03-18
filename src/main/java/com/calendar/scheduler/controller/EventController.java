@@ -41,11 +41,10 @@ public class EventController {
 	public EventObj setupEvent(@RequestBody String selectedData) {
 		JSONParser jp = new JSONParser(selectedData);
 		
-		EventScheduleUtil eventUtil = new EventScheduleUtil();
 		EventObj eventObj = new EventObj();
 		try {
 			Map<String,Object> jpObj=jp.object();
-			eventObj = eventUtil.createEventObj(jpObj);
+			eventObj = EventScheduleUtil.createEventObj(jpObj);
 
 		    eventObj = eventMongo.save(eventObj);
 		} catch (ParseException e) {

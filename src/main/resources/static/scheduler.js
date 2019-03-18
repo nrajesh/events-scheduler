@@ -5,27 +5,15 @@ var weekVal = [{"key":"Mon","val":"Monday"},{"key":"Tue","val":"Tuesday"}];
 function showNxtPattern() {
     var selPattern = document.getElementById('recurPattern').value;
     document.getElementById('repeatPattern').style.visibility="visible";
-    if(selPattern == 'weekly') {
+    if(selPattern == 'w') {
         document.getElementById('weekPattern').hidden=false;
         document.getElementById('monthPattern').hidden=true;
         document.getElementById('repeatPattern').hidden=false;
-    } else if(selPattern == 'monthly') {
+    } else if(selPattern == 'm') {
         document.getElementById('weekPattern').hidden=true;
         document.getElementById('monthPattern').hidden=false;
         document.getElementById('repeatPattern').hidden=false;
     }
-}
-
-function fnFetch() {
-    
-    stompClient.send("/fetchAllEvents", {}, "");
-
-    document.getElementById('weekPattern').hidden=true;
-    document.getElementById('monthPattern').hidden=true;
-    document.getElementById('repeatPattern').hidden=true;
-
-    fnDisconnect();
-    fnConnect();
 }
 
 function fnTypePattern(pattern) {
@@ -65,15 +53,6 @@ function fnSubmit(eventObj) {
 
 function fnInsertSchedule(jsonObj) {
     stompClient.send("/insertSchedule", {}, jsonObj);
-}
-
-function fnPurge() {
-    
-    stompClient.send("/purgeAllEvents", {}, "");
-
-    document.getElementById('weekPattern').hidden=true;
-    document.getElementById('monthPattern').hidden=true;
-    document.getElementById('repeatPattern').hidden=true;
 }
 
 function fnConnect() {

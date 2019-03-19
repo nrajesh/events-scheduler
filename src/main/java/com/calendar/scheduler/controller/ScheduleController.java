@@ -61,7 +61,7 @@ public class ScheduleController {
 			end = EventScheduleUtil.dateFormat(jpObj.get("endDate"), "end");
 
 			if (recurNum == 0 || !format.parse("2099-12-30").equals(end)) {
-				while (end.after(start)) {
+				while (end.after(start) || end.equals(start)) {
 					scheduleObj = insertScheduleRecords(scheduleObj, jpObj);
 					increment++;
 				}
@@ -111,6 +111,8 @@ public class ScheduleController {
 				c.add(Calendar.DATE, recurFreq);
 				nextOccurance = c.getTime();
 				start = nextOccurance;
+				
+				break;
 			case 'w':
 				if(null==nextOccurance) {
 					c.setTime(start);
@@ -119,7 +121,8 @@ public class ScheduleController {
 				}
 				c.add(Calendar.DATE, 7*recurFreq);
 				nextOccurance = c.getTime();
-				if(nextOccurance.after(end)) {
+				
+				if(null!=currOccurance && currOccurance.after(end) && nextOccurance.after(end)) {
 					start = nextOccurance;
 					break;
 				}
@@ -143,6 +146,7 @@ public class ScheduleController {
 					start = nextOccurance;
 				}
 
+				break;
 		}
 
 		return scheduleObj;

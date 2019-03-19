@@ -60,7 +60,7 @@ public class ScheduleController {
 			start = EventScheduleUtil.dateFormat(jpObj.get("startDate"), "start");
 			end = EventScheduleUtil.dateFormat(jpObj.get("endDate"), "end");
 
-			if (recurNum == 0 || !format.parse("2099-12-30").equals(end)) {
+			if (recurNum == 0 || !format.parse("2099-12-31").equals(end)) {
 				while (end.after(start) || end.equals(start)) {
 					scheduleObj = insertScheduleRecords(scheduleObj, jpObj);
 					increment++;

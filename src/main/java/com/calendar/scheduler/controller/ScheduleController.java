@@ -32,6 +32,7 @@ public class ScheduleController {
 	}
 
 	private Date start, end;
+	Date currOccurance,nextOccurance;
 	
 	@Autowired
 	private IScheduleMongoDB schedulerMongo;
@@ -49,25 +50,26 @@ public class ScheduleController {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 	    
 		ScheduleObj scheduleObj = new ScheduleObj();
-		int increment = 0,recurFreq = 0;
+		int increment = 0,recurNum = 0;
 		try {
 			Map<String, Object> jpObj = jp.object();
-			recurFreq = EventScheduleUtil.intFormat(String.valueOf((java.math.BigInteger) jpObj.get("recurFreq")));
+			recurNum = EventScheduleUtil.intFormat(String.valueOf((java.math.BigInteger) jpObj.get("recurNum")),1);
 
 			start = EventScheduleUtil.dateFormat(jpObj.get("startDate"), "start");
 			end = EventScheduleUtil.dateFormat(jpObj.get("endDate"), "end");
 
-			if (recurFreq == 0 || !format.parse("2099-12-30").equals(end)) {
+			if (recurNum == 0 || !format.parse("2099-12-30").equals(end)) {
 				while (end.after(start)) {
-					scheduleObj = insertScheduleRecords(scheduleObj, jpObj, increment);
+					scheduleObj = insertScheduleRecords(scheduleObj, jpObj);
 					increment++;
 				}
 			} else {
-				while (increment != recurFreq) {
-					scheduleObj = insertScheduleRecords(scheduleObj, jpObj, increment);
+				while (increment != recurNum) {
+					scheduleObj = insertScheduleRecords(scheduleObj, jpObj);
 					increment++;
 				}
 			}
+			currOccurance = nextOccurance = null;
 
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -82,21 +84,64 @@ public class ScheduleController {
 		return scheduleObj;
 	}
 
-	private ScheduleObj insertScheduleRecords(ScheduleObj scheduleObj, Map<String, Object> jpObj, int increment) {
+	private ScheduleObj insertScheduleRecords(ScheduleObj scheduleObj, Map<String, Object> jpObj) {
 
-		int recurNum = EventScheduleUtil.intFormat(String.valueOf((java.math.BigInteger) jpObj.get("recurNum")));
+		int recurFreq = EventScheduleUtil.intFormat(String.valueOf((java.math.BigInteger) jpObj.get("recurFreq")),1);
+		
 		Calendar c = Calendar.getInstance();
+		
+		int diff=0,temp=0;
+		
 		char recurPattern = EventScheduleUtil.charFormat(jpObj.get("recurPattern"));
+		int[] weekDays = EventScheduleUtil.getWeekDays((String)jpObj.get("weekPattern"));
 		switch (recurPattern) {
 			case 'd':
-				c.setTime(start);
-				c.add(Calendar.DATE, recurNum);
-				start = c.getTime();
-				jpObj.put("startDate", start);
-		}
-		scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
+				if(null==nextOccurance)
+					c.setTime(start);
+				else
+					c.setTime(nextOccurance);
+					
+				currOccurance = c.getTime();
+				jpObj.put("startDate", currOccurance);
+				scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
 
-		scheduleObj = schedulerMongo.save(scheduleObj);
+				scheduleObj = schedulerMongo.save(scheduleObj);
+				c.add(Calendar.DATE, recurFreq);
+				nextOccurance = c.getTime();
+				start = nextOccurance;
+			case 'w':
+				if(null==nextOccurance) {
+					c.setTime(start);
+				} else {
+					c.setTime(nextOccurance);
+				}
+				c.add(Calendar.DATE, 7*recurFreq);
+				nextOccurance = c.getTime();
+				if(nextOccurance.after(end)) {
+					start = nextOccurance;
+					break;
+				}
+				c.setTime(start);
+				
+				for(int weekDay: weekDays) {
+					temp = c.get(Calendar.DAY_OF_WEEK);
+					diff = weekDay-temp;
+					if(diff<0) {
+						c.add(Calendar.DATE, diff+7);
+					} else {
+						c.add(Calendar.DATE, diff);
+					}
+					currOccurance = c.getTime();
+					jpObj.put("startDate", currOccurance);
+					
+					scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
+
+					scheduleObj = schedulerMongo.save(scheduleObj);
+					//nextOccurance = c.getTime();
+					start = nextOccurance;
+				}
+
+		}
 
 		return scheduleObj;
 	}

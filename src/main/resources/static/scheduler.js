@@ -1,5 +1,6 @@
 var jsonObj;
 var stompClient = null;
+var stompConnected = false;
 var weekVal = [{"key":"Mon","val":"Monday"},{"key":"Tue","val":"Tuesday"}];
 
 function showNxtPattern() {
@@ -46,9 +47,10 @@ function fnSubmit(eventObj) {
 
     stompClient.send("/saveSingleEvent", {}, jsonObj);
     
-    document.getElementById('weekPattern').hidden=true;
-    document.getElementById('monthPattern').hidden=true;
-    document.getElementById('repeatPattern').hidden=true;
+    if (document.getElementById('weekPattern').hidden)
+        document.getElementById('weekPattern').hidden=true;
+    if(document.getElementById('monthPattern').hidden=true)
+        document.getElementById('monthPattern').hidden=true;
 }
 
 function fnInsertSchedule(jsonObj) {
@@ -57,9 +59,11 @@ function fnInsertSchedule(jsonObj) {
 
 function fnConnect() {
     var socket = new SockJS('/websocket');
+    
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
+        stompConnected = true;
         stompClient.subscribe('/topic/saveSingleEvent',function(message) {
             fnInsertSchedule(message.body);
         });
@@ -70,6 +74,7 @@ function fnConnect() {
 function fnDisconnect() {
     if (stompClient != null) {
         stompClient.disconnect();
+        stompConnected = false;
     }
     console.log("Disconnected");
 }

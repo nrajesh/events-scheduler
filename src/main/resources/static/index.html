@@ -39,11 +39,11 @@
                         <br>
                         <label><b>Start Date*</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="startDate" id="startDate" type="date" required onchange="if(this.value){document.getElementById('endDate').min = this.value}"></label>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <label><b>End Date</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="endDate" id="endDate" type="date" onchange="if(this.value){document.getElementById('startDate').max = this.value}"></label>
+                    <label><b>End Date</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="endDate" id="endDate" type="date" onchange="if(this.value){document.getElementById('startDate').max = this.value;} if(null!=this.value) document.getElementById('recurNum').disabled=true; if(''==this.value) document.getElementById('recurNum').disabled=false;"></label>
 
                         <br>
                         <br>
-                        <b>Recur Every</b>&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurNum" min="1" type="number" value="1" style="width: 38px;">&nbsp;
+                        <b>Recur Every</b>&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurFreq" min="1" type="number" value="1" style="width: 38px;">&nbsp;
                         <select id="recurPattern" onchange="showNxtPattern();">
                             <option id="0" value="d">Day</option>
                             <option id="1" value="w">Week</option>
@@ -52,44 +52,41 @@
                             <option id="4" value="y">Year</option>
                         </select>&nbsp;&nbsp;&nbsp;
 
-                        <div id="repeatPattern" style="visibility:hidden">
+                        <div id="repeatPattern" style="visibility:collapse">
                         <br>
                         <b>Occurs every</b>&nbsp;&nbsp;&nbsp;
                         <select multiple id="weekPattern" hidden>
-                            <option id="10" value="mon">Monday</option>
-                            <option id="11" value="tue">Tuesday</option>
-                            <option id="12" value="wed">Wednesday</option>
-                            <option id="13" value="thu">Thursday</option>
-                            <option id="14" value="fri">Friday</option>
-                            <option id="15" value="sat">Saturday</option>
-                            <option id="16" value="sun">Sunday</option>
+                            <option id="16" value="1">Sunday</option>
+                            <option id="10" value="2">Monday</option>
+                            <option id="11" value="3">Tuesday</option>
+                            <option id="12" value="4">Wednesday</option>
+                            <option id="13" value="5">Thursday</option>
+                            <option id="14" value="6">Friday</option>
+                            <option id="15" value="7">Saturday</option>
                         </select>
                         <select multiple id="monthPattern" hidden>
-                            <option id="200" value="jan">January</option>
-                            <option id="201" value="feb">February</option>
-                            <option id="202" value="mar">March</option>
-                            <option id="203" value="apr">April</option>
-                            <option id="204" value="may">May</option>
-                            <option id="205" value="jun">June</option>
-                            <option id="206" value="jul">July</option>
-                            <option id="207" value="aug">August</option>
-                            <option id="208" value="sep">September</option>
-                            <option id="209" value="oct">October</option>
-                            <option id="210" value="nov">November</option>
-                            <option id="211" value="dec">December</option>
+                            <option id="200" value="0">January</option>
+                            <option id="201" value="1">February</option>
+                            <option id="202" value="2">March</option>
+                            <option id="203" value="3">April</option>
+                            <option id="204" value="4">May</option>
+                            <option id="205" value="5">June</option>
+                            <option id="206" value="6">July</option>
+                            <option id="207" value="7">August</option>
+                            <option id="208" value="8">September</option>
+                            <option id="209" value="9">October</option>
+                            <option id="210" value="10">November</option>
+                            <option id="211" value="11">December</option>
                         </select>
 
                         <br>
                         <br>
                         </div>
-                        <b>Stop after</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurFreq" min="1" type="number" value="1" style="width: 40px;">&nbsp;entries
+                        <b>Stop after</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurNum" min="1" type="number" value="1" style="width: 40px;" onchange="if(null!=this.value) document.getElementById('endDate').disabled=true; document.getElementById('endDate').value=''">&nbsp;entries
                         
                         <br>
                         <br>
                         <center><input id="saveSingleEvent" type="submit" style="width:100px" value="SUBMIT"></center>
-                    </div>
-                    <div>
-                        <p id="finalData"></p>
                     </div>
                 <!--/form-->
             </td>
@@ -97,8 +94,8 @@
                 <div class="vl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
             </td>
             <td>
-                <textarea id="multiEvents" style="height:200px;width:550px;text-align:left">{"eventName":"Holiday","startDate":"2019-03-17","endDate":"2019-03-17","recurNum":"2","recurPattern":"weekly","weekPattern":"sat,sun","monthPattern":"","recurFreq":"2"}
-{"eventName":"Bonus","startDate":"2019-03-18","endDate":"","recurNum":"1","recurPattern":"monthly","weekPattern":"","monthPattern":"jan,mar","recurFreq":"1"}</textarea>
+                <textarea id="multiEvents" style="height:200px;width:550px;text-align:left">{"eventName":"Holiday","startDate":"2019-03-17","endDate":"2019-03-19","recurNum":"2","recurPattern":"w","weekPattern":"7,1","monthPattern":"","recurFreq":"2"}
+{"eventName":"Bonus","startDate":"2019-03-18","endDate":"","recurNum":"1","recurPattern":"m","weekPattern":"","monthPattern":"0,2","recurFreq":"1"}</textarea>
             
                 <br>
                 <br>
@@ -137,6 +134,7 @@
     });
 
     $('#saveSingleEvent').click(function () {
+
         eventObj = {
             "eventName":document.getElementById('eventName').value,
             "startDate":document.getElementById('startDate').value,
@@ -146,6 +144,10 @@
             "weekPattern":fnTypePattern(document.getElementById('weekPattern')),
             "monthPattern":fnTypePattern(document.getElementById('monthPattern')),
             "recurFreq":document.getElementById('recurFreq').value};
+
+        if(!stompConnected) {
+            fnConnect();
+        }
         fnSubmit(eventObj);
         $("ul#output > li").remove();
 

@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,6 +30,8 @@ public class ScheduleMongoRepositoryTest {
     
     @Before
     public void setUp() throws Exception {
+    	format.setTimeZone(TimeZone.getTimeZone("GMT"));
+	    
         ScheduleObj testSchedule1= new ScheduleObj(
         		"1",
         		"Holiday",
@@ -52,6 +55,8 @@ public class ScheduleMongoRepositoryTest {
         /*Test data retrieval*/
     	ScheduleObj schedule1;
 		try {
+			format.setTimeZone(TimeZone.getTimeZone("GMT"));
+		    
 			schedule1 = schedulerMongo.findByOccuranceDate(format.parse("2019-03-25"));
 	        assertNotNull(schedule1);
 	        assertEquals(format.parse("2019-03-25"), schedule1.getOccuranceDate());
@@ -72,6 +77,8 @@ public class ScheduleMongoRepositoryTest {
     public void testDataUpdate(){
         /*Test update*/
     	try {
+    		format.setTimeZone(TimeZone.getTimeZone("GMT"));
+    	    
     		ScheduleObj schedule2 = schedulerMongo.findByOccuranceDate(format.parse("2019-04-25"));
         	assertNotNull(schedule2);
         	schedule2.setOccuranceDate(format.parse("2019-04-26"));

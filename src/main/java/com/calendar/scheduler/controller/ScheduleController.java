@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
@@ -31,6 +32,7 @@ public class ScheduleController {
 		}
 	}
 
+	private DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 	private Date start, end;
 	Date currOccurance,nextOccurance;
 	
@@ -47,7 +49,7 @@ public class ScheduleController {
 	@ResponseBody
 	public ScheduleObj setupEvent(@RequestBody String selectedData) {
 		JSONParser jp = new JSONParser(selectedData.toString());
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+		format.setTimeZone(TimeZone.getTimeZone("GMT"));
 	    
 		ScheduleObj scheduleObj = new ScheduleObj();
 		int increment = 0,recurNum = 0;

@@ -14,6 +14,8 @@ function showNxtPattern() {
         document.getElementById('weekPattern').hidden=true;
         document.getElementById('monthPattern').hidden=false;
         document.getElementById('repeatPattern').hidden=false;
+        document.getElementById('recurFreq').value=1;
+        document.getElementById('recurFreq').disabled=true;
     }
 }
 
@@ -49,7 +51,7 @@ function fnSubmit(eventObj) {
     
     if (document.getElementById('weekPattern').hidden)
         document.getElementById('weekPattern').hidden=true;
-    if(document.getElementById('monthPattern').hidden=true)
+    if(document.getElementById('monthPattern').hidden)
         document.getElementById('monthPattern').hidden=true;
 }
 

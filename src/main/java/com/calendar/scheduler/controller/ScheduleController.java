@@ -62,12 +62,12 @@ public class ScheduleController {
 
 			if (recurNum == 0 || !format.parse("2099-12-31").equals(end)) {
 				while (end.after(start) || end.equals(start)) {
-					scheduleObj = insertScheduleRecords(scheduleObj, jpObj);
+					scheduleObj = insertScheduleRecords(scheduleObj, jpObj, recurNum);
 					increment++;
 				}
 			} else {
 				while (increment != recurNum) {
-					scheduleObj = insertScheduleRecords(scheduleObj, jpObj);
+					scheduleObj = insertScheduleRecords(scheduleObj, jpObj, recurNum);
 					increment++;
 				}
 			}
@@ -86,7 +86,7 @@ public class ScheduleController {
 		return scheduleObj;
 	}
 
-	private ScheduleObj insertScheduleRecords(ScheduleObj scheduleObj, Map<String, Object> jpObj) {
+	private ScheduleObj insertScheduleRecords(ScheduleObj scheduleObj, Map<String, Object> jpObj, int recurNum) {
 
 		int recurFreq = EventScheduleUtil.intFormat(String.valueOf((java.math.BigInteger) jpObj.get("recurFreq")),1);
 		
@@ -95,7 +95,10 @@ public class ScheduleController {
 		int diff=0,temp=0;
 		
 		char recurPattern = EventScheduleUtil.charFormat(jpObj.get("recurPattern"));
+		
 		int[] weekDays = EventScheduleUtil.getWeekDays((String)jpObj.get("weekPattern"));
+		int[] months = EventScheduleUtil.getWeekDays((String)jpObj.get("monthPattern"));
+		
 		switch (recurPattern) {
 			case 'd':
 				if(null==nextOccurance)
@@ -136,6 +139,40 @@ public class ScheduleController {
 					} else {
 						c.add(Calendar.DATE, diff);
 					}
+					currOccurance = c.getTime();
+					jpObj.put("startDate", currOccurance);
+					
+					scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
+
+					scheduleObj = schedulerMongo.save(scheduleObj);
+					//nextOccurance = c.getTime();
+					start = nextOccurance;
+				}
+
+				break;
+			case 'm':
+				if(null==nextOccurance) {
+					c.setTime(start);
+				} else {
+					c.setTime(nextOccurance);
+				}
+				c.add(Calendar.YEAR, recurNum);
+				nextOccurance = c.getTime();
+				
+				if(null!=currOccurance && currOccurance.after(end) && nextOccurance.after(end)) {
+					start = nextOccurance;
+					break;
+				}
+				c.setTime(start);
+				
+				for(int month: months) {
+					temp = c.get(Calendar.MONTH);
+					
+					diff = month-temp;
+					if(diff<0) {
+						c.add(Calendar.YEAR, 1);
+					}
+					c.add(Calendar.MONTH,diff);
 					currOccurance = c.getTime();
 					jpObj.put("startDate", currOccurance);
 					

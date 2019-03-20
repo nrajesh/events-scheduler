@@ -62,7 +62,7 @@ public class EventScheduleUtil {
 			intFormat(jpObj.get("recurNum"),1),
 			charFormat(jpObj.get("recurPattern")),
 			eliminateNull((String)jpObj.get("weekPattern")),
-			eliminateNull((String)jpObj.get("monthPattern")),
+			intFormat(jpObj.get("monthPattern"),0),
 			intFormat(jpObj.get("recurFreq"),1)
 		);
 		

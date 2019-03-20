@@ -5,8 +5,10 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-    <script src="/scheduler.js"></script>
     <script type="text/javascript" src="webjars/jquery/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <script src="/scheduler.js"></script>
 
     <style id="compiled-css" type="text/css">
         label {
@@ -37,25 +39,31 @@
 
                         <br>
                         <br>
-                        <label><b>Start Date*</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="startDate" id="startDate" type="date" required onchange="if(this.value){document.getElementById('endDate').min = this.value}"></label>
+                        <label><b>Start Date*</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="startDate" id="startDate" data-date-autoclose="true" type="date" required onchange="if(this.value){document.getElementById('endDate').min = this.value}" useCurrent></label>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <label><b>End Date</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="endDate" id="endDate" type="date" onchange="if(this.value){document.getElementById('startDate').max = this.value;} if(null!=this.value) document.getElementById('recurNum').disabled=true; if(''==this.value) document.getElementById('recurNum').disabled=false;"></label>
+                        <br>
+                        <Center><b>OR</b></Center>
+                        <br>
+                        <b>Stop after</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurNum" min="1" type="number" value="1" style="width: 40px;" onchange="if(null!=this.value) document.getElementById('endDate').disabled=true; document.getElementById('endDate').value=''">&nbsp;times
 
                         <br>
                         <br>
                         <b>Recur Every</b>&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurFreq" min="1" type="number" value="1" style="width: 38px;">&nbsp;
                         <select id="recurPattern" onchange="showNxtPattern();">
-                            <option id="0" value="d">Day</option>
-                            <option id="1" value="w">Week</option>
-                            <option id="2" value="m">Month</option>
-                            <option id="4" value="y">Year</option>
+                            <option id="0" value="d">Day(s)</option>
+                            <option id="1" value="w">Week(s)</option>
+                            <option id="2" value="m">Month(s)</option>
+                            <option id="4" value="y">Year(s)</option>
                         </select>&nbsp;&nbsp;&nbsp;
 
+                        <div id="dummy" style="visibility:collapse"></div>
+                        
                         <div id="repeatPattern" style="visibility:collapse">
                         <br>
-                        <b>Occurs every</b>&nbsp;&nbsp;&nbsp;
+                        <b>Starting from</b>&nbsp;&nbsp;
                         <select multiple id="weekPattern" hidden>
-                            <option id="16" value="1">Sunday</option>
+                            <option id="16" value="1" default>Sunday</option>
                             <option id="10" value="2">Monday</option>
                             <option id="11" value="3">Tuesday</option>
                             <option id="12" value="4">Wednesday</option>
@@ -63,8 +71,8 @@
                             <option id="14" value="6">Friday</option>
                             <option id="15" value="7">Saturday</option>
                         </select>
-                        <select multiple id="monthPattern" hidden>
-                            <option id="200" value="0">January</option>
+                        <select id="monthPattern" hidden>
+                            <option id="200" value="0" default>January</option>
                             <option id="201" value="1">February</option>
                             <option id="202" value="2">March</option>
                             <option id="203" value="3">April</option>
@@ -81,7 +89,6 @@
                         <br>
                         <br>
                         </div>
-                        <b>Stop after</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurNum" min="1" type="number" value="1" style="width: 40px;" onchange="if(null!=this.value) document.getElementById('endDate').disabled=true; document.getElementById('endDate').value=''">&nbsp;entries
                         
                         <br>
                         <br>
@@ -94,7 +101,7 @@
             </td>
             <td>
                 <textarea id="multiEvents" style="height:200px;width:550px;text-align:left">{"eventName":"Holiday","startDate":"2019-03-17","endDate":"2019-03-19","recurNum":"2","recurPattern":"w","weekPattern":"7,1","monthPattern":"","recurFreq":"2"}
-{"eventName":"Bonus","startDate":"2019-03-18","endDate":"","recurNum":"1","recurPattern":"m","weekPattern":"","monthPattern":"0,2","recurFreq":"1"}</textarea>
+{"eventName":"Bonus","startDate":"2019-03-18","endDate":"","recurNum":"1","recurPattern":"m","weekPattern":"","monthPattern":"0","recurFreq":"1"}</textarea>
             
                 <br>
                 <br>
@@ -141,7 +148,7 @@
             "recurNum":document.getElementById('recurNum').value,
             "recurPattern":document.getElementById('recurPattern').value,
             "weekPattern":fnTypePattern(document.getElementById('weekPattern')),
-            "monthPattern":fnTypePattern(document.getElementById('monthPattern')),
+            "monthPattern":document.getElementById('monthPattern').value,
             "recurFreq":document.getElementById('recurFreq').value};
 
         if(!stompConnected) {

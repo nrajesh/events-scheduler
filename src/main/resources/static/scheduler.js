@@ -1,7 +1,6 @@
 var jsonObj;
 var stompClient = null;
 var stompConnected = false;
-var weekVal = [{"key":"Mon","val":"Monday"},{"key":"Tue","val":"Tuesday"}];
 
 function showNxtPattern() {
     var selPattern = document.getElementById('recurPattern').value;
@@ -10,12 +9,17 @@ function showNxtPattern() {
         document.getElementById('weekPattern').hidden=false;
         document.getElementById('monthPattern').hidden=true;
         document.getElementById('repeatPattern').hidden=false;
+        document.getElementById('dummy').hidden=true;
     } else if(selPattern == 'm') {
         document.getElementById('weekPattern').hidden=true;
         document.getElementById('monthPattern').hidden=false;
         document.getElementById('repeatPattern').hidden=false;
-        document.getElementById('recurFreq').value=1;
-        document.getElementById('recurFreq').disabled=true;
+        document.getElementById('dummy').hidden=true;
+    } else if(selPattern == 'y') {
+        document.getElementById('weekPattern').hidden=true;
+        document.getElementById('monthPattern').hidden=true;
+        document.getElementById('repeatPattern').hidden=true;
+        document.getElementById('dummy').hidden=false;
     }
 }
 

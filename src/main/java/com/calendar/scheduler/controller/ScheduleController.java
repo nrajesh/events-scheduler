@@ -13,8 +13,12 @@ import java.util.TimeZone;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,6 +48,38 @@ public class ScheduleController {
 	@ResponseBody
 	public List<ScheduleObj> fetchAllEvents() {
 		return schedulerMongo.findAll();
+	}
+	
+	@GetMapping("regex")
+	@MessageMapping(value="/fetchSchedules")
+	@ResponseBody
+	@SendTo(value="/topic/fetchSchedules")
+	public long fetchSchedules(@RequestBody String searchEvtName) {
+		JSONParser jp = new JSONParser(searchEvtName.toString());
+		System.out.println(searchEvtName);
+		
+		Query query = new Query();
+		Map<String, Object> jpObj;
+		long result=0;
+		List<ScheduleObj> lstObj;
+		
+		try {
+			jpObj = jp.object();
+			query.addCriteria(Criteria.where("eventName").regex((String)jpObj.get("eventName")));
+			lstObj = schedulerMongo.findAll();
+			
+			for(ScheduleObj schObj : lstObj) {
+				
+				if(schObj.getEventName().contains((String)jpObj.get("eventName"))) {
+					result++;
+				}
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 	@MessageMapping(value = "/insertSchedule")

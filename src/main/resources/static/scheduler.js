@@ -73,6 +73,11 @@ function fnConnect() {
         stompClient.subscribe('/topic/saveSingleEvent',function(message) {
             fnInsertSchedule(message.body);
         });
+        stompClient.subscribe('/topic/fetchSchedules',function(message) {
+            $("ul#search > li").remove();
+
+            $("#search").append('<li>Found:' + message.body + ' Occurance(s)</li>');
+        });
 
     });
 }

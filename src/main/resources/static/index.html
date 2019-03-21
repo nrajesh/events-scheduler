@@ -26,6 +26,22 @@
     <center>
     <table>
         <tr>
+            <th colspan="3">
+                Search by Event Name:&nbsp;&nbsp;&nbsp;<input type="text" id="searchEvtName" name="searchEvtName" value="">&nbsp;&nbsp;&nbsp;&nbsp;<input id="fetchSchedules" type="submit" style="width:150px" value="FETCH SCHEDULES">
+            </th>
+        </tr>
+        <tr><td colspan="3">&nbsp;</td></tr>
+        <tr>
+            <th colspan="3">
+                <div style="background-color: beige">
+                    <ul id="search">
+
+                    </ul>
+                </div>
+            </th>
+        </tr>
+        <tr><td colspan="3">&nbsp;</td></tr>
+        <tr>
             <th>Single Entry</th>
             <th>&nbsp;</th>
             <th>Multiple Entry</th>
@@ -87,10 +103,8 @@
                         </select>
 
                         <br>
-                        <br>
                         </div>
                         
-                        <br>
                         <br>
                         <center><input id="saveSingleEvent" type="submit" style="width:100px" value="SUBMIT"></center>
                     </div>
@@ -108,9 +122,12 @@
                 <center><input id="saveMultipleEvent" type="submit" style="width:100px" value="MULTI SUBMIT"></center>
             </td>
         </tr>
+        <tr><td colspan="3">&nbsp;</td></tr>
+        <tr><td colspan="3">&nbsp;</td></tr>
         <tr>
             <td colspan="3">
                 <center>
+
                     <input id="fetchAllEvents" type="submit" style="width:150px" value="FETCH EVENTS">
             
                     <input id="purgeAllEvents" type="submit" style="width:150px" value="PURGE EVENTS">
@@ -120,13 +137,23 @@
             </td>
         </tr>
     </table>
-    <div>
+    <div style="background-color:lightsteelblue">
         <ul id="output">
 
         </ul>
     </div>
     <script>
     var eventObj;
+
+    $('#fetchSchedules').click(function () {
+        
+        var jsonObj = '{'
+        +'"eventName":"'+document.getElementById('searchEvtName').value+'"'
+        +'}';
+
+        stompClient.send("/fetchSchedules", {}, jsonObj);
+    });
+    
     $('#fetchAllEvents').click(function () {
 
         $.getJSON('fetchAllEvents', function (data) {
@@ -137,7 +164,7 @@
                 $("#output").append('<li>' + value['eventName'] + " " + value['startDate'] + '</li>');
             });
         });
-    });
+    }); 
 
     $('#saveSingleEvent').click(function () {
 

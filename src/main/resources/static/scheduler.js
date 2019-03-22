@@ -96,9 +96,14 @@ function fnConnect() {
             
             $("ul#search > li").remove();
             var msgBody = JSON.parse(message.body);
-            alert(msgBody.length);
-            for(var i=0;i<msgBody.length;i++) {
+            var length = msgBody.length;
+            
+            for(var i=0;i<length;i++) {
                 $("#search").append('<li>' + msgBody[i].occuranceDate + '</li>');
+            }
+
+            if(length==0) {
+                $("#search").append('<li>No results</li>');
             }
         });
 

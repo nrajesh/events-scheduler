@@ -57,15 +57,17 @@ public class ScheduleController {
 		Map<String, Object> jpObj;
 
 		List<ScheduleObj> rsltLst=new ArrayList<ScheduleObj>();
-		int cntr=0;
+		int cntr=0,cntOccurances=0;
 		
 		try {
 			jpObj = jp.object();
-			
+			cntOccurances = EventScheduleUtil.intFormat(jpObj.get("numSchedules"),1);
 			
 			for(ScheduleObj schObj : fetchAllSchedules()) {
-				
-				if(cntr < EventScheduleUtil.intFormat(jpObj.get("numSchedules"),1) && 
+				if(!schObj.getOccuranceDate().before(format.parse((String)jpObj.get("srchStartDate")))
+						&& cntOccurances==0) {
+					rsltLst.add(schObj);
+				} else if(cntr < cntOccurances && 
 						!schObj.getOccuranceDate().before(format.parse((String)jpObj.get("srchStartDate")))) {
 					rsltLst.add(schObj);
 				}

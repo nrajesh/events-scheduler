@@ -23,6 +23,20 @@ function showNxtPattern() {
     }
 }
 
+function fnAlterSearchType() {
+    var selPattern = document.getElementById('searchType').value;
+    document.getElementById('scheduleDtls').style.visibility="visible";
+    document.getElementById('scheduleCount').style.visibility="visible";
+    
+    if(selPattern == 'fetchOccurances') {
+        document.getElementById('scheduleDtls').hidden = false;
+        document.getElementById('scheduleCount').hidden = true;
+    } else if(selPattern == 'countOccurances') {
+        document.getElementById('scheduleDtls').hidden = true;
+        document.getElementById('scheduleCount').hidden = false;
+    }
+}
+
 function fnTypePattern(pattern) {
 
     var patternVal = [];
@@ -73,10 +87,19 @@ function fnConnect() {
         stompClient.subscribe('/topic/saveSingleEvent',function(message) {
             fnInsertSchedule(message.body);
         });
-        stompClient.subscribe('/topic/fetchSchedules',function(message) {
+        stompClient.subscribe('/topic/fetchScheduleCount',function(message) {
             $("ul#search > li").remove();
 
             $("#search").append('<li>Found:' + message.body + ' Occurance(s)</li>');
+        });
+        stompClient.subscribe('/topic/fetchSchedules',function(message) {
+            
+            $("ul#search > li").remove();
+            var msgBody = JSON.parse(message.body);
+            alert(msgBody.length);
+            for(var i=0;i<msgBody.length;i++) {
+                $("#search").append('<li>' + msgBody[i].occuranceDate + '</li>');
+            }
         });
 
     });

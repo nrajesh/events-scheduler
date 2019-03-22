@@ -3,6 +3,7 @@ package com.calendar.scheduler.controller;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -13,12 +14,9 @@ import java.util.TimeZone;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,27 +44,55 @@ public class ScheduleController {
 
 	@RequestMapping(value = "/fetchAllSchedules", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public List<ScheduleObj> fetchAllEvents() {
+	private List<ScheduleObj> fetchAllSchedules() {
 		return schedulerMongo.findAll();
 	}
 	
-	@GetMapping("regex")
 	@MessageMapping(value="/fetchSchedules")
 	@ResponseBody
 	@SendTo(value="/topic/fetchSchedules")
-	public long fetchSchedules(@RequestBody String searchEvtName) {
-		JSONParser jp = new JSONParser(searchEvtName.toString());
-		System.out.println(searchEvtName);
+	public List<ScheduleObj> fetchSchedules(@RequestBody String searchObj) {
+		JSONParser jp = new JSONParser(searchObj.toString());
 		
-		Query query = new Query();
+		Map<String, Object> jpObj;
+
+		List<ScheduleObj> rsltLst=new ArrayList<ScheduleObj>();
+		int cntr=0;
+		
+		try {
+			jpObj = jp.object();
+			
+			
+			for(ScheduleObj schObj : fetchAllSchedules()) {
+				
+				if(cntr < EventScheduleUtil.intFormat(jpObj.get("numSchedules"),1) && 
+						!schObj.getOccuranceDate().before(format.parse((String)jpObj.get("srchStartDate")))) {
+					rsltLst.add(schObj);
+				}
+				cntr++;
+			}
+		} catch (ParseException | java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return rsltLst;
+	}
+	
+	@MessageMapping(value="/fetchScheduleCount")
+	@ResponseBody
+	@SendTo(value="/topic/fetchScheduleCount")
+	public long fetchScheduleCount(@RequestBody String searchEvtName) {
+		JSONParser jp = new JSONParser(searchEvtName.toString());
+
 		Map<String, Object> jpObj;
 		long result=0;
 		List<ScheduleObj> lstObj;
 		
 		try {
 			jpObj = jp.object();
-			query.addCriteria(Criteria.where("eventName").regex((String)jpObj.get("eventName")));
-			lstObj = schedulerMongo.findAll();
+			
+			lstObj = fetchAllSchedules();
 			
 			for(ScheduleObj schObj : lstObj) {
 				

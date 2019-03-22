@@ -27,7 +27,21 @@
     <table>
         <tr>
             <th colspan="3">
-                Search by Event Name:&nbsp;&nbsp;&nbsp;<input type="text" id="searchEvtName" name="searchEvtName" value="">&nbsp;&nbsp;&nbsp;&nbsp;<input id="fetchSchedules" type="submit" style="width:150px" value="FETCH SCHEDULES">
+                Search Type:
+                <select id="searchType" onChange="fnAlterSearchType();">
+                    <option value="default">--Select Search Type--</option>
+                    <option value="fetchOccurances">Fetch Occurances</option>
+                    <option value="countOccurances">Count Occurances</option>
+                </select>
+                <br>
+                <br>
+
+                <div id="scheduleDtls" style="visibility:collapse">
+                    Show Schedules from:&nbsp;&nbsp;&nbsp;<input name="srchStartDate" id="srchStartDate" data-date-autoclose="true" type="date" value="">&nbsp;up to&nbsp;<input id="numSchedules" min="1" type="number" value="1" style="width: 40px;">&nbsp;&nbsp;<input id="fetchSchedules" type="submit" style="width:150px" value="FETCH SCHEDULES">
+                </div>
+                <div id="scheduleCount" style="visibility:collapse">
+                    Search by Event Name:&nbsp;&nbsp;&nbsp;<input type="text" id="searchEvtName" name="searchEvtName" value="">&nbsp;&nbsp;&nbsp;&nbsp;<input id="fetchScheduleCount" type="submit" style="width:150px" value="COUNT OCCURANCES">
+                </div>
             </th>
         </tr>
         <tr><td colspan="3">&nbsp;</td></tr>
@@ -40,7 +54,7 @@
                 </div>
             </th>
         </tr>
-        <tr><td colspan="3">&nbsp;</td></tr>
+        <tr><td colspan="3">&nbsp;<hr></td></tr>
         <tr>
             <th>Single Entry</th>
             <th>&nbsp;</th>
@@ -76,33 +90,33 @@
                         <div id="dummy" style="visibility:collapse"></div>
                         
                         <div id="repeatPattern" style="visibility:collapse">
-                        <br>
-                        <b>Starting from</b>&nbsp;&nbsp;
-                        <select multiple id="weekPattern" hidden>
-                            <option id="16" value="1" default>Sunday</option>
-                            <option id="10" value="2">Monday</option>
-                            <option id="11" value="3">Tuesday</option>
-                            <option id="12" value="4">Wednesday</option>
-                            <option id="13" value="5">Thursday</option>
-                            <option id="14" value="6">Friday</option>
-                            <option id="15" value="7">Saturday</option>
-                        </select>
-                        <select id="monthPattern" hidden>
-                            <option id="200" value="0" default>January</option>
-                            <option id="201" value="1">February</option>
-                            <option id="202" value="2">March</option>
-                            <option id="203" value="3">April</option>
-                            <option id="204" value="4">May</option>
-                            <option id="205" value="5">June</option>
-                            <option id="206" value="6">July</option>
-                            <option id="207" value="7">August</option>
-                            <option id="208" value="8">September</option>
-                            <option id="209" value="9">October</option>
-                            <option id="210" value="10">November</option>
-                            <option id="211" value="11">December</option>
-                        </select>
+                            <br>
+                            <b>Starting from</b>&nbsp;&nbsp;
+                            <select multiple id="weekPattern" hidden>
+                                <option id="16" value="1" default>Sunday</option>
+                                <option id="10" value="2">Monday</option>
+                                <option id="11" value="3">Tuesday</option>
+                                <option id="12" value="4">Wednesday</option>
+                                <option id="13" value="5">Thursday</option>
+                                <option id="14" value="6">Friday</option>
+                                <option id="15" value="7">Saturday</option>
+                            </select>
+                            <select id="monthPattern" hidden>
+                                <option id="200" value="0" default>January</option>
+                                <option id="201" value="1">February</option>
+                                <option id="202" value="2">March</option>
+                                <option id="203" value="3">April</option>
+                                <option id="204" value="4">May</option>
+                                <option id="205" value="5">June</option>
+                                <option id="206" value="6">July</option>
+                                <option id="207" value="7">August</option>
+                                <option id="208" value="8">September</option>
+                                <option id="209" value="9">October</option>
+                                <option id="210" value="10">November</option>
+                                <option id="211" value="11">December</option>
+                            </select>
 
-                        <br>
+                            <br>
                         </div>
                         
                         <br>
@@ -148,10 +162,20 @@
     $('#fetchSchedules').click(function () {
         
         var jsonObj = '{'
-        +'"eventName":"'+document.getElementById('searchEvtName').value+'"'
+        +'"srchStartDate":"'+document.getElementById('srchStartDate').value+'",'
+        +'"numSchedules":"'+document.getElementById('numSchedules').value+'"'
         +'}';
 
         stompClient.send("/fetchSchedules", {}, jsonObj);
+    });
+
+    $('#fetchScheduleCount').click(function () {
+        
+        var jsonObj = '{'
+        +'"eventName":"'+document.getElementById('searchEvtName').value+'"'
+        +'}';
+
+        stompClient.send("/fetchScheduleCount", {}, jsonObj);
     });
     
     $('#fetchAllEvents').click(function () {

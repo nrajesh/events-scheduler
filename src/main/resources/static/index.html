@@ -33,21 +33,22 @@
                     <option value="fetchOccurances">Fetch Occurances</option>
                     <option value="countOccurances">Count Occurances</option>
                 </select>
-                <br>
-                <br>
 
-                <div id="scheduleDtls" style="visibility:collapse">
-                    Show Schedules from:&nbsp;&nbsp;&nbsp;<input name="srchStartDate" id="srchStartDate" data-date-autoclose="true" type="date" value="">&nbsp;up to&nbsp;<input id="numSchedules" min="0" type="number" value="0" style="width: 40px;">&nbsp;&nbsp;<input id="fetchSchedules" type="submit" style="width:150px" value="FETCH SCHEDULES">
+                <div id="scheduleDtls" style="visibility:collapse;display:none;">
+                    <br>Event name:&nbsp;&nbsp;&nbsp;<input name="srchEvtName" id="srchEvtName" type="text" value="">&nbsp;&nbsp;
+                    <br>Show Schedules from:&nbsp;&nbsp;&nbsp;<input name="srchStartDate" id="srchStartDate" data-date-autoclose="true" type="date" value="">&nbsp;&nbsp;up to&nbsp;&nbsp;<input id="numSchedules" min="0" type="number" value="0" style="width: 40px;">&nbsp;&nbsp;
+                    <br><br><input id="fetchSchedules" type="submit" style="width:150px" value="FETCH SCHEDULES">
                 </div>
-                <div id="scheduleCount" style="visibility:collapse">
-                    Search by Event Name:&nbsp;&nbsp;&nbsp;<input type="text" id="searchEvtName" name="searchEvtName" value="">&nbsp;&nbsp;&nbsp;&nbsp;<input id="fetchScheduleCount" type="submit" style="width:150px" value="COUNT OCCURANCES">
+                <div id="scheduleCount" style="visibility:collapse;display: none;">
+                    <br>Search by Event Name:&nbsp;&nbsp;&nbsp;<input type="text" id="searchEvtName" name="searchEvtName" value="">&nbsp;&nbsp;
+                    <br><br><input id="fetchScheduleCount" type="submit" style="width:150px" value="COUNT OCCURANCES">
                 </div>
             </th>
         </tr>
         <tr><td colspan="3">&nbsp;</td></tr>
         <tr>
             <th colspan="3">
-                <div style="background-color: beige">
+                <div id="searchResultBlock" style="background-color: beige;display: none;">
                     <ul id="search">
 
                     </ul>
@@ -160,9 +161,11 @@
     var eventObj;
 
     $('#fetchSchedules').click(function () {
+        document.getElementById('searchResultBlock').style.display = "block";
         
         var jsonObj = '{'
-        +'"srchStartDate":"'+document.getElementById('srchStartDate').value+'",'
+        +'"srchEvtName":"'+document.getElementById('srchEvtName').value+'",'
+        +'"srchStartDate":"'+document.getElementById('srchStartDate').value+'T00:00:00",'
         +'"numSchedules":"'+document.getElementById('numSchedules').value+'"'
         +'}';
 
@@ -170,7 +173,7 @@
     });
 
     $('#fetchScheduleCount').click(function () {
-        
+        document.getElementById('searchResultBlock').style.display = "block";
         var jsonObj = '{'
         +'"eventName":"'+document.getElementById('searchEvtName').value+'"'
         +'}';
@@ -181,12 +184,18 @@
     $('#fetchAllEvents').click(function () {
 
         $.getJSON('fetchAllEvents', function (data) {
+            var dateVal = new Date();
 
             $("ul#output > li").remove();
 
-            $.each(data, function (key, value) {
-                $("#output").append('<li>' + value['eventName'] + " " + value['startDate'] + '</li>');
-            });
+            if(data.length==0) {
+                $("#output").append('<li>No results</li>');
+            } else {
+                $.each(data, function (key, value) {
+                    dateVal = new Date(value['startDate']);
+                    $("#output").append('<li> Event Name:' + value['eventName'] + " ; Event Date: " + dateVal.getDate() + '-' + dateVal.getUTCMonth()+1 + '-' + dateVal.getFullYear() + ' ' + dateVal.getUTCHours() + ':' + dateVal.getUTCMinutes() + ':' + dateVal.getUTCSeconds() + ' UTC</li>');
+                });
+            }
         });
     }); 
 
@@ -194,8 +203,8 @@
 
         eventObj = {
             "eventName":document.getElementById('eventName').value,
-            "startDate":document.getElementById('startDate').value,
-            "endDate":document.getElementById('endDate').value,
+            "startDate":document.getElementById('startDate').value+'T00:00:00',
+            "endDate":document.getElementById('endDate').value+'T00:00:00',
             "recurNum":document.getElementById('recurNum').value,
             "recurPattern":document.getElementById('recurPattern').value,
             "weekPattern":fnTypePattern(document.getElementById('weekPattern')),

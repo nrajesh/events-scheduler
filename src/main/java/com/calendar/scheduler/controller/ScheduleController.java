@@ -61,19 +61,32 @@ public class ScheduleController {
 		
 		try {
 			jpObj = jp.object();
+
 			cntOccurances = EventScheduleUtil.intFormat(jpObj.get("numSchedules"),1);
 			
 			for(ScheduleObj schObj : fetchAllSchedules()) {
-				if(!schObj.getOccuranceDate().before(format.parse((String)jpObj.get("srchStartDate")))
-						&& cntOccurances==0) {
-					rsltLst.add(schObj);
-				} else if(cntr < cntOccurances && 
-						!schObj.getOccuranceDate().before(format.parse((String)jpObj.get("srchStartDate")))) {
-					rsltLst.add(schObj);
+				if(!"".equals(EventScheduleUtil.eliminateNull((String)jpObj.get("srchEvtName")))
+						&& (schObj.getEventName().equals(EventScheduleUtil.eliminateNull((String)jpObj.get("srchEvtName"))))) {
+
+					if(!schObj.getOccuranceDate().before(EventScheduleUtil.dateFormat(jpObj.get("srchStartDate"),"start"))
+							&& cntOccurances==0) {
+						rsltLst.add(schObj);
+					} else if(cntr < cntOccurances && 
+							!schObj.getOccuranceDate().before(EventScheduleUtil.dateFormat(jpObj.get("srchStartDate"),"start"))) {
+						rsltLst.add(schObj);
+					}
+				} else if("".equals(EventScheduleUtil.eliminateNull((String)jpObj.get("srchEvtName")))) {
+					if(!schObj.getOccuranceDate().before(EventScheduleUtil.dateFormat(jpObj.get("srchStartDate"),"start"))
+							&& cntOccurances==0) {
+						rsltLst.add(schObj);
+					} else if(cntr < cntOccurances && 
+							!schObj.getOccuranceDate().before(EventScheduleUtil.dateFormat(jpObj.get("srchStartDate"),"start"))) {
+						rsltLst.add(schObj);
+					}
 				}
 				cntr++;
 			}
-		} catch (ParseException | java.text.ParseException e) {
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

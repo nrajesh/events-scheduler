@@ -30,9 +30,13 @@ function fnAlterSearchType() {
     
     if(selPattern == 'fetchOccurances') {
         document.getElementById('scheduleDtls').hidden = false;
+        document.getElementById('scheduleDtls').style.display = "block";
+        document.getElementById('scheduleCount').style.display = "none";
         document.getElementById('scheduleCount').hidden = true;
     } else if(selPattern == 'countOccurances') {
         document.getElementById('scheduleDtls').hidden = true;
+        document.getElementById('scheduleDtls').style.display = "none";
+        document.getElementById('scheduleCount').style.display = "block";
         document.getElementById('scheduleCount').hidden = false;
     }
 }
@@ -97,9 +101,11 @@ function fnConnect() {
             $("ul#search > li").remove();
             var msgBody = JSON.parse(message.body);
             var length = msgBody.length;
+            var dateVal = new Date();
             
             for(var i=0;i<length;i++) {
-                $("#search").append('<li>' + msgBody[i].occuranceDate + '</li>');
+                dateVal = new Date(msgBody[i].occuranceDate);
+                $("#search").append('<li>Event Name:' + msgBody[i].eventName + ' ; Occurs on:' + dateVal.getDate() + '-' + dateVal.getUTCMonth()+1 + '-' + dateVal.getFullYear() + '</li>');
             }
 
             if(length==0) {

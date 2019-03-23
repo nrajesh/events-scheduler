@@ -15,13 +15,13 @@ import com.calendar.scheduler.model.ScheduleObj;
 public class EventScheduleUtil {
 
 	public static Date dateFormat(Object inputDate,String dateType) {
-	    DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+	    DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
 	    format.setTimeZone(TimeZone.getTimeZone("GMT"));
 	    Date outputDate = new Date();
 		
 		try {
 			if(dateType.equals("end") && "".equals((String)inputDate)) {
-				outputDate = format.parse("2099-12-31");
+				outputDate = format.parse("2099-12-31'T'23:59:59");
 			} else {
 				outputDate=format.parse((String)inputDate);
 			}

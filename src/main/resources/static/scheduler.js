@@ -7,17 +7,17 @@ function showNxtPattern() {
     document.getElementById('repeatPattern').style.visibility="visible";
     if(selPattern == 'w') {
         document.getElementById('weekPattern').hidden=false;
-        document.getElementById('monthPattern').hidden=true;
+        document.getElementById('startMonth').hidden=true;
         document.getElementById('repeatPattern').hidden=false;
         document.getElementById('dummy').hidden=true;
     } else if(selPattern == 'm') {
         document.getElementById('weekPattern').hidden=true;
-        document.getElementById('monthPattern').hidden=false;
+        document.getElementById('startMonth').hidden=false;
         document.getElementById('repeatPattern').hidden=false;
         document.getElementById('dummy').hidden=true;
     } else if(selPattern == 'y') {
         document.getElementById('weekPattern').hidden=true;
-        document.getElementById('monthPattern').hidden=true;
+        document.getElementById('startMonth').hidden=true;
         document.getElementById('repeatPattern').hidden=true;
         document.getElementById('dummy').hidden=false;
     }
@@ -60,12 +60,12 @@ function fnSubmit(eventObj) {
     var jsonObj = 
         '{'
         +'"eventName":"'+eventObj.eventName+'",'
-        +'"startDate":"'+eventObj.startDate+'",'
-        +'"endDate":"'+eventObj.endDate+'",'
+        +'"startDate":"'+eventObj.startDate+'T00:00:00",'
+        +'"endDate":"'+eventObj.endDate+'T00:00:00",'
         +'"recurNum":"'+eventObj.recurNum+'",'
         +'"recurPattern":"'+eventObj.recurPattern+'",'
         +'"weekPattern":"'+eventObj.weekPattern+'",'
-        +'"monthPattern":"'+eventObj.monthPattern+'",'
+        +'"startMonth":"'+eventObj.startMonth+'",'
         +'"recurFreq":"'+eventObj.recurFreq+'"'
         +'}';
 
@@ -73,8 +73,8 @@ function fnSubmit(eventObj) {
     
     if (document.getElementById('weekPattern').hidden)
         document.getElementById('weekPattern').hidden=true;
-    if(document.getElementById('monthPattern').hidden)
-        document.getElementById('monthPattern').hidden=true;
+    if(document.getElementById('startMonth').hidden)
+        document.getElementById('startMonth').hidden=true;
 }
 
 function fnInsertSchedule(jsonObj) {
@@ -102,10 +102,11 @@ function fnConnect() {
             var msgBody = JSON.parse(message.body);
             var length = msgBody.length;
             var dateVal = new Date();
-            
+            var monthVal = 0;
             for(var i=0;i<length;i++) {
                 dateVal = new Date(msgBody[i].occuranceDate);
-                $("#search").append('<li>Event Name:' + msgBody[i].eventName + ' ; Occurs on:' + dateVal.getDate() + '-' + dateVal.getUTCMonth()+1 + '-' + dateVal.getFullYear() + '</li>');
+                monthVal = dateVal.getUTCMonth()+1;
+                $("#search").append('<li>Event Name:' + msgBody[i].eventName + ' ; Occurs on:' + dateVal.getDate() + '-' + monthVal + '-' + dateVal.getFullYear() + '</li>');
             }
 
             if(length==0) {

@@ -17,7 +17,7 @@ public class EventObj {
 	private int recurNum;
 	private char recurPattern;
 	private String weekPattern;
-	private int monthPattern;
+	private int startMonth;
 	private int recurFreq;
 	
     public EventObj(
@@ -27,7 +27,7 @@ public class EventObj {
     		int recurNum,
     		char recurPattern,
     		String weekPattern,
-    		int monthPattern,
+    		int startMonth,
     		int recurFreq) {
     	
     	this.eventName = eventName;
@@ -36,7 +36,7 @@ public class EventObj {
         this.recurNum = recurNum;
         this.recurPattern = recurPattern;
         this.weekPattern = weekPattern;
-        this.monthPattern = monthPattern;
+        this.startMonth = startMonth;
         this.recurFreq = recurFreq;
     }
 	
@@ -130,16 +130,16 @@ public class EventObj {
 		this.weekPattern = weekPattern;
 	}
 	/**
-	 * @return the monthPattern
+	 * @return the startMonth
 	 */
-	public int getMonthPattern() {
-		return monthPattern;
+	public int getstartMonth() {
+		return startMonth;
 	}
 	/**
 	 * @param weekPattern the weekPattern to set
 	 */
-	public void setMonthPattern(int monthPattern) {
-		this.monthPattern = monthPattern;
+	public void setstartMonth(int startMonth) {
+		this.startMonth = startMonth;
 	}
 	/**
 	 * @return the recurFreq

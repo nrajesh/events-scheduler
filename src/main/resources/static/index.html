@@ -27,7 +27,7 @@
     <table>
         <tr>
             <th colspan="3">
-                Search Type:
+                Search type:
                 <select id="searchType" onChange="fnAlterSearchType();">
                     <option value="default">--Select Search Type--</option>
                     <option value="fetchOccurances">Fetch Occurances</option>
@@ -36,7 +36,7 @@
 
                 <div id="scheduleDtls" style="visibility:collapse;display:none;">
                     <br>Event name:&nbsp;&nbsp;&nbsp;<input name="srchEvtName" id="srchEvtName" type="text" value="">&nbsp;&nbsp;
-                    <br>Show Schedules from:&nbsp;&nbsp;&nbsp;<input name="srchStartDate" id="srchStartDate" data-date-autoclose="true" type="date" value="">&nbsp;&nbsp;up to&nbsp;&nbsp;<input id="numSchedules" min="0" type="number" value="0" style="width: 40px;">&nbsp;&nbsp;
+                    <br><br>Show schedules from:&nbsp;&nbsp;&nbsp;<input name="srchStartDate" id="srchStartDate" data-date-autoclose="true" type="date" value="">&nbsp;&nbsp;01:00:00&nbsp;&nbsp;&nbsp;No. of occurances&nbsp;&nbsp;<input id="numSchedules" min="0" type="number" value="0" style="width: 40px;">&nbsp;&nbsp;
                     <br><br><input id="fetchSchedules" type="submit" style="width:150px" value="FETCH SCHEDULES">
                 </div>
                 <div id="scheduleCount" style="visibility:collapse;display: none;">
@@ -76,7 +76,7 @@
                         <br>
                         <Center><b>OR</b></Center>
                         <br>
-                        <b>Stop after</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurNum" min="1" type="number" value="1" style="width: 40px;" onchange="if(null!=this.value) document.getElementById('endDate').disabled=true; document.getElementById('endDate').value=''">&nbsp;times
+                        <b>Stop after</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="recurNum" min="1" type="number" value="1" style="width: 40px;" onchange="if(null!=this.value && 1!=this.value) { document.getElementById('endDate').disabled=true;} else {document.getElementById('endDate').disabled=false;}; document.getElementById('endDate').value=''">&nbsp;times&nbsp;<input type="button" onclick="document.getElementById('recurNum').value=1;document.getElementById('endDate').disabled=false;" value="RESET">
 
                         <br>
                         <br>
@@ -102,7 +102,7 @@
                                 <option id="14" value="6">Friday</option>
                                 <option id="15" value="7">Saturday</option>
                             </select>
-                            <select id="monthPattern" hidden>
+                            <select id="startMonth" hidden>
                                 <option id="200" value="0" default>January</option>
                                 <option id="201" value="1">February</option>
                                 <option id="202" value="2">March</option>
@@ -129,8 +129,8 @@
                 <div class="vl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
             </td>
             <td>
-                <textarea id="multiEvents" style="height:200px;width:550px;text-align:left">{"eventName":"Holiday","startDate":"2019-03-17","endDate":"2019-03-19","recurNum":"2","recurPattern":"w","weekPattern":"7,1","monthPattern":"","recurFreq":"2"}
-{"eventName":"Bonus","startDate":"2019-03-18","endDate":"","recurNum":"1","recurPattern":"m","weekPattern":"","monthPattern":"0","recurFreq":"1"}</textarea>
+                <textarea id="multiEvents" style="height:200px;width:550px;text-align:left">{"eventName":"Holiday","startDate":"2019-03-17","endDate":"2019-03-19","recurNum":"2","recurPattern":"w","weekPattern":"7,1","startMonth":"","recurFreq":"2"}
+{"eventName":"Bonus","startDate":"2019-03-18","endDate":"","recurNum":"1","recurPattern":"m","weekPattern":"","startMonth":"0","recurFreq":"1"}</textarea>
             
                 <br>
                 <br>
@@ -185,6 +185,7 @@
 
         $.getJSON('fetchAllEvents', function (data) {
             var dateVal = new Date();
+            var monthVal=0;
 
             $("ul#output > li").remove();
 
@@ -193,7 +194,8 @@
             } else {
                 $.each(data, function (key, value) {
                     dateVal = new Date(value['startDate']);
-                    $("#output").append('<li> Event Name:' + value['eventName'] + " ; Event Date: " + dateVal.getDate() + '-' + dateVal.getUTCMonth()+1 + '-' + dateVal.getFullYear() + ' ' + dateVal.getUTCHours() + ':' + dateVal.getUTCMinutes() + ':' + dateVal.getUTCSeconds() + ' UTC</li>');
+                    monthVal = dateVal.getMonth()+1;
+                    $("#output").append('<li> Event Name:' + value['eventName'] + " ; Start Date: " + dateVal.getDate() + '-' + monthVal + '-' + dateVal.getFullYear() + ' ' + dateVal.getUTCHours() + ':' + dateVal.getUTCMinutes() + ':' + dateVal.getUTCSeconds() + ' UTC</li>');
                 });
             }
         });
@@ -203,12 +205,12 @@
 
         eventObj = {
             "eventName":document.getElementById('eventName').value,
-            "startDate":document.getElementById('startDate').value+'T00:00:00',
-            "endDate":document.getElementById('endDate').value+'T00:00:00',
+            "startDate":document.getElementById('startDate').value,
+            "endDate":document.getElementById('endDate').value,
             "recurNum":document.getElementById('recurNum').value,
             "recurPattern":document.getElementById('recurPattern').value,
             "weekPattern":fnTypePattern(document.getElementById('weekPattern')),
-            "monthPattern":document.getElementById('monthPattern').value,
+            "startMonth":document.getElementById('startMonth').value,
             "recurFreq":document.getElementById('recurFreq').value};
 
         if(!stompConnected) {

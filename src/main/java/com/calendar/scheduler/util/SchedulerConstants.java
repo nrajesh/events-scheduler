@@ -4,6 +4,7 @@ public interface SchedulerConstants {
 	public static final String COMMA = ",";
 	public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss zzz";
 	public static final String DATE_FORMAT_FULL = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+	public static final String DATE_FORMAT_SHORT = "yyyy-MM-dd";
 	public static final String DEFAULT_TZ = "GMT";
 	public static final char EMPTY_CHAR = ' ';
 	public static final String EMPTY_STRING = "";

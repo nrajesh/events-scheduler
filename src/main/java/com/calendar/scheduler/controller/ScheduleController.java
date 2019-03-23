@@ -68,7 +68,7 @@ public class ScheduleController implements SchedulerConstants {
 			String eventName = EventScheduleUtil.eliminateNull((String)jpObj.get(SEARCH_EVENT_NAME));
 			
 			for(ScheduleObj schObj : fetchAllSchedules()) {
-				if(!"".equals(eventName)
+				if(!EMPTY_STRING.equals(eventName)
 						&& (schObj.getEventName().equals(eventName))) {
 
 					if(!schObj.getOccuranceDate().before(startDate)
@@ -78,12 +78,8 @@ public class ScheduleController implements SchedulerConstants {
 							!schObj.getOccuranceDate().before(startDate)) {
 						rsltLst.add(schObj);
 					}
-				} else if("".equals(eventName)) {
-					if(!schObj.getOccuranceDate().before(startDate)
-							&& cntOccurances==0) {
-						rsltLst.add(schObj);
-					} else if(cntr < cntOccurances && 
-							!schObj.getOccuranceDate().before(startDate)) {
+				} else if(EMPTY_STRING.equals(eventName)) {
+					if(cntr <= cntOccurances || !schObj.getOccuranceDate().before(startDate)) {
 						rsltLst.add(schObj);
 					}
 				}
@@ -179,16 +175,16 @@ public class ScheduleController implements SchedulerConstants {
 
 	private ScheduleObj insertScheduleRecords(ScheduleObj scheduleObj, Map<String, Object> jpObj, int recurNum, int increment) {
 
-		int recurFreq = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get("recurFreq")),1);
+		int recurFreq = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_FREQ)),1);
 		
 		Calendar c = Calendar.getInstance();
 		
-		//int temp=0;
+		//String evtName = EventScheduleUtil.eliminateNull((String)jpObj.get(EVENT_NAME));
 		
-		char recurPattern = EventScheduleUtil.charFormat(jpObj.get("recurPattern"));
+		char recurPattern = EventScheduleUtil.charFormat(jpObj.get(RECUR_PATTERN));
 		
-		int[] weekDays = EventScheduleUtil.getWeekDays((String)jpObj.get("weekPattern"));
-		int month = EventScheduleUtil.intFormat(String.valueOf((BigInteger)jpObj.get("startMonth")),0);
+		int[] weekDays = EventScheduleUtil.getWeekDays((String)jpObj.get(WEEK_PATTERN));
+		int month = EventScheduleUtil.intFormat(String.valueOf((BigInteger)jpObj.get(START_MONTH)),0);
 
 		if(null==nextOccurance) {
 			c.setTime(start);
@@ -199,7 +195,7 @@ public class ScheduleController implements SchedulerConstants {
 			case 'd':
 					
 				currOccurance = c.getTime();
-				jpObj.put("startDate", currOccurance);
+				jpObj.put(START_DATE, currOccurance);
 				scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
 
 				scheduleObj = schedulerMongo.save(scheduleObj);
@@ -226,7 +222,7 @@ public class ScheduleController implements SchedulerConstants {
 							currOccurance = c.getTime();
 							jpObj.put("startDate", currOccurance);
 							
-							if(currOccurance.before(end)) {
+							if(currOccurance.before(end) && weekDay==c.get(Calendar.DAY_OF_WEEK)) {
 								scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
 			
 								scheduleObj = schedulerMongo.save(scheduleObj);

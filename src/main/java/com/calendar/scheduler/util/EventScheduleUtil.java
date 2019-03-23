@@ -25,6 +25,8 @@ public class EventScheduleUtil implements SchedulerConstants {
 				outputDate = format.parse(END_DATE_LONG);
 			} else if(dateType.equals(START) && EMPTY_STRING.equals(inputDate.toString())){
 				outputDate = Calendar.getInstance().getTime();
+			} else if(dateType.equals(START) && null!=inputDate.toString() && inputDate.toString().length()<11) {
+				outputDate=new SimpleDateFormat(DATE_FORMAT_SHORT, Locale.ENGLISH).parse(inputDate.toString());
 			} else {
 				outputDate=format.parse(inputDate.toString()+" CET");
 			}

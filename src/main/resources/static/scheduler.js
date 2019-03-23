@@ -68,7 +68,7 @@ function fnSubmit(eventObj) {
         +'"startMonth":"'+eventObj.startMonth+'",'
         +'"recurFreq":"'+eventObj.recurFreq+'"'
         +'}';
-
+        
     stompClient.send("/saveSingleEvent", {}, jsonObj);
     
     if (document.getElementById('weekPattern').hidden)

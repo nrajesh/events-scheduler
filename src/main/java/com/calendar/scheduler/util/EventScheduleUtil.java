@@ -48,7 +48,9 @@ public class EventScheduleUtil implements SchedulerConstants {
 	public static int intFormat(Object inputInt, int expnVal) {
 		int outputInt = 1;
 		try {
-			outputInt=Integer.valueOf((String)inputInt).intValue();
+			if(null!=inputInt) {
+				outputInt=Integer.valueOf((String)inputInt).intValue();
+			}
 		} catch (NumberFormatException e) {
 			outputInt=expnVal;
 		}

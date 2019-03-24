@@ -5,17 +5,24 @@ import org.springframework.web.socket.config.annotation.AbstractWebSocketMessage
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSocketMessageBroker
 public class SocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 	
+	/* (non-Javadoc)
+	 * @see org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer#configureMessageBroker(org.springframework.messaging.simp.config.MessageBrokerRegistry)
+	 */
 	@Override
     public void configureMessageBroker(MessageBrokerRegistry messageBrokerConfig) {
 		messageBrokerConfig.enableSimpleBroker("/topic");
     }	
 	
 	/* 
+	 * @see org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer#registerStompEndpoints(org.springframework.web.socket.config.annotation.StompEndpointRegistry)
+	 */
+	/* (non-Javadoc)
 	 * @see org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer#registerStompEndpoints(org.springframework.web.socket.config.annotation.StompEndpointRegistry)
 	 */
 	@Override

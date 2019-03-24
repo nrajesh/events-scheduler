@@ -36,7 +36,7 @@
 
                 <div id="scheduleDtls" style="visibility:collapse;display:none;">
                     <br>Event name:&nbsp;&nbsp;&nbsp;<input name="srchEvtName" id="srchEvtName" type="text" value="">&nbsp;&nbsp;
-                    <br><br>Show schedules from:&nbsp;&nbsp;&nbsp;<input name="srchStartDate" id="srchStartDate" data-date-autoclose="true" type="date" value="">&nbsp;&nbsp;01:00:00&nbsp;&nbsp;&nbsp;No. of occurances&nbsp;&nbsp;<input id="numSchedules" min="0" type="number" value="0" style="width: 40px;">&nbsp;&nbsp;
+                    <br><br>Show schedules from:&nbsp;&nbsp;&nbsp;<input name="srchStartDate" id="srchStartDate" data-date-autoclose="true" type="date" value="">&nbsp;&nbsp;<font style="color:black;font-size: 12px;">01:00:00</font>&nbsp;&nbsp;&nbsp;No. of occurances&nbsp;&nbsp;<input id="numSchedules" min="0" type="number" value="0" style="width: 40px;">&nbsp;&nbsp;
                     <br><br><input id="fetchSchedules" type="submit" style="width:150px" value="FETCH SCHEDULES">
                 </div>
                 <div id="scheduleCount" style="visibility:collapse;display: none;">
@@ -72,7 +72,7 @@
                         <br>
                         <label><b>Start Date*</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="startDate" id="startDate" data-date-autoclose="true" type="date" required onchange="if(this.value){document.getElementById('endDate').min = this.value}" useCurrent></label>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <label><b>End Date</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="endDate" id="endDate" type="date" onchange="if(this.value){document.getElementById('startDate').max = this.value;} if(null!=this.value) document.getElementById('recurNum').disabled=true; if(''==this.value) document.getElementById('recurNum').disabled=false;"></label>
+                    <label><b>End Date</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="endDate" id="endDate" type="date" onchange="if(this.value){document.getElementById('startDate').max = this.value;} if(null!=this.value) {document.getElementById('recurNum').value=0;document.getElementById('recurNum').disabled=true;} if(''==this.value) {document.getElementById('recurNum').value=1;document.getElementById('recurNum').disabled=false;}"></label>
                         <br>
                         <Center><b>OR</b></Center>
                         <br>
@@ -129,7 +129,15 @@
                 <div class="vl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
             </td>
             <td>
-                <textarea id="multiEvents" style="height:200px;width:550px;text-align:left">{"eventName":"Holiday","startDate":"2019-03-17","endDate":"2019-03-19","recurNum":"2","recurPattern":"w","weekPattern":"7,1","startMonth":"","recurFreq":"2"}
+                <ul style="margin-top:0px;color:gray;font-size: 12px;">
+                    <li>Enter one row in each line</li>
+                    <li>monthPattern parameter starts with January=0</li>
+                    <li>weekPattern parameter starts with Sunday=1</li>
+                    <li>Date format is yyyy-MM-dd</li>
+                    <li>recurNum is how many times the pattern is repeated</li>
+                    <li>recurFreq is how frequently event needs to recur i.e. once in 2 weeks etc.</li>
+                </ul>
+                <textarea id="multiEvents" style="height:130px;width:550px;text-align:left">{"eventName":"Holiday","startDate":"2019-03-17","endDate":"2019-03-19","recurNum":"2","recurPattern":"w","weekPattern":"7,1","startMonth":"","recurFreq":"2"}
 {"eventName":"Bonus","startDate":"2019-03-18","endDate":"","recurNum":"1","recurPattern":"m","weekPattern":"","startMonth":"0","recurFreq":"1"}</textarea>
             
                 <br>

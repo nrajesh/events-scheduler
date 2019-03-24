@@ -8,6 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableAutoConfiguration
 public class SchedulerApplication {
 
+	/**
+	 * The main run method
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(SchedulerApplication.class, args);
 	}

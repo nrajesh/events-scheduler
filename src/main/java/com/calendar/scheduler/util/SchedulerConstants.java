@@ -15,6 +15,7 @@ public interface SchedulerConstants {
 	public static final String END_DATE_SHORT = "2099-12-31";
 	public static final String EVENT_NAME = "eventName";
 	public static final String ID = "id";
+	public static final String INDEX_HTML = "index.html";
 	public static final String NUM_SCHEDULES = "numSchedules";
 	public static final String RECUR_FREQ = "recurFreq";
 	public static final String RECUR_NUM = "recurNum";

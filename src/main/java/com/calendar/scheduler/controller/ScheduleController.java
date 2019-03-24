@@ -6,8 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -43,10 +43,13 @@ public class ScheduleController implements SchedulerConstants {
 	/**
 	 * 
 	 */
-	private DateFormat format = new SimpleDateFormat(DATE_FORMAT_SHORT, Locale.ENGLISH);
+	private DateFormat format = new SimpleDateFormat(DATE_FORMAT_SHORT);
+	Calendar startCalendar = new GregorianCalendar();
+	Calendar endCalendar = new GregorianCalendar();
 	
 	private Date start, end, currOccurance,nextOccurance;
-	private int tempCntr=0;
+	private int  increment = 0;
+	private int recurNum = 0;
 	
 	/**
      * Autowired annotation to resolve and inject IScheduleMongoDB interface
@@ -162,10 +165,10 @@ public class ScheduleController implements SchedulerConstants {
 		format.setTimeZone(TimeZone.getTimeZone(DEFAULT_TZ));
 	    
 		ScheduleObj scheduleObj = new ScheduleObj();
-		int increment = 0,recurNum = 0;
 		try {
 			Map<String, Object> jpObj = jp.object();
-			recurNum = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get("recurNum")),0);
+			recurNum = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_NUM)),0);
+			increment = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_FREQ)),1);
 
 			start = EventScheduleUtil.dateFormat(jpObj.get(START_DATE), START);
 			end = EventScheduleUtil.dateFormat(jpObj.get(END_DATE), END);
@@ -176,9 +179,8 @@ public class ScheduleController implements SchedulerConstants {
 			
 			// Handle a single schedule insert
 			if (recurNum == 1) {
-				while (end.after(start) || end.equals(start)) {
-					if(!format.parse(END_DATE_LONG).before(end)) {
-						tempCntr=0;
+				while (end.after(start)) {
+					if(!format.parse(END_DATE_LONG).before(end) || end.after(start)) {
 						 scheduleObj = insertScheduleRecords(scheduleObj, jpObj, recurNum, increment);
 							increment++;
 					} else {
@@ -186,9 +188,9 @@ public class ScheduleController implements SchedulerConstants {
 					}
 				}
 			} else {
-				// Handle a multiple schedule inserts based on frequency and insert count specified in input request
+				// Handle multiple schedule inserts based on frequency and insert count specified in input request
 				while (increment != recurNum) {
-					if(!format.parse(END_DATE_LONG).before(end)) {
+					if(!EventScheduleUtil.dateFormat(END_DATE_LONG,END).before(end)) {
 						scheduleObj = insertScheduleRecords(scheduleObj, jpObj, recurNum, increment);
 						increment++;
 					} else {
@@ -233,6 +235,7 @@ public class ScheduleController implements SchedulerConstants {
 		int[] weekDays = EventScheduleUtil.getWeekDays((String)jpObj.get(WEEK_PATTERN));
 		int month = EventScheduleUtil.intFormat(String.valueOf((BigInteger)jpObj.get(START_MONTH)),0);
 
+		int temp=0,diffYear=0;
 		// Initialise calendar object to handle each incoming request
 		if(null==nextOccurance) {
 			c.setTime(start);
@@ -260,83 +263,155 @@ public class ScheduleController implements SchedulerConstants {
 			case 'w':
 				// Logic to handle event type weeks 
 				
-				if(tempCntr==0) {
-					for(int weekDay: weekDays) {
-
-						c.setTime(start);
-	
-						for(int cntr=0;cntr<recurNum;cntr++) {
-							currOccurance = c.getTime();
-							jpObj.put(START_DATE, currOccurance);
-
-							// Push week to next occurrence based on specified event frequency
-							if(currOccurance.before(end) && weekDay==c.get(Calendar.DAY_OF_WEEK)) {
-								scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
-			
-								scheduleObj = schedulerMongo.save(scheduleObj);
-							} else {
-								// If event weekday is in past for current week move it to next week's slot
-								c.add(Calendar.WEEK_OF_MONTH, recurFreq);
-								nextOccurance = c.getTime();
-								start = nextOccurance;
-
-								break;
-							}
-
-							// Push week to next occurrence based on specified event frequency
-							c.add(Calendar.WEEK_OF_MONTH, recurFreq);
-							nextOccurance = c.getTime();
-							start = nextOccurance;
-						}
+				for(int weekDay: weekDays) {
+					// If number of occurrences is 0 i.e. end date is 2099-12-31, get number of occurrences between start and end
+					if(EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_NUM)),0)==0) {
+						startCalendar.setTime(start);
+						endCalendar.setTime(end);
+						
+						diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
+						
+						recurNum = ((diffYear * 52) + endCalendar.get(Calendar.WEEK_OF_MONTH) - startCalendar.get(Calendar.WEEK_OF_MONTH))/recurFreq;
 					}
-					tempCntr++;
+
+					c.setTime(start);
+					while(c.get(Calendar.WEEK_OF_MONTH)!=weekDay) {
+						c.add(Calendar.DATE,1);
+					}
+
+					for(int cntr=0;cntr<=recurNum;cntr++) {
+						currOccurance = c.getTime();
+						jpObj.put(START_DATE, currOccurance);
+
+						// Push week to next occurrence based on specified event frequency
+						if(currOccurance.before(end) && weekDay==c.get(Calendar.DAY_OF_WEEK)) {
+							scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
+		
+							scheduleObj = schedulerMongo.save(scheduleObj);
+							c.add(Calendar.WEEK_OF_MONTH, recurFreq);
+							temp+=1;
+						} else {
+
+							c.add(Calendar.WEEK_OF_MONTH, 1);
+						}
+						nextOccurance = c.getTime();
+						start = nextOccurance;
+						if(temp==recurNum) {
+							endCalendar.add(Calendar.WEEK_OF_MONTH,1);
+							end=endCalendar.getTime();
+							recurNum = increment;
+							break;
+						}
+
+						// Push week to next occurrence based on specified event frequency
+						c.add(Calendar.WEEK_OF_MONTH, recurFreq);
+						nextOccurance = c.getTime();
+						start = nextOccurance;
+					}
+				}
+				if(temp==recurNum) {
+					endCalendar.add(Calendar.DATE,1);
+					end=endCalendar.getTime();
+					start=end;
+					recurNum = increment;
 					break;
 				}
+				end = EventScheduleUtil.dateFormat(jpObj.get(END_DATE),END);
 				break;
 				
 			case 'm':
+				// If number of occurrences is 0 i.e. end date is 2099-12-31, get number of occurrences between start and end
+				if(EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_NUM)),0)==0) {
+					startCalendar.setTime(start);
+					endCalendar.setTime(end);
+					
+					diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
+					
+					recurNum = ((diffYear * 12) + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH))/recurFreq;
+				}
+				
 				// Logic to handle event type months
-
 				c.setTime(start);
-				// Push month to next occurrence based on specified event frequency
-				c.set(c.get(Calendar.YEAR),month+(recurFreq*increment),c.get(Calendar.DATE));
 				
-				currOccurance = c.getTime();
+				while(c.get(Calendar.MONTH)!=month) {
+					c.add(Calendar.MONTH,1);
+				}
 				
-				// If event month is in the past for current year, move it to next year slot
-				if(new Date().after(currOccurance)) {
-					c.add(Calendar.YEAR,1);
+				for(int iCtr=0;iCtr<=recurNum;iCtr++) {
+					
 					currOccurance = c.getTime();
-				} 
+	
+					jpObj.put(START_DATE, currOccurance);
+					
+					if(currOccurance.before(end) && month==c.get(Calendar.MONTH)) {
+						scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
+		
+						scheduleObj = schedulerMongo.save(scheduleObj);
+						
+						month=c.get(Calendar.MONTH)+recurFreq;
+						if(month>11) month=month-12;
+						c.add(Calendar.MONTH, recurFreq);
+						temp+=1;
+					} else {
 
-				jpObj.put(START_DATE, currOccurance);
-				
-				scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
-
-				scheduleObj = schedulerMongo.save(scheduleObj);
-
-				start = currOccurance;
-				end = (Date)jpObj.get(START_DATE);
+						c.add(Calendar.MONTH, 1);
+					}
+					nextOccurance = c.getTime();
+					start = nextOccurance;
+					if(temp==recurNum) {
+						endCalendar.add(Calendar.DATE,1);
+						end=endCalendar.getTime();
+						recurNum = increment;
+						break;
+					}
+				}
+				if(temp==recurNum) {
+					endCalendar.add(Calendar.DATE,1);
+					end=endCalendar.getTime();
+					start=end;
+					recurNum = increment;
+					break;
+				}
+				end = EventScheduleUtil.dateFormat(jpObj.get(END_DATE),END);
 
 				break;
 				
 			case 'y':
+				// If number of occurrences is 0 i.e. end date is 2099-12-31, get number of occurrences between start and end
+				if(EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_NUM)),0)==0) {
+					startCalendar.setTime(start);
+					endCalendar.setTime(end);
+					
+					diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
+					
+					recurNum = diffYear/recurFreq;
+				}
 				// Logic to handle event type year
+				c.setTime(start);
 
-				// Push year to next occurrence based on specified event frequency
-				c.set(c.get(Calendar.YEAR)+(recurFreq*increment),c.get(Calendar.MONTH),c.get(Calendar.DATE));
-				
-				currOccurance = c.getTime();
+				for(int iCtr=0;iCtr<recurNum;iCtr++) {
+					currOccurance = c.getTime();
+	
+					jpObj.put("startDate", currOccurance);
+					
+					if(currOccurance.before(end)) {
+						scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
+		
+						scheduleObj = schedulerMongo.save(scheduleObj);
+						c.add(Calendar.YEAR, recurFreq);
+						temp+=1;
+					}  else {
 
-				jpObj.put("startDate", currOccurance);
-				
-				scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
-
-				scheduleObj = schedulerMongo.save(scheduleObj);
-
-				//c.add(Calendar.YEAR, recurFreq);
-
-				start = currOccurance;
+						c.add(Calendar.YEAR, 1);
+					}
+				}
+				if(temp==recurNum) {
+					endCalendar.add(Calendar.DATE,1);
+					end=endCalendar.getTime();
+					recurNum = increment;
+					break;
+				}
+				end = EventScheduleUtil.dateFormat(jpObj.get(END_DATE),END);
 
 				break;
 		}

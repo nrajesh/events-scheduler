@@ -8,12 +8,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableAutoConfiguration
 public class SchedulerApplication {
 
+	//private static final Logger logger = LoggerFactory.getLogger(SchedulerApplication.class);
+	
 	/**
 	 * The main run method
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) {	
 		SpringApplication.run(SchedulerApplication.class, args);
+		//logger.debug("--Application Started--");
 	}
 
 }

@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
@@ -16,24 +15,24 @@ import com.calendar.scheduler.model.ScheduleObj;
 public class EventScheduleUtil implements SchedulerConstants {
 
 	public static Date dateFormat(Object inputDate,String dateType) {
-	    DateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+	    DateFormat format = new SimpleDateFormat(DATE_FORMAT);
 	    format.setTimeZone(TimeZone.getTimeZone(DEFAULT_TZ));
 	    Date outputDate = new Date();
 		
 		try {
-			if(dateType.equals(END) && EMPTY_STRING.equals(inputDate.toString())) {
+			if(dateType.equals(END) && (EMPTY_STRING.equals(inputDate.toString()) || INVALID_DATE_FORMAT.equals(inputDate.toString()))) {
 				outputDate = format.parse(END_DATE_LONG);
 			} else if(dateType.equals(START) && EMPTY_STRING.equals(inputDate.toString())){
 				outputDate = Calendar.getInstance().getTime();
 			} else if(dateType.equals(START) && null!=inputDate.toString() && inputDate.toString().length()<11) {
-				outputDate=new SimpleDateFormat(DATE_FORMAT_SHORT, Locale.ENGLISH).parse(inputDate.toString());
+				outputDate=new SimpleDateFormat(DATE_FORMAT_SHORT).parse(inputDate.toString());
 			} else {
 				outputDate=format.parse(inputDate.toString()+" CET");
 			}
 		} catch (java.text.ParseException e) {
 			if(null!=inputDate.toString() && inputDate.toString().length()>20) {
 				try {
-					outputDate = new SimpleDateFormat(DATE_FORMAT_FULL, Locale.ENGLISH).parse(inputDate.toString());
+					outputDate = new SimpleDateFormat(DATE_FORMAT_FULL).parse(inputDate.toString());
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					outputDate = Calendar.getInstance().getTime();

@@ -11,11 +11,12 @@ public interface SchedulerConstants {
 	public static final String END = "end";
 	public static final String END_DATE = "endDate";
 	public static final String END_DATE_LONG = "2099-12-31T23:59:59 CET";
-	public static final String END_DATE_LONG_FULL = "2099-12-31T23:59:59.000UTC";
+	public static final String END_DATE_LONG_FULL = "2099-12-31T23:59:59.999CET";
 	public static final String END_DATE_SHORT = "2099-12-31";
 	public static final String EVENT_NAME = "eventName";
 	public static final String ID = "id";
 	public static final String INDEX_HTML = "index.html";
+	public static final String INVALID_DATE_FORMAT = "T00:00:00";
 	public static final String NUM_SCHEDULES = "numSchedules";
 	public static final String RECUR_FREQ = "recurFreq";
 	public static final String RECUR_NUM = "recurNum";

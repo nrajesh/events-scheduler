@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.calendar.scheduler.SchedulerApplication;
 import com.calendar.scheduler.dto.IEventsMongoDB;
 import com.calendar.scheduler.model.EventObj;
 import com.calendar.scheduler.util.EventScheduleUtil;
@@ -31,6 +34,8 @@ public class EventController implements SchedulerConstants {
 	        return INDEX_HTML;
 	    }
 	}
+	private static final Logger logger = LoggerFactory.getLogger(SchedulerApplication.class);
+	
     /**
      * Autowired annotation to resolve and inject IEventsMongoDB interface
      */
@@ -44,6 +49,8 @@ public class EventController implements SchedulerConstants {
 	@RequestMapping(value="/fetchAllEvents", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<EventObj> fetchAllEvents() {
+		logger.debug("Executing fetchAllEvents");
+		
 		return eventMongo.findAll();
 	}
 	
@@ -56,6 +63,8 @@ public class EventController implements SchedulerConstants {
 	@ResponseBody
 	@SendTo(value="/topic/saveSingleEvent")
 	public EventObj setupEvent(@RequestBody String selectedData) {
+		logger.debug("Input for saveSingleEvent: "+selectedData);
+		
 		JSONParser jp = new JSONParser(selectedData);
 		
 		EventObj eventObj = new EventObj();
@@ -72,6 +81,8 @@ public class EventController implements SchedulerConstants {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		logger.debug("Result of saveSingleEvent: "+eventObj.toString());
 		return eventObj;
 	}
 	
@@ -82,8 +93,11 @@ public class EventController implements SchedulerConstants {
 	@RequestMapping(value="/purgeAllEvents", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public String purgeAllEvents() {
+		logger.debug("Entered purgeAllEvents");
 
 		eventMongo.deleteAll();
+		
+		logger.debug("Exited purgeAllEvents");
 		return "Purged";
 	}
 }

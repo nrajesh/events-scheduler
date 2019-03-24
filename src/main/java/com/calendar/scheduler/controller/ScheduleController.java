@@ -13,6 +13,8 @@ import java.util.TimeZone;
 
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.calendar.scheduler.SchedulerApplication;
 import com.calendar.scheduler.dto.IScheduleMongoDB;
 import com.calendar.scheduler.model.ScheduleObj;
 import com.calendar.scheduler.util.EventScheduleUtil;
@@ -43,6 +46,7 @@ public class ScheduleController implements SchedulerConstants {
 	/**
 	 * 
 	 */
+	private static final Logger logger = LoggerFactory.getLogger(SchedulerApplication.class);
 	private DateFormat format = new SimpleDateFormat(DATE_FORMAT_SHORT);
 	Calendar startCalendar = new GregorianCalendar();
 	Calendar endCalendar = new GregorianCalendar();
@@ -64,6 +68,8 @@ public class ScheduleController implements SchedulerConstants {
 	@RequestMapping(value = "/fetchAllSchedules", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	private List<ScheduleObj> fetchAllSchedules() {
+		logger.debug("Executing fetchAllSchedules");
+		
 		return schedulerMongo.findAll();
 	}
 	
@@ -76,6 +82,7 @@ public class ScheduleController implements SchedulerConstants {
 	@ResponseBody
 	@SendTo(value="/topic/fetchSchedules")
 	public List<ScheduleObj> fetchSchedules(@RequestBody String searchObj) {
+		logger.debug("Input for fetchSchedules: "+searchObj);
 		JSONParser jp = new JSONParser(searchObj.toString());
 		
 		Map<String, Object> jpObj;
@@ -110,11 +117,10 @@ public class ScheduleController implements SchedulerConstants {
 				}
 				cntr++;
 			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ParseException pe) {
+			logger.debug(pe.toString());
 		}
-		
+		logger.debug("Result of fetchSchedules: "+rsltLst.toString());
 		return rsltLst;
 	}
 	
@@ -127,6 +133,7 @@ public class ScheduleController implements SchedulerConstants {
 	@ResponseBody
 	@SendTo(value="/topic/fetchScheduleCount")
 	public long fetchScheduleCount(@RequestBody String searchEvtName) {
+		logger.debug("Input for fetchScheduleCount: "+searchEvtName);
 		JSONParser jp = new JSONParser(searchEvtName.toString());
 
 		Map<String, Object> jpObj;
@@ -145,11 +152,11 @@ public class ScheduleController implements SchedulerConstants {
 					result++;
 				}
 			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ParseException pe) {
+			logger.debug(pe.toString());
 		}
-		
+
+		logger.debug("Result of fetchScheduleCount: "+result);
 		return result;
 	}
 
@@ -161,6 +168,7 @@ public class ScheduleController implements SchedulerConstants {
 	@MessageMapping(value = "/insertSchedule")
 	@ResponseBody
 	public ScheduleObj insertSchedule(@RequestBody String selectedData) {
+		logger.debug("Input for insertSchedule: "+selectedData);
 		JSONParser jp = new JSONParser(selectedData.toString());
 		format.setTimeZone(TimeZone.getTimeZone(DEFAULT_TZ));
 	    
@@ -168,7 +176,7 @@ public class ScheduleController implements SchedulerConstants {
 		try {
 			Map<String, Object> jpObj = jp.object();
 			recurNum = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_NUM)),0);
-			increment = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_FREQ)),1);
+			//increment = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_FREQ)),1);
 
 			start = EventScheduleUtil.dateFormat(jpObj.get(START_DATE), START);
 			end = EventScheduleUtil.dateFormat(jpObj.get(END_DATE), END);
@@ -203,16 +211,14 @@ public class ScheduleController implements SchedulerConstants {
 			currOccurance = nextOccurance = null;
 			end = format.parse(END_DATE_LONG);
 
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (java.text.ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ParseException pe) {
+			logger.debug("Date parse exception: "+pe.toString());
+		} catch (NullPointerException npe) {
+			logger.debug(npe.toString());
+		} catch (java.text.ParseException tpe) {
+			logger.debug("Text parse exception: "+tpe.toString());
 		}
+		logger.debug("Result of insertSchedule: "+scheduleObj.toString());
 		return scheduleObj;
 	}
 
@@ -225,6 +231,7 @@ public class ScheduleController implements SchedulerConstants {
 	 * @return A single @ScheduleObj populated with id after save operation
 	 */
 	private ScheduleObj insertScheduleRecords(ScheduleObj scheduleObj, Map<String, Object> jpObj, int recurNum, int increment) {
+		logger.debug("Inputs for insertScheduleRecords: scheduleObj = "+scheduleObj.toString()+" ~ jpObj = "+jpObj.toString()+" ~ recurNum = "+recurNum+" ~ increment = "+increment);
 
 		int recurFreq = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_FREQ)),1);
 		
@@ -416,6 +423,7 @@ public class ScheduleController implements SchedulerConstants {
 				break;
 		}
 
+		logger.debug("Result of insertScheduleRecords: "+scheduleObj.toString());
 		return scheduleObj;
 	}
 
@@ -425,9 +433,12 @@ public class ScheduleController implements SchedulerConstants {
 	 */
 	@RequestMapping(value = "/purgeAllSchedules", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public String purgeAllEvents() {
+	public String purgeAllSchedules() {
+		logger.debug("Entered purgeAllSchedules");
 
 		schedulerMongo.deleteAll();
+		
+		logger.debug("Exited purgeAllSchedules");
 		return "Purged";
 	}
 }

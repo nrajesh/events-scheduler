@@ -9,12 +9,31 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.calendar.scheduler.SchedulerApplication;
 import com.calendar.scheduler.model.EventObj;
 import com.calendar.scheduler.model.ScheduleObj;
 
+/**
+ * @author nrajesh
+ *
+ */
 public class EventScheduleUtil implements SchedulerConstants {
+	/**
+	 * 
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(SchedulerApplication.class);
 
+	/**
+	 * Method to format input object to a date
+	 * @param inputDate
+	 * @param dateType In case of exceptions, if this is set to START output date will default to TODAY and setting this to END will default output date to "2099-12-31"
+	 * @return @Date value
+	 */
 	public static Date dateFormat(Object inputDate,String dateType) {
+		logger.debug("Input for dateFormat: inputDate = "+inputDate.toString()+" ~ dateType = "+dateType);
 	    DateFormat format = new SimpleDateFormat(DATE_FORMAT);
 	    format.setTimeZone(TimeZone.getTimeZone(DEFAULT_TZ));
 	    Date outputDate = new Date();
@@ -29,22 +48,31 @@ public class EventScheduleUtil implements SchedulerConstants {
 			} else {
 				outputDate=format.parse(inputDate.toString()+" CET");
 			}
-		} catch (java.text.ParseException e) {
+		} catch (java.text.ParseException tpe) {
+			logger.debug("Text parse exception: "+tpe.toString());
 			if(null!=inputDate.toString() && inputDate.toString().length()>20) {
 				try {
 					outputDate = new SimpleDateFormat(DATE_FORMAT_FULL).parse(inputDate.toString());
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
+				} catch (ParseException pe) {
+					logger.debug("Date Parse exception: "+pe.toString());
 					outputDate = Calendar.getInstance().getTime();
 				}
 			} else {
 				outputDate = Calendar.getInstance().getTime();
 			}
 		}
+		logger.debug("Result of dateFormat: "+outputDate.toString());
 		return outputDate;
 	}
 	
+	/**
+	 * Method to format integer 
+	 * @param inputInt
+	 * @param expnVal which will be defaulted to in case of exceptions
+	 * @return Integer value
+	 */
 	public static int intFormat(Object inputInt, int expnVal) {
+		logger.debug("Input for intFormat: inputInt = "+inputInt.toString()+" ~ expnVal = "+expnVal);
 		int outputInt = 1;
 		try {
 			if(null!=inputInt) {
@@ -54,10 +82,17 @@ public class EventScheduleUtil implements SchedulerConstants {
 			outputInt=expnVal;
 		}
 
+		logger.debug("Result of intFormat: "+outputInt);
 		return outputInt;
 	}
 	
+	/**
+	 * Method to format character and defaults to ' ' in case of any exceptions.
+	 * @param inputChar
+	 * @return Character value
+	 */
 	public static char charFormat(Object inputChar) {
+		logger.debug("Input for charFormat: "+inputChar.toString());
 		char outputChar = EMPTY_CHAR;
 		try {
 			outputChar=eliminateNull((String)inputChar).charAt(0);
@@ -65,10 +100,17 @@ public class EventScheduleUtil implements SchedulerConstants {
 			outputChar = EMPTY_CHAR;
 		}
 
+		logger.debug("Result of charFormat: "+outputChar);
 		return outputChar;
 	}
 
+	/**
+	 * Method to create an event object
+	 * @param jpObj
+	 * @return @EventObj
+	 */
 	public static EventObj createEventObj(Map<String, Object> jpObj) {
+		logger.debug("Input for createEventObj: "+jpObj.toString());
 
 		EventObj eventObj = new EventObj(
 			eliminateNull((String)jpObj.get(EVENT_NAME)),
@@ -80,16 +122,32 @@ public class EventScheduleUtil implements SchedulerConstants {
 			intFormat(jpObj.get(START_MONTH),0),
 			intFormat(jpObj.get(RECUR_FREQ),1)
 		);
-		
+
+		logger.debug("Result of createEventObj: "+eventObj.toString());
 		return eventObj;
 	}
 
+	/**
+	 * Method to eliminate null strings and default them to ""
+	 * @param inputString
+	 * @return @String
+	 */
 	public static String eliminateNull(String inputString) {
+		logger.debug("Input for eliminateNull: "+inputString);
+
+		String outputString = (null==inputString)?EMPTY_STRING:inputString;
 		
-		return (null==inputString)?EMPTY_STRING:inputString;
+		logger.debug("Result of eliminateNull: "+outputString);
+		return outputString;
 	}
 
+	/**
+	 * Method to return a schedule object
+	 * @param jpObj
+	 * @return @ScheduleObj
+	 */
 	public static ScheduleObj createScheduleObj(Map<String, Object> jpObj) {
+		logger.debug("Input for createScheduleObj: "+jpObj.toString());
 
 		ScheduleObj scheduleObj = new ScheduleObj(
 			eliminateNull((String)jpObj.get(ID)),
@@ -97,10 +155,17 @@ public class EventScheduleUtil implements SchedulerConstants {
 			(Date)jpObj.get(START_DATE)
 		);
 
+		logger.debug("Result of createScheduleObj: "+scheduleObj.toString());
 		return scheduleObj;
 	}
 
+	/**
+	 * Method to make an array of selected week days
+	 * @param inputDays
+	 * @return Integer array of selected week days
+	 */
 	public static int[] getWeekDays(String inputDays) {
+		logger.debug("Input for getWeekDays: "+inputDays);
 		int[] weekDays=null;
 		int itr = 0, weekDay=0;
 		StringTokenizer strTkn = new StringTokenizer(inputDays,COMMA);
@@ -115,7 +180,8 @@ public class EventScheduleUtil implements SchedulerConstants {
 		} catch (NumberFormatException e) {
 			weekDays[itr] = 1;
 		}
-		
+
+		logger.debug("Result of getWeekDays: "+weekDays);
 		return weekDays;
 	}
 }

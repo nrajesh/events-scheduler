@@ -1,6 +1,6 @@
 package com.calendar.scheduler.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,8 +12,8 @@ public class EventObj {
 	private String id;
 	
 	private String eventName;
-	private Date startDate;
-	private Date endDate;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private int recurNum;
 	private char recurPattern;
 	private String weekPattern;
@@ -22,8 +22,8 @@ public class EventObj {
 	
     public EventObj(
     		String eventName,
-    		Date startDate, 
-    		Date endDate,
+    		LocalDate startDate, 
+    		LocalDate endDate,
     		int recurNum,
     		char recurPattern,
     		String weekPattern,
@@ -72,25 +72,25 @@ public class EventObj {
 	/**
 	 * @return the startDate
 	 */
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 	/**
 	 * @param startDate the startDate to set
 	 */
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 	/**
 	 * @return the endDate
 	 */
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 	/**
 	 * @param endDate the endDate to set
 	 */
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 	/**

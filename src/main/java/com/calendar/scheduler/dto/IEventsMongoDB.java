@@ -1,13 +1,13 @@
 package com.calendar.scheduler.dto;
 
-import com.calendar.scheduler.model.EventObj;
-
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+
+import com.calendar.scheduler.model.EventObj;
  
 public interface IEventsMongoDB extends MongoRepository<EventObj, Integer> {
 	EventObj findByEventName(String eventName);
-	EventObj findByStartDate(Date startDate);
 	void deleteAll();
+	EventObj findByStartDate(LocalDate startDate);
 }

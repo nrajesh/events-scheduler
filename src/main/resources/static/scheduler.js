@@ -60,8 +60,8 @@ function fnSubmit(eventObj) {
     var jsonObj = 
         '{'
         +'"eventName":"'+eventObj.eventName+'",'
-        +'"startDate":"'+eventObj.startDate+'T00:00:00",'
-        +'"endDate":"'+eventObj.endDate+'T00:00:00",'
+        +'"startDate":"'+eventObj.startDate+'",'
+        +'"endDate":"'+eventObj.endDate+'",'
         +'"recurNum":"'+eventObj.recurNum+'",'
         +'"recurPattern":"'+eventObj.recurPattern+'",'
         +'"weekPattern":"'+eventObj.weekPattern+'",'

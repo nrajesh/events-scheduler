@@ -1,6 +1,6 @@
 package com.calendar.scheduler.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import com.calendar.scheduler.model.ScheduleObj;
 
 public class ScheduleDTO implements IScheduleMongoDB {
+	
     @Autowired
     private IScheduleMongoDB schedulerMongo;
 
@@ -42,8 +43,7 @@ public class ScheduleDTO implements IScheduleMongoDB {
 
 	@Override
 	public List<ScheduleObj> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.schedulerMongo.findAll();
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class ScheduleDTO implements IScheduleMongoDB {
 	}
 
 	@Override
-	public ScheduleObj findByOccuranceDate(Date occuranceDate) {
+	public ScheduleObj findByOccurrenceDate(LocalDate occurrenceDate) {
 		// TODO Auto-generated method stub
 		return null;
 	}

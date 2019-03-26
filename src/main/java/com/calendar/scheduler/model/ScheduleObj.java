@@ -1,6 +1,6 @@
 package com.calendar.scheduler.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,16 +13,16 @@ public class ScheduleObj {
 
 	private String eventId;
 	private String eventName;
-	private Date occuranceDate;
+	private LocalDate occurrenceDate;
 	
 	public ScheduleObj(
 		String eventId,
 		String eventName,
-		Date occuranceDate) {
+		LocalDate occurrenceDate) {
 
         this.eventId = eventId;
     	this.eventName = eventName;
-        this.occuranceDate = occuranceDate;
+        this.occurrenceDate = occurrenceDate;
 		
 	}
 	
@@ -67,19 +67,23 @@ public class ScheduleObj {
 		this.eventName = eventName;
 	}
 	/**
-	 * @return the occuranceDate
+	 * @return the occurrenceDate
 	 */
-	public Date getOccuranceDate() {
-		return occuranceDate;
+	public LocalDate getOccurrenceDate() {
+		return occurrenceDate;
 	}
 	/**
-	 * @param occuranceDate the occuranceDate to set
+	 * @param occurrenceDate the occurrenceDate to set
 	 */
-	public void setOccuranceDate(Date occuranceDate) {
-		this.occuranceDate = occuranceDate;
+	public void setOccurrenceDate(LocalDate occurrenceDate) {
+		this.occurrenceDate = occurrenceDate;
 	}
 	
 
+	public int compareTo( LocalDate otherSchedule ) {
+        return this.occurrenceDate.compareTo( otherSchedule ) ;
+    }
+	
     @Override
     public String toString() {
     	StringBuffer strVal = new StringBuffer();
@@ -93,8 +97,8 @@ public class ScheduleObj {
     	strVal.append("eventName=");
     	strVal.append(this.eventName);
     	strVal.append("\n");
-    	strVal.append("occuranceDate=");
-    	strVal.append(this.occuranceDate);
+    	strVal.append("occurrenceDate=");
+    	strVal.append(this.occurrenceDate);
     	strVal.append("\n");
         return strVal.toString();
     }

@@ -4,97 +4,114 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.calendar.scheduler.SchedulerApplication;
+import com.calendar.scheduler.model.EventObj;
 import com.calendar.scheduler.model.ScheduleObj;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ScheduleMongoRepositoryTest {
+	private static final Logger logger = LoggerFactory.getLogger(SchedulerApplication.class);
+	
     @Autowired
     private IScheduleMongoDB schedulerMongo;
     
-    DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+    @Autowired
+    private IEventsMongoDB eventMongo;
     
     @Before
-    public void setUp() throws Exception {
-    	format.setTimeZone(TimeZone.getTimeZone("GMT"));
-	    
-        ScheduleObj testSchedule1= new ScheduleObj(
-        		"1",
-        		"Holiday",
-        		format.parse("2019-03-25"));
-        ScheduleObj testSchedule2= new ScheduleObj(
-        		"2",
-        		"Meeting",
-        		format.parse("2019-04-25"));
-        //save event, verify it has ID value after save
-        assertNull(testSchedule1.getId());
-        assertNull(testSchedule2.getId());
+    public void setUp() {
+		logger.debug("Executing test setup");
+    	
+    	LocalDate startDate = LocalDate.now();
+    	startDate.atStartOfDay(ZoneId.of("UTC"));
+    	
+//    	set(2099,11,31);
+//    	LocalDate endDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, c.get(Calendar.DATE));
 
-        this.schedulerMongo.save(testSchedule1);
-        this.schedulerMongo.save(testSchedule2);
-        assertNotNull(testSchedule1.getId());
-        assertNotNull(testSchedule2.getId());
+    	LocalDate endDate = startDate.plusDays(1);
+    	endDate.atStartOfDay(ZoneId.of("UTC"));
+    	
+    	EventObj evtObj1 = new EventObj(
+        		"Holiday",
+        		startDate, 
+        		endDate,
+        		0,
+        		'w',
+        		"Sat",
+        		0,
+        		2);
+        //save event, verify it has ID value before save
+        assertNull(evtObj1.getId());
+        this.eventMongo.save(evtObj1);
+        //Verify if saved event has ID value after save
+        assertNotNull(evtObj1.getId());
+        
+        ScheduleObj scheduleObj1 = new ScheduleObj(
+        		evtObj1.getId(),
+        		evtObj1.getEventName(),
+        		startDate
+        		);
+        //save schedule, verify it has ID value before save
+        assertNull(scheduleObj1.getId());
+        this.schedulerMongo.save(scheduleObj1);
+        //Verify if saved schedule has ID value after save
+        assertNotNull(scheduleObj1.getId());
+		logger.debug("evtObj1: "+ evtObj1.getEventName()+" ~ Starts on: "+evtObj1.getStartDate());
     }
 
     @Test
-    public void testFetchData(){
+    public void testFetchData() {
+		logger.debug("Executing testFetchData");
+
+    	LocalDate occurrenceDate = LocalDate.now();
+    	occurrenceDate.atStartOfDay(ZoneId.of("UTC"));
+    	
         /*Test data retrieval*/
-    	ScheduleObj schedule1;
-		try {
-			format.setTimeZone(TimeZone.getTimeZone("GMT"));
-		    
-			schedule1 = schedulerMongo.findByOccuranceDate(format.parse("2019-03-25"));
-	        assertNotNull(schedule1);
-	        assertEquals(format.parse("2019-03-25"), schedule1.getOccuranceDate());
-	        /*Get all products, list should only have two*/
-	        Iterable<ScheduleObj> schedule = schedulerMongo.findAll();
-	        int count = 0;
-	        for(ScheduleObj p : schedule){
-	            count++;
-	        }
-	        assertEquals(count, 2);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		logger.debug("Occurrence date for fetch is: "+ occurrenceDate);
+		ScheduleObj schedule1 = this.schedulerMongo.findByOccurrenceDate(occurrenceDate);
+        assertNotNull(schedule1);
+		logger.debug("Found schedule is: "+schedule1.getEventName());
+        assertEquals(occurrenceDate, schedule1.getOccurrenceDate());
     }
     
     @Test
     public void testDataUpdate(){
+		logger.debug("Executing testDataUpdate");
+    	
+    	LocalDate occurrenceDate = LocalDate.now();
+    	occurrenceDate.atStartOfDay(ZoneId.of("UTC"));
+    	
         /*Test update*/
-    	try {
-    		format.setTimeZone(TimeZone.getTimeZone("GMT"));
-    	    
-    		ScheduleObj schedule2 = schedulerMongo.findByOccuranceDate(format.parse("2019-04-25"));
-        	assertNotNull(schedule2);
-        	schedule2.setOccuranceDate(format.parse("2019-04-26"));
-	        schedulerMongo.save(schedule2);
-	        
-	        ScheduleObj schedule3= schedulerMongo.findByOccuranceDate(format.parse("2019-04-26"));
-	        assertNotNull(schedule3);
-	        assertEquals(format.parse("2019-04-26"), schedule3.getOccuranceDate());
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	    
+		ScheduleObj schedule2 = schedulerMongo.findByOccurrenceDate(occurrenceDate);
+    	assertNotNull(schedule2);
+		logger.debug("Old schedule2 date is: "+schedule2.getOccurrenceDate());
+
+    	occurrenceDate = occurrenceDate.plusDays(1);
+    	occurrenceDate.atStartOfDay(ZoneId.of("UTC"));
+    	schedule2.setOccurrenceDate(occurrenceDate);
+		logger.debug("New schedule2 date is: "+occurrenceDate);
+        schedulerMongo.save(schedule2);
     }
     
     @After
     public void tearDown() throws Exception {
-      this.schedulerMongo.deleteAll();
+    	this.eventMongo.deleteAll();
+    	this.schedulerMongo.deleteAll();
     }
 }

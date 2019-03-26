@@ -1,13 +1,13 @@
 package com.calendar.scheduler.util;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,41 +26,35 @@ public class EventScheduleUtil implements SchedulerConstants {
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(SchedulerApplication.class);
 
+	private static final Calendar c = Calendar.getInstance();
+	
 	/**
 	 * Method to format input object to a date
 	 * @param inputDate
 	 * @param dateType In case of exceptions, if this is set to START output date will default to TODAY and setting this to END will default output date to "2099-12-31"
 	 * @return @Date value
 	 */
-	public static Date dateFormat(Object inputDate,String dateType) {
+	public static LocalDate dateFormat(Object inputDate,String dateType) {
 		logger.debug("Input for dateFormat: inputDate = "+inputDate.toString()+" ~ dateType = "+dateType);
-	    DateFormat format = new SimpleDateFormat(DATE_FORMAT);
-	    format.setTimeZone(TimeZone.getTimeZone(DEFAULT_TZ));
-	    Date outputDate = new Date();
+	    
+		LocalDate outputDate = LocalDate.now();
 		
-		try {
-			if(dateType.equals(END) && (EMPTY_STRING.equals(inputDate.toString()) || INVALID_DATE_FORMAT.equals(inputDate.toString()))) {
-				outputDate = format.parse(END_DATE_LONG);
-			} else if(dateType.equals(START) && EMPTY_STRING.equals(inputDate.toString())){
-				outputDate = Calendar.getInstance().getTime();
-			} else if(dateType.equals(START) && null!=inputDate.toString() && inputDate.toString().length()<11) {
-				outputDate=new SimpleDateFormat(DATE_FORMAT_SHORT).parse(inputDate.toString());
-			} else {
-				outputDate=format.parse(inputDate.toString()+" CET");
+		if(dateType.equals(END) && (EMPTY_STRING.equals(inputDate.toString()) || INVALID_DATE_FORMAT.equals(inputDate.toString()))) {
+
+	    	c.set(2099,11,31);
+	    	outputDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, c.get(Calendar.DATE));
+		} else if(dateType.equals(START) && EMPTY_STRING.equals(inputDate.toString())){
+			outputDate = LocalDate.now();
+		} else {
+			Date tempDate=new Date();
+			try {
+				tempDate = new SimpleDateFormat(DATE_FORMAT_SHORT).parse(inputDate.toString());
+			} catch (ParseException pe) {
+				logger.debug(pe.toString());
 			}
-		} catch (java.text.ParseException tpe) {
-			logger.debug("Text parse exception: "+tpe.toString());
-			if(null!=inputDate.toString() && inputDate.toString().length()>20) {
-				try {
-					outputDate = new SimpleDateFormat(DATE_FORMAT_FULL).parse(inputDate.toString());
-				} catch (ParseException pe) {
-					logger.debug("Date Parse exception: "+pe.toString());
-					outputDate = Calendar.getInstance().getTime();
-				}
-			} else {
-				outputDate = Calendar.getInstance().getTime();
-			}
+			outputDate=tempDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		}
+		
 		logger.debug("Result of dateFormat: "+outputDate.toString());
 		return outputDate;
 	}
@@ -111,11 +105,16 @@ public class EventScheduleUtil implements SchedulerConstants {
 	 */
 	public static EventObj createEventObj(Map<String, Object> jpObj) {
 		logger.debug("Input for createEventObj: "+jpObj.toString());
-
+		
+		LocalDate startDate = EventScheduleUtil.dateFormat(jpObj.get(START_DATE), START);
+		startDate.atStartOfDay(ZoneId.of("UTC"));
+		LocalDate endDate = EventScheduleUtil.dateFormat(jpObj.get(END_DATE), END);
+		endDate.atStartOfDay(ZoneId.of("UTC"));
+		
 		EventObj eventObj = new EventObj(
 			eliminateNull((String)jpObj.get(EVENT_NAME)),
-			dateFormat(jpObj.get(START_DATE),START),
-			dateFormat(jpObj.get(END_DATE),END),
+			startDate,
+			endDate,
 			intFormat(jpObj.get(RECUR_NUM),1),
 			charFormat(jpObj.get(RECUR_PATTERN)),
 			eliminateNull((String)jpObj.get(WEEK_PATTERN)),
@@ -149,10 +148,13 @@ public class EventScheduleUtil implements SchedulerConstants {
 	public static ScheduleObj createScheduleObj(Map<String, Object> jpObj) {
 		logger.debug("Input for createScheduleObj: "+jpObj.toString());
 
+		LocalDate occurrenceDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE));
+		occurrenceDate.atStartOfDay(ZoneId.of("UTC"));
+		
 		ScheduleObj scheduleObj = new ScheduleObj(
 			eliminateNull((String)jpObj.get(ID)),
 			eliminateNull((String)jpObj.get(EVENT_NAME)),
-			(Date)jpObj.get(START_DATE)
+			occurrenceDate
 		);
 
 		logger.debug("Result of createScheduleObj: "+scheduleObj.toString());

@@ -1,6 +1,6 @@
 package com.calendar.scheduler.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -149,7 +149,7 @@ public class EventsDTO implements IEventsMongoDB {
 	}
 
 	@Override
-	public EventObj findByStartDate(Date startDate) {
+	public EventObj findByStartDate(LocalDate startDate) {
 		// TODO Auto-generated method stub
 		return null;
 	}

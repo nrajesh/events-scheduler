@@ -1,5 +1,6 @@
 package com.calendar.scheduler.controller;
 
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -174,12 +175,33 @@ public class ScheduleController implements SchedulerConstants {
 		ScheduleObj scheduleObj = new ScheduleObj();
 		try {
 			Map<String, Object> jpObj = jp.object();
-			//int recurNum = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_NUM)),0);
+			int recurNum = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_NUM)),0);
+			int recurFreq = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_FREQ)),1);
 			LocalDate startDate = EventScheduleUtil.dateFormat(jpObj.get(START_DATE), START);
 			LocalDate endDate = EventScheduleUtil.dateFormat(jpObj.get(END_DATE), END);
+			char recurPattern = EventScheduleUtil.charFormat(jpObj.get(RECUR_PATTERN));
+			LocalDate currDate = startDate;
 			
+			switch (recurPattern) {
+			
+				case 'd':
+					long dateDiff = 0;
+					if(recurNum==0) {
+						dateDiff = ChronoUnit.DAYS.between(startDate,endDate);
+					} else {
+						endDate = startDate.plusDays(recurNum*recurFreq);
+					}
+					
+					logger.debug("AND THE DIFFERENCE IS: "+dateDiff);
+					while(!currDate.isAfter(endDate)) {
+						jpObj.put(START_DATE, currDate);
+						scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
 
-			logger.debug("AND THE DIFFERENCE IS: "+ChronoUnit.DAYS.between(startDate,endDate));
+						scheduleObj = schedulerMongo.save(scheduleObj);
+						currDate = currDate.plusDays(recurFreq);
+					}
+					break;
+			}
 
 		} catch (NullPointerException npe) {
 			logger.debug(npe.toString());

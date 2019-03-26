@@ -79,14 +79,10 @@ public class ScheduleObj {
 		this.occurrenceDate = occurrenceDate;
 	}
 	
-
-	public int compareTo( LocalDate otherSchedule ) {
-        return this.occurrenceDate.compareTo( otherSchedule ) ;
-    }
-	
     @Override
     public String toString() {
     	StringBuffer strVal = new StringBuffer();
+    	strVal.append("\n");
     	strVal.append("Schedule:");
     	strVal.append("id=");
     	strVal.append(this.id);

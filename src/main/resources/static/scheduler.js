@@ -104,7 +104,7 @@ function fnConnect() {
             var dateVal = new Date();
             var monthVal = 0;
             for(var i=0;i<length;i++) {
-                dateVal = new Date(msgBody[i].occuranceDate);
+                dateVal = new Date(msgBody[i].occurrenceDate);
                 monthVal = dateVal.getUTCMonth()+1;
                 $("#search").append('<li>Event Name:' + msgBody[i].eventName + ' ; Occurs on:' + dateVal.getDate() + '-' + monthVal + '-' + dateVal.getFullYear() + '</li>');
             }

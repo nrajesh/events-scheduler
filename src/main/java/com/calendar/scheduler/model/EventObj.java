@@ -157,6 +157,7 @@ public class EventObj {
     @Override
     public String toString() {
     	StringBuffer strVal = new StringBuffer();
+    	strVal.append("\n");
     	strVal.append("Event:");
     	strVal.append("id=");
     	strVal.append(this.id);

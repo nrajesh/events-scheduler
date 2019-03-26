@@ -148,8 +148,9 @@ public class EventScheduleUtil implements SchedulerConstants {
 	public static ScheduleObj createScheduleObj(Map<String, Object> jpObj) {
 		logger.debug("Input for createScheduleObj: "+jpObj.toString());
 
-		LocalDate occurrenceDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE));
-		occurrenceDate.atStartOfDay(ZoneId.of("UTC"));
+//		LocalDate occurrenceDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE));
+//		occurrenceDate.atStartOfDay(ZoneId.of("UTC"));
+		LocalDate occurrenceDate = dateFormat(jpObj.get(START_DATE), START);
 		
 		ScheduleObj scheduleObj = new ScheduleObj(
 			eliminateNull((String)jpObj.get(ID)),

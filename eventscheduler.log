@@ -32843,3 +32843,247 @@ occurrenceDate=2019-03-31
 2019-03-28 20:06:53.746 DEBUG 11111 --- [http-nio-8080-exec-3] c.c.s.controller.EventController         : Exited purgeAllEvents
 2019-03-28 20:06:54.186 DEBUG 11111 --- [http-nio-8080-exec-4] c.c.s.controller.ScheduleController      : Entered purgeAllSchedules
 2019-03-28 20:06:54.187 DEBUG 11111 --- [http-nio-8080-exec-4] c.c.s.controller.ScheduleController      : Exited purgeAllSchedules
+2019-03-28 21:14:54.517 DEBUG 11944 --- [background-preinit] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2019-03-28 21:14:54.537 DEBUG 11944 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-03-28 21:14:54.544 DEBUG 11944 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-03-28 21:14:54.546 DEBUG 11944 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-03-28 21:14:54.547 DEBUG 11944 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-03-28 21:14:54.549 DEBUG 11944 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-03-28 21:14:54.561  INFO 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Starting ScheduleMongoRepositoryTest on Rajeshs-MacBook-Pro.local with PID 11944 (started by nrajesh in /Users/nrajesh/Documents/Workspace/scheduler)
+2019-03-28 21:14:54.561 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Running with Spring Boot v2.1.3.RELEASE, Spring v5.1.5.RELEASE
+2019-03-28 21:14:54.563  INFO 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : No active profile set, falling back to default profiles: default
+2019-03-28 21:14:59.388 DEBUG 11944 --- [main] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 21:14:59.389 DEBUG 11944 --- [main] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2019-03-28 21:14:59.405 DEBUG 11944 --- [main] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 21:14:59.406 DEBUG 11944 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2019-03-28 21:14:59.409 DEBUG 11944 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2019-03-28 21:14:59.412 DEBUG 11944 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ParameterNameProvider of type org.springframework.validation.beanvalidation.LocalValidatorFactoryBean$1
+2019-03-28 21:14:59.415 DEBUG 11944 --- [main] o.h.v.i.xml.config.ValidationXmlParser   : Trying to load META-INF/validation.xml for XML based Validator configuration.
+2019-03-28 21:14:59.416 DEBUG 11944 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via user class loader
+2019-03-28 21:14:59.418 DEBUG 11944 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via TCCL
+2019-03-28 21:14:59.419 DEBUG 11944 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2019-03-28 21:14:59.421 DEBUG 11944 --- [main] o.h.v.i.xml.config.ValidationXmlParser   : No META-INF/validation.xml found. Using annotation based configuration only.
+2019-03-28 21:14:59.432 DEBUG 11944 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-03-28 21:14:59.433 DEBUG 11944 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-03-28 21:14:59.434 DEBUG 11944 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-03-28 21:14:59.435 DEBUG 11944 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-03-28 21:14:59.436 DEBUG 11944 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-03-28 21:15:00.928  INFO 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Started ScheduleMongoRepositoryTest in 7.026 seconds (JVM running for 8.6)
+2019-03-28 21:15:01.268 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing test setup
+2019-03-28 21:15:01.283 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:15:01.439 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Holiday ~ Starts on: 2019-03-28
+2019-03-28 21:15:01.452 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:15:01.457 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Team catch-up ~ Starts on: 2019-03-28
+2019-03-28 21:15:01.458 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Exiting test setup
+2019-03-28 21:15:01.459 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing testFetchData
+2019-03-28 21:15:01.459 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Occurrence date for fetch is: 2019-03-28
+2019-03-28 21:15:01.684 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing test setup
+2019-03-28 21:15:01.685 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:15:01.691 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Holiday ~ Starts on: 2019-03-28
+2019-03-28 21:15:01.692 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:15:01.698 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Team catch-up ~ Starts on: 2019-03-28
+2019-03-28 21:15:01.699 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Exiting test setup
+2019-03-28 21:15:01.700 DEBUG 11944 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing testDataUpdate
+2019-03-28 21:15:19.396 DEBUG 11963 --- [background-preinit] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2019-03-28 21:15:19.407 DEBUG 11963 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-03-28 21:15:19.408 DEBUG 11963 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-03-28 21:15:19.409 DEBUG 11963 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-03-28 21:15:19.409 DEBUG 11963 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-03-28 21:15:19.410 DEBUG 11963 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-03-28 21:15:19.437  INFO 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Starting ScheduleMongoRepositoryTest on Rajeshs-MacBook-Pro.local with PID 11963 (started by nrajesh in /Users/nrajesh/Documents/Workspace/scheduler)
+2019-03-28 21:15:19.439 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Running with Spring Boot v2.1.3.RELEASE, Spring v5.1.5.RELEASE
+2019-03-28 21:15:19.440  INFO 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : No active profile set, falling back to default profiles: default
+2019-03-28 21:15:22.729 DEBUG 11963 --- [main] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 21:15:22.731 DEBUG 11963 --- [main] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2019-03-28 21:15:22.747 DEBUG 11963 --- [main] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 21:15:22.749 DEBUG 11963 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2019-03-28 21:15:22.751 DEBUG 11963 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2019-03-28 21:15:22.753 DEBUG 11963 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ParameterNameProvider of type org.springframework.validation.beanvalidation.LocalValidatorFactoryBean$1
+2019-03-28 21:15:22.755 DEBUG 11963 --- [main] o.h.v.i.xml.config.ValidationXmlParser   : Trying to load META-INF/validation.xml for XML based Validator configuration.
+2019-03-28 21:15:22.755 DEBUG 11963 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via user class loader
+2019-03-28 21:15:22.756 DEBUG 11963 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via TCCL
+2019-03-28 21:15:22.757 DEBUG 11963 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2019-03-28 21:15:22.758 DEBUG 11963 --- [main] o.h.v.i.xml.config.ValidationXmlParser   : No META-INF/validation.xml found. Using annotation based configuration only.
+2019-03-28 21:15:22.774 DEBUG 11963 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-03-28 21:15:22.775 DEBUG 11963 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-03-28 21:15:22.775 DEBUG 11963 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-03-28 21:15:22.776 DEBUG 11963 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-03-28 21:15:22.776 DEBUG 11963 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-03-28 21:15:23.977  INFO 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Started ScheduleMongoRepositoryTest in 4.993 seconds (JVM running for 6.24)
+2019-03-28 21:15:24.241 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing test setup
+2019-03-28 21:15:24.252 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:15:24.407 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Holiday ~ Starts on: 2019-03-28
+2019-03-28 21:15:24.407 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:15:24.413 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Team catch-up ~ Starts on: 2019-03-28
+2019-03-28 21:15:24.422 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Exiting test setup
+2019-03-28 21:15:24.422 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing testFetchData
+2019-03-28 21:15:24.422 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Occurrence date for fetch is: 2019-03-28
+2019-03-28 21:15:24.528 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing test setup
+2019-03-28 21:15:24.530 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:15:24.538 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Holiday ~ Starts on: 2019-03-28
+2019-03-28 21:15:24.545 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:15:24.549 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Team catch-up ~ Starts on: 2019-03-28
+2019-03-28 21:15:24.560 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Exiting test setup
+2019-03-28 21:15:24.571 DEBUG 11963 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing testDataUpdate
+2019-03-28 21:15:51.787 DEBUG 11986 --- [background-preinit] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2019-03-28 21:15:51.805 DEBUG 11986 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-03-28 21:15:51.807 DEBUG 11986 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-03-28 21:15:51.809 DEBUG 11986 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-03-28 21:15:51.812 DEBUG 11986 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-03-28 21:15:51.815 DEBUG 11986 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-03-28 21:15:51.828  INFO 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Starting ScheduleMongoRepositoryTest on Rajeshs-MacBook-Pro.local with PID 11986 (started by nrajesh in /Users/nrajesh/Documents/Workspace/scheduler)
+2019-03-28 21:15:51.828 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Running with Spring Boot v2.1.3.RELEASE, Spring v5.1.5.RELEASE
+2019-03-28 21:15:51.834  INFO 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : No active profile set, falling back to default profiles: default
+2019-03-28 21:15:55.172 DEBUG 11986 --- [main] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 21:15:55.174 DEBUG 11986 --- [main] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2019-03-28 21:15:55.194 DEBUG 11986 --- [main] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 21:15:55.196 DEBUG 11986 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2019-03-28 21:15:55.198 DEBUG 11986 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2019-03-28 21:15:55.200 DEBUG 11986 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ParameterNameProvider of type org.springframework.validation.beanvalidation.LocalValidatorFactoryBean$1
+2019-03-28 21:15:55.202 DEBUG 11986 --- [main] o.h.v.i.xml.config.ValidationXmlParser   : Trying to load META-INF/validation.xml for XML based Validator configuration.
+2019-03-28 21:15:55.203 DEBUG 11986 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via user class loader
+2019-03-28 21:15:55.204 DEBUG 11986 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via TCCL
+2019-03-28 21:15:55.205 DEBUG 11986 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2019-03-28 21:15:55.207 DEBUG 11986 --- [main] o.h.v.i.xml.config.ValidationXmlParser   : No META-INF/validation.xml found. Using annotation based configuration only.
+2019-03-28 21:15:55.219 DEBUG 11986 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-03-28 21:15:55.221 DEBUG 11986 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-03-28 21:15:55.222 DEBUG 11986 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-03-28 21:15:55.223 DEBUG 11986 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-03-28 21:15:55.224 DEBUG 11986 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-03-28 21:15:56.369  INFO 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Started ScheduleMongoRepositoryTest in 4.994 seconds (JVM running for 6.38)
+2019-03-28 21:15:56.685 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing test setup
+2019-03-28 21:15:56.696 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:15:56.874 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Holiday ~ Starts on: 2019-03-28
+2019-03-28 21:15:56.875 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:15:56.879 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Team catch-up ~ Starts on: 2019-03-28
+2019-03-28 21:15:56.879 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Exiting test setup
+2019-03-28 21:15:56.880 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing testFetchData
+2019-03-28 21:15:56.882 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Occurrence date for fetch is: 2019-03-28
+2019-03-28 21:15:56.984 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing test setup
+2019-03-28 21:15:56.992 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:15:56.999 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Holiday ~ Starts on: 2019-03-28
+2019-03-28 21:15:57.001 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:15:57.005 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Team catch-up ~ Starts on: 2019-03-28
+2019-03-28 21:15:57.005 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Exiting test setup
+2019-03-28 21:15:57.005 DEBUG 11986 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing testDataUpdate
+2019-03-28 21:16:32.937 DEBUG 11998 --- [background-preinit] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2019-03-28 21:16:32.953 DEBUG 11998 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-03-28 21:16:32.954 DEBUG 11998 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-03-28 21:16:32.955 DEBUG 11998 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-03-28 21:16:32.956 DEBUG 11998 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-03-28 21:16:32.956 DEBUG 11998 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-03-28 21:16:32.970  INFO 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Starting ScheduleMongoRepositoryTest on Rajeshs-MacBook-Pro.local with PID 11998 (started by nrajesh in /Users/nrajesh/Documents/Workspace/scheduler)
+2019-03-28 21:16:32.971 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Running with Spring Boot v2.1.3.RELEASE, Spring v5.1.5.RELEASE
+2019-03-28 21:16:32.972  INFO 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : No active profile set, falling back to default profiles: default
+2019-03-28 21:16:36.050 DEBUG 11998 --- [main] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 21:16:36.051 DEBUG 11998 --- [main] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2019-03-28 21:16:36.065 DEBUG 11998 --- [main] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 21:16:36.067 DEBUG 11998 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2019-03-28 21:16:36.068 DEBUG 11998 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2019-03-28 21:16:36.069 DEBUG 11998 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ParameterNameProvider of type org.springframework.validation.beanvalidation.LocalValidatorFactoryBean$1
+2019-03-28 21:16:36.070 DEBUG 11998 --- [main] o.h.v.i.xml.config.ValidationXmlParser   : Trying to load META-INF/validation.xml for XML based Validator configuration.
+2019-03-28 21:16:36.071 DEBUG 11998 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via user class loader
+2019-03-28 21:16:36.072 DEBUG 11998 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via TCCL
+2019-03-28 21:16:36.072 DEBUG 11998 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2019-03-28 21:16:36.073 DEBUG 11998 --- [main] o.h.v.i.xml.config.ValidationXmlParser   : No META-INF/validation.xml found. Using annotation based configuration only.
+2019-03-28 21:16:36.083 DEBUG 11998 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-03-28 21:16:36.083 DEBUG 11998 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-03-28 21:16:36.083 DEBUG 11998 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-03-28 21:16:36.083 DEBUG 11998 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-03-28 21:16:36.084 DEBUG 11998 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-03-28 21:16:37.408  INFO 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Started ScheduleMongoRepositoryTest in 4.894 seconds (JVM running for 6.183)
+2019-03-28 21:16:37.799 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing test setup
+2019-03-28 21:16:37.823 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:16:38.009 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Holiday ~ Starts on: 2019-03-28
+2019-03-28 21:16:38.009 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:16:38.014 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Team catch-up ~ Starts on: 2019-03-28
+2019-03-28 21:16:38.015 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Exiting test setup
+2019-03-28 21:16:38.015 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing testFetchData
+2019-03-28 21:16:38.015 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Occurrence date for fetch is: 2019-03-28
+2019-03-28 21:16:38.174 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing test setup
+2019-03-28 21:16:38.180 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:16:38.188 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Holiday ~ Starts on: 2019-03-28
+2019-03-28 21:16:38.188 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:16:38.196 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Team catch-up ~ Starts on: 2019-03-28
+2019-03-28 21:16:38.196 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Exiting test setup
+2019-03-28 21:16:38.197 DEBUG 11998 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing testDataUpdate
+2019-03-28 21:18:33.503 DEBUG 12014 --- [background-preinit] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2019-03-28 21:18:33.514 DEBUG 12014 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-03-28 21:18:33.515 DEBUG 12014 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-03-28 21:18:33.515 DEBUG 12014 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-03-28 21:18:33.516 DEBUG 12014 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-03-28 21:18:33.516 DEBUG 12014 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-03-28 21:18:33.556  INFO 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Starting ScheduleMongoRepositoryTest on Rajeshs-MacBook-Pro.local with PID 12014 (started by nrajesh in /Users/nrajesh/Documents/Workspace/scheduler)
+2019-03-28 21:18:33.557 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Running with Spring Boot v2.1.3.RELEASE, Spring v5.1.5.RELEASE
+2019-03-28 21:18:33.558  INFO 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : No active profile set, falling back to default profiles: default
+2019-03-28 21:18:36.980 DEBUG 12014 --- [main] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 21:18:36.981 DEBUG 12014 --- [main] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2019-03-28 21:18:36.993 DEBUG 12014 --- [main] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 21:18:36.994 DEBUG 12014 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2019-03-28 21:18:36.995 DEBUG 12014 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2019-03-28 21:18:36.996 DEBUG 12014 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ParameterNameProvider of type org.springframework.validation.beanvalidation.LocalValidatorFactoryBean$1
+2019-03-28 21:18:36.998 DEBUG 12014 --- [main] o.h.v.i.xml.config.ValidationXmlParser   : Trying to load META-INF/validation.xml for XML based Validator configuration.
+2019-03-28 21:18:36.998 DEBUG 12014 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via user class loader
+2019-03-28 21:18:36.998 DEBUG 12014 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via TCCL
+2019-03-28 21:18:36.999 DEBUG 12014 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2019-03-28 21:18:36.999 DEBUG 12014 --- [main] o.h.v.i.xml.config.ValidationXmlParser   : No META-INF/validation.xml found. Using annotation based configuration only.
+2019-03-28 21:18:37.008 DEBUG 12014 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-03-28 21:18:37.008 DEBUG 12014 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-03-28 21:18:37.008 DEBUG 12014 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-03-28 21:18:37.009 DEBUG 12014 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-03-28 21:18:37.009 DEBUG 12014 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-03-28 21:18:38.182  INFO 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Started ScheduleMongoRepositoryTest in 5.085 seconds (JVM running for 6.13)
+2019-03-28 21:18:38.494 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing test setup
+2019-03-28 21:18:38.516 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:18:38.709 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Holiday ~ Starts on: 2019-03-28
+2019-03-28 21:18:38.710 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Exiting test setup
+2019-03-28 21:18:38.710 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing testFetchData
+2019-03-28 21:18:38.711 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Occurrence date for fetch is: 2019-03-28
+2019-03-28 21:18:38.791 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Found schedule is: Holiday
+2019-03-28 21:18:38.825 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing test setup
+2019-03-28 21:18:38.826 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:18:38.834 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Holiday ~ Starts on: 2019-03-28
+2019-03-28 21:18:38.841 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Exiting test setup
+2019-03-28 21:18:38.842 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing testDataUpdate
+2019-03-28 21:18:38.849 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Old schedule2 date is: 2019-03-28
+2019-03-28 21:18:38.849 DEBUG 12014 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : New schedule2 date is: 2019-03-29
+2019-03-28 21:19:19.430 DEBUG 12023 --- [background-preinit] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2019-03-28 21:19:19.443  INFO 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Starting ScheduleMongoRepositoryTest on Rajeshs-MacBook-Pro.local with PID 12023 (started by nrajesh in /Users/nrajesh/Documents/Workspace/scheduler)
+2019-03-28 21:19:19.445 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Running with Spring Boot v2.1.3.RELEASE, Spring v5.1.5.RELEASE
+2019-03-28 21:19:19.446 DEBUG 12023 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-03-28 21:19:19.447 DEBUG 12023 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-03-28 21:19:19.448 DEBUG 12023 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-03-28 21:19:19.448 DEBUG 12023 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-03-28 21:19:19.449 DEBUG 12023 --- [background-preinit] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-03-28 21:19:19.452  INFO 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : No active profile set, falling back to default profiles: default
+2019-03-28 21:19:23.266 DEBUG 12023 --- [main] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 21:19:23.268 DEBUG 12023 --- [main] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2019-03-28 21:19:23.280 DEBUG 12023 --- [main] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 21:19:23.281 DEBUG 12023 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2019-03-28 21:19:23.282 DEBUG 12023 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2019-03-28 21:19:23.284 DEBUG 12023 --- [main] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ParameterNameProvider of type org.springframework.validation.beanvalidation.LocalValidatorFactoryBean$1
+2019-03-28 21:19:23.287 DEBUG 12023 --- [main] o.h.v.i.xml.config.ValidationXmlParser   : Trying to load META-INF/validation.xml for XML based Validator configuration.
+2019-03-28 21:19:23.288 DEBUG 12023 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via user class loader
+2019-03-28 21:19:23.289 DEBUG 12023 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via TCCL
+2019-03-28 21:19:23.290 DEBUG 12023 --- [main] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2019-03-28 21:19:23.292 DEBUG 12023 --- [main] o.h.v.i.xml.config.ValidationXmlParser   : No META-INF/validation.xml found. Using annotation based configuration only.
+2019-03-28 21:19:23.303 DEBUG 12023 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-03-28 21:19:23.305 DEBUG 12023 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-03-28 21:19:23.306 DEBUG 12023 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-03-28 21:19:23.308 DEBUG 12023 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-03-28 21:19:23.309 DEBUG 12023 --- [main] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-03-28 21:19:24.431  INFO 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Started ScheduleMongoRepositoryTest in 5.522 seconds (JVM running for 6.794)
+2019-03-28 21:19:24.692 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing test setup
+2019-03-28 21:19:24.703 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:19:24.868 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Holiday ~ Starts on: 2019-03-28
+2019-03-28 21:19:24.869 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Exiting test setup
+2019-03-28 21:19:24.870 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing testFetchData
+2019-03-28 21:19:24.870 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Occurrence date for fetch is: 2019-03-28
+2019-03-28 21:19:24.947 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Found schedule is: Holiday
+2019-03-28 21:19:24.980 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing test setup
+2019-03-28 21:19:24.980 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing setupEvtObj
+2019-03-28 21:19:24.989 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : evtObj1: Holiday ~ Starts on: 2019-03-28
+2019-03-28 21:19:24.991 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Exiting test setup
+2019-03-28 21:19:24.992 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Executing testDataUpdate
+2019-03-28 21:19:25.002 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : Old schedule2 date is: 2019-03-28
+2019-03-28 21:19:25.004 DEBUG 12023 --- [main] c.c.s.dto.ScheduleMongoRepositoryTest    : New schedule2 date is: 2019-03-29

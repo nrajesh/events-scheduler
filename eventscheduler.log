@@ -29233,3 +29233,24 @@ eventId=
 eventName=Credit card bill
 occurrenceDate=2021-07-10
 ]
+2019-03-28 23:41:10.843  INFO 12703 --- [restartedMain] c.c.scheduler.SchedulerApplication       : Starting SchedulerApplication on Rajeshs-MacBook-Pro.local with PID 12703 (/Users/nrajesh/Documents/Workspace/scheduler/target/classes started by nrajesh in /Users/nrajesh/Documents/Workspace/scheduler)
+2019-03-28 23:41:10.844 DEBUG 12703 --- [restartedMain] c.c.scheduler.SchedulerApplication       : Running with Spring Boot v2.1.3.RELEASE, Spring v5.1.5.RELEASE
+2019-03-28 23:41:10.844  INFO 12703 --- [restartedMain] c.c.scheduler.SchedulerApplication       : No active profile set, falling back to default profiles: default
+2019-03-28 23:41:11.472 DEBUG 12703 --- [restartedMain] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 23:41:11.473 DEBUG 12703 --- [restartedMain] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2019-03-28 23:41:11.475 DEBUG 12703 --- [restartedMain] o.h.v.i.e.resolver.TraversableResolvers  : Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-03-28 23:41:11.475 DEBUG 12703 --- [restartedMain] o.h.v.internal.engine.ConfigurationImpl  : Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2019-03-28 23:41:11.475 DEBUG 12703 --- [restartedMain] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2019-03-28 23:41:11.475 DEBUG 12703 --- [restartedMain] o.h.v.internal.engine.ConfigurationImpl  : Setting custom ParameterNameProvider of type org.springframework.validation.beanvalidation.LocalValidatorFactoryBean$1
+2019-03-28 23:41:11.476 DEBUG 12703 --- [restartedMain] o.h.v.i.xml.config.ValidationXmlParser   : Trying to load META-INF/validation.xml for XML based Validator configuration.
+2019-03-28 23:41:11.476 DEBUG 12703 --- [restartedMain] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via user class loader
+2019-03-28 23:41:11.476 DEBUG 12703 --- [restartedMain] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via TCCL
+2019-03-28 23:41:11.476 DEBUG 12703 --- [restartedMain] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2019-03-28 23:41:11.476 DEBUG 12703 --- [restartedMain] o.h.v.i.xml.config.ValidationXmlParser   : No META-INF/validation.xml found. Using annotation based configuration only.
+2019-03-28 23:41:11.481 DEBUG 12703 --- [restartedMain] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-03-28 23:41:11.481 DEBUG 12703 --- [restartedMain] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-03-28 23:41:11.481 DEBUG 12703 --- [restartedMain] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-03-28 23:41:11.481 DEBUG 12703 --- [restartedMain] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-03-28 23:41:11.481 DEBUG 12703 --- [restartedMain] o.h.v.i.engine.ValidatorFactoryImpl      : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-03-28 23:41:11.574  INFO 12703 --- [restartedMain] c.c.scheduler.SchedulerApplication       : Started SchedulerApplication in 0.78 seconds (JVM running for 5546.279)
+2019-03-28 23:41:11.578 DEBUG 12703 --- [restartedMain] c.c.scheduler.SchedulerApplication       : --Application Started--

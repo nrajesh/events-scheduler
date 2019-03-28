@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -72,8 +73,9 @@ public class EventScheduleUtil implements SchedulerConstants {
 			if(null!=inputInt) {
 				outputInt=Integer.valueOf((String)inputInt).intValue();
 			}
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException nfe) {
 			outputInt=expnVal;
+			logger.debug(nfe.toString());
 		}
 
 		logger.debug("Result of intFormat: "+outputInt);
@@ -90,8 +92,9 @@ public class EventScheduleUtil implements SchedulerConstants {
 		char outputChar = EMPTY_CHAR;
 		try {
 			outputChar=eliminateNull((String)inputChar).charAt(0);
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException nfe) {
 			outputChar = EMPTY_CHAR;
+			logger.debug(nfe.toString());
 		}
 
 		logger.debug("Result of charFormat: "+outputChar);
@@ -118,7 +121,7 @@ public class EventScheduleUtil implements SchedulerConstants {
 			intFormat(jpObj.get(RECUR_NUM),1),
 			charFormat(jpObj.get(RECUR_PATTERN)),
 			eliminateNull((String)jpObj.get(WEEK_PATTERN)),
-			intFormat(jpObj.get(START_MONTH),0),
+			getMonth((String)jpObj.get(START_MONTH)),
 			intFormat(jpObj.get(RECUR_FREQ),1)
 		);
 
@@ -147,9 +150,7 @@ public class EventScheduleUtil implements SchedulerConstants {
 	 */
 	public static ScheduleObj createScheduleObj(Map<String, Object> jpObj) {
 		logger.debug("Input for createScheduleObj: "+jpObj.toString());
-
-//		LocalDate occurrenceDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE));
-//		occurrenceDate.atStartOfDay(ZoneId.of("UTC"));
+		
 		LocalDate occurrenceDate = dateFormat(jpObj.get(START_DATE), START);
 		
 		ScheduleObj scheduleObj = new ScheduleObj(
@@ -163,28 +164,83 @@ public class EventScheduleUtil implements SchedulerConstants {
 	}
 
 	/**
-	 * Method to make an array of selected week days
-	 * @param inputDays
+	 * Method to make Integer array of selected week days
+	 * @param inputWeekDays
 	 * @return Integer array of selected week days
 	 */
-	public static int[] getWeekDays(String inputDays) {
-		logger.debug("Input for getWeekDays: "+inputDays);
+	public static int[] getWeekDays(String inputWeekDays) {
+		logger.debug("Input for getWeekDays: "+inputWeekDays);
 		int[] weekDays=null;
-		int itr = 0, weekDay=0;
-		StringTokenizer strTkn = new StringTokenizer(inputDays,COMMA);
+		int itr = 0;
+		StringTokenizer strTkn = new StringTokenizer(inputWeekDays,COMMA);
+		String tknVal = EMPTY_STRING;
 		
 		try {
 			weekDays = new int[strTkn.countTokens()];
 			while (strTkn.hasMoreElements()) {
-				weekDay = intFormat((String)strTkn.nextElement(),1);
-				weekDays[itr] = weekDay;
-				itr++;
+				tknVal = strTkn.nextToken();
+				final Map<Integer, String> weekDayMap = new HashMap<Integer, String>();
+				weekDayMap.put(1,"mon");
+				weekDayMap.put(2,"tue");
+				weekDayMap.put(3,"wed");
+				weekDayMap.put(4,"thu");
+				weekDayMap.put(5,"fri");
+				weekDayMap.put(6,"sat");
+				weekDayMap.put(7,"sun");
+				
+				for(int tempKey=1;tempKey<=weekDayMap.size();) {
+					String tempVal=weekDayMap.get(tempKey);
+					if(tknVal.toLowerCase().startsWith(tempVal)) {
+						weekDays[itr] = tempKey;
+						itr++;
+					}
+					tempKey++;
+				}
 			}
-		} catch (NumberFormatException e) {
-			weekDays[itr] = 1;
+		} catch (NumberFormatException nfe) {
+			logger.debug(nfe.toString());
 		}
 
 		logger.debug("Result of getWeekDays: "+weekDays);
 		return weekDays;
+	}
+
+	/**
+	 * Method to extract Integer value of selected month
+	 * @param inputMonth
+	 * @return Integer value of selected month
+	 */
+	public static int getMonth(String inputMonth) {
+		logger.debug("Input for getMonths: "+inputMonth);
+
+		int monthVal = 0;
+		
+		try {
+			monthVal = Integer.valueOf((String)inputMonth).intValue();
+		} catch (NumberFormatException e) {
+			final Map<Integer, String> monthMap = new HashMap<Integer, String>();
+			monthMap.put(1,"jan");
+			monthMap.put(2,"feb");
+			monthMap.put(3,"mar");
+			monthMap.put(4,"apr");
+			monthMap.put(5,"may");
+			monthMap.put(6,"jun");
+			monthMap.put(7,"jul");
+			monthMap.put(8,"aug");
+			monthMap.put(9,"sep");
+			monthMap.put(10,"oct");
+			monthMap.put(11,"nov");
+			monthMap.put(12,"dec");
+			
+			for(int tempKey=1;tempKey<=monthMap.size();) {
+				String tempVal=monthMap.get(tempKey);
+				if(inputMonth.toLowerCase().startsWith(tempVal)) {
+					monthVal = tempKey;
+				}
+				tempKey++;
+			}
+		}
+		logger.debug("Result of getMonths: "+monthVal);
+		return monthVal;
 	}
 }

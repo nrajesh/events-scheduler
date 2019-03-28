@@ -17,14 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.calendar.scheduler.SchedulerApplication;
 import com.calendar.scheduler.model.EventObj;
 import com.calendar.scheduler.model.ScheduleObj;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ScheduleMongoRepositoryTest {
-	private static final Logger logger = LoggerFactory.getLogger(SchedulerApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(ScheduleMongoRepositoryTest.class);
 	
     @Autowired
     private IScheduleMongoDB schedulerMongo;
@@ -38,13 +37,11 @@ public class ScheduleMongoRepositoryTest {
     	
     	LocalDate startDate = LocalDate.now();
     	startDate.atStartOfDay(ZoneId.of("UTC"));
-    	
-//    	set(2099,11,31);
-//    	LocalDate endDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, c.get(Calendar.DATE));
 
     	LocalDate endDate = startDate.plusDays(1);
     	endDate.atStartOfDay(ZoneId.of("UTC"));
     	
+    	//Every second Saturday is a holiday
     	EventObj evtObj1 = new EventObj(
         		"Holiday",
         		startDate, 
@@ -54,26 +51,51 @@ public class ScheduleMongoRepositoryTest {
         		"Sat",
         		0,
         		2);
+
+		setupEvtObj(evtObj1);
+    	
+    	//Every Tuesday and Thursday is team catch-up
+    	EventObj evtObj2 = new EventObj(
+        		"Team catch-up",
+        		startDate, 
+        		endDate,
+        		0,
+        		'w',
+        		"Tue,Thu",
+        		0,
+        		1);
+    	
+		setupEvtObj(evtObj2);
+		logger.debug("Exiting test setup");
+    }
+
+    private void setupEvtObj(EventObj evtObj) {
+		logger.debug("Executing setupEvtObj");
+    	
         //save event, verify it has ID value before save
-        assertNull(evtObj1.getId());
-        this.eventMongo.save(evtObj1);
+        assertNull(evtObj.getId());
+        this.eventMongo.save(evtObj);
+        
         //Verify if saved event has ID value after save
-        assertNotNull(evtObj1.getId());
+        assertNotNull(evtObj.getId());
         
         ScheduleObj scheduleObj1 = new ScheduleObj(
-        		evtObj1.getId(),
-        		evtObj1.getEventName(),
-        		startDate
+        		evtObj.getId(),
+        		evtObj.getEventName(),
+        		evtObj.getStartDate()
         		);
+        
         //save schedule, verify it has ID value before save
         assertNull(scheduleObj1.getId());
         this.schedulerMongo.save(scheduleObj1);
+        
         //Verify if saved schedule has ID value after save
         assertNotNull(scheduleObj1.getId());
-		logger.debug("evtObj1: "+ evtObj1.getEventName()+" ~ Starts on: "+evtObj1.getStartDate());
-    }
 
-    @Test
+		logger.debug("evtObj1: "+ evtObj.getEventName()+" ~ Starts on: "+evtObj.getStartDate());
+	}
+
+	@Test
     public void testFetchData() {
 		logger.debug("Executing testFetchData");
 

@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.calendar.scheduler.SchedulerApplication;
 import com.calendar.scheduler.dto.IScheduleMongoDB;
 import com.calendar.scheduler.model.ScheduleObj;
 import com.calendar.scheduler.util.EventScheduleUtil;
@@ -47,7 +45,7 @@ public class ScheduleController implements SchedulerConstants {
 	/**
 	 * 
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(SchedulerApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(ScheduleController.class);
 	private DateFormat format = new SimpleDateFormat(DATE_FORMAT_SHORT);
 	Calendar startCalendar = new GregorianCalendar();
 	Calendar endCalendar = new GregorianCalendar();
@@ -103,9 +101,9 @@ public class ScheduleController implements SchedulerConstants {
 					if((!schObj.getOccurrenceDate().isBefore(startDate)
 							&& cntOccurances==0) 
 							|| (cntr < cntOccurances && 
-									!schObj.getOccurrenceDate().isBefore(startDate))) {
-						rsltLst.add(schObj);
-	//					}
+										!schObj.getOccurrenceDate().isBefore(startDate))) {
+							rsltLst.add(schObj);
+					}
 				} else if(EMPTY_STRING.equals(eventName)) {
 					// Perform fetch of all schedules up to number of occurrences or from start date specified
 					if(cntr < cntOccurances || !schObj.getOccurrenceDate().isBefore(startDate)) {
@@ -113,11 +111,9 @@ public class ScheduleController implements SchedulerConstants {
 					}
 				}
 				cntr++;
-				}
 			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ParseException pe) {
+			logger.debug(pe.toString());
 		}
 		
 		logger.debug("Result of fetchSchedules: "+rsltLst.toString());
@@ -174,31 +170,103 @@ public class ScheduleController implements SchedulerConstants {
 	    
 		ScheduleObj scheduleObj = new ScheduleObj();
 		try {
+			// Takes the user inputs and maps it to the corresponding fields
 			Map<String, Object> jpObj = jp.object();
+			
 			int recurNum = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_NUM)),0);
 			int recurFreq = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_FREQ)),1);
+			
+			// Obtains start date from user input and sets it to today if it is empty
 			LocalDate startDate = EventScheduleUtil.dateFormat(jpObj.get(START_DATE), START);
+			// Obtains end date from user input and sets it to '2099-12-31' if it is empty
 			LocalDate endDate = EventScheduleUtil.dateFormat(jpObj.get(END_DATE), END);
+			
 			char recurPattern = EventScheduleUtil.charFormat(jpObj.get(RECUR_PATTERN));
+			int[] weekDays = EventScheduleUtil.getWeekDays((String)jpObj.get(WEEK_PATTERN));
+			int month = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(START_MONTH)),1);
+			
 			LocalDate currDate = startDate;
 			
 			switch (recurPattern) {
 			
 				case 'd':
-					long dateDiff = 0;
-					if(recurNum==0) {
-						dateDiff = ChronoUnit.DAYS.between(startDate,endDate);
-					} else {
+
+					if(recurNum!=0) {
 						endDate = startDate.plusDays(recurNum*recurFreq);
 					}
-					
-					logger.debug("AND THE DIFFERENCE IS: "+dateDiff);
-					while(!currDate.isAfter(endDate)) {
+					while((currDate.isBefore(endDate) && recurNum!=0)
+							|| (!currDate.isAfter(endDate)) && recurNum==0) {
 						jpObj.put(START_DATE, currDate);
 						scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
 
 						scheduleObj = schedulerMongo.save(scheduleObj);
 						currDate = currDate.plusDays(recurFreq);
+					}
+					break;
+					
+				case 'w':
+
+					if(recurNum!=0) {
+						endDate = startDate.plusWeeks(recurNum*recurFreq);
+					}
+					while((currDate.isBefore(endDate) && recurNum!=0)
+							|| (!currDate.isAfter(endDate)) && recurNum==0) {
+
+						for(int weekDay: weekDays) {
+							currDate = startDate;
+							while((currDate.isBefore(endDate) && recurNum!=0)
+									|| (!currDate.isAfter(endDate)) && recurNum==0) {
+								if(currDate.getDayOfWeek().getValue()==weekDay) {
+									jpObj.put(START_DATE, currDate);
+									scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
+	
+									scheduleObj = schedulerMongo.save(scheduleObj);
+									currDate = currDate.plusWeeks(recurFreq);
+								} else {
+									currDate = currDate.plusDays(1);
+								}
+							}
+						}
+					}
+					break;
+			
+				case 'm':
+
+					if(recurNum!=0) {
+						while(currDate.getMonth().getValue()!=month) {
+							currDate=currDate.plusMonths(1);
+						}
+						endDate = currDate.plusMonths(recurNum*recurFreq);
+					}
+					while((currDate.isBefore(endDate) && recurNum!=0)
+							|| (!currDate.isAfter(endDate)) && recurNum==0) {
+						if(currDate.getMonth().getValue()==month) {
+							jpObj.put(START_DATE, currDate);
+							scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
+	
+							scheduleObj = schedulerMongo.save(scheduleObj);
+							currDate = currDate.plusMonths(recurFreq);
+							
+							// Unlike week days, month is a single option, so based on frequency, keep identifying next target month
+							month = currDate.getMonth().getValue();
+						} else {
+							currDate = currDate.plusDays(1);
+						}
+					}
+					break;
+			
+				case 'y':
+
+					if(recurNum!=0) {
+						endDate = startDate.plusYears(recurNum*recurFreq);
+					}
+					while((currDate.isBefore(endDate) && recurNum!=0)
+							|| (!currDate.isAfter(endDate)) && recurNum==0) {
+						jpObj.put(START_DATE, currDate);
+						scheduleObj = EventScheduleUtil.createScheduleObj(jpObj);
+
+						scheduleObj = schedulerMongo.save(scheduleObj);
+						currDate = currDate.plusYears(recurFreq);
 					}
 					break;
 			}

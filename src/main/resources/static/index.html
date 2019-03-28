@@ -36,7 +36,11 @@
 
                 <div id="scheduleDtls" style="visibility:collapse;display:none;">
                     <br>Event name:&nbsp;&nbsp;&nbsp;<input name="srchEvtName" id="srchEvtName" type="text" value="">&nbsp;&nbsp;
-                    <br><br>Show schedules from:&nbsp;&nbsp;&nbsp;<input name="srchStartDate" id="srchStartDate" data-date-autoclose="true" type="date" value="">&nbsp;&nbsp;<font style="color:black;font-size: 12px;">01:00:00</font>&nbsp;&nbsp;&nbsp;No. of occurances&nbsp;&nbsp;<input id="numSchedules" min="0" type="number" value="0" style="width: 40px;">&nbsp;&nbsp;
+                    <br><br>Show schedules from:&nbsp;&nbsp;&nbsp;<input name="srchStartDate" id="srchStartDate" data-date-autoclose="true" type="date" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No. of occurrences&nbsp;&nbsp;<input id="numSchedules" min="0" type="number" value="0" style="width: 40px;">&nbsp;&nbsp;
+
+                        <font style="color:gray;font-size: 12px;">
+                            <br>Defaults to today&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 occurrences returns all
+                        </font>
                     <br><br><input id="fetchSchedules" type="submit" style="width:150px" value="FETCH SCHEDULES">
                 </div>
                 <div id="scheduleCount" style="visibility:collapse;display: none;">
@@ -68,21 +72,21 @@
             <td>
                 <!--form method="GET"-->
                     <div>
-                        <b>Event Name</b>&nbsp;&nbsp;&nbsp;<input type="text" id="eventName" name="eventName" style="width:150px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>Event Name</b>&nbsp;&nbsp;&nbsp;<input type="text" id="eventName" name="eventName" value=" " style="width:150px" onclick="if(this.value==' ') {this.value='';}" onblue="if(this.value=='') {this.value=' ';}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                         <br>
                         <br>
-                        <label><b>Start Date</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="startDate" id="startDate" data-date-autoclose="true" type="date" required onchange="if(this.value){document.getElementById('endDate').min = this.value}" useCurrent></label>
+                        <label><b>Start Date</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="startDate" id="startDate" data-date-autoclose="true" type="date" onchange="if(this.value){document.getElementById('endDate').min = this.value} else if(''==this.value){document.getElementById('endDate').min = ''}" useCurrent></label>
                         
                         <font style="color:gray;font-size: 12px;">
                             Defaults to today<br>
                         </font>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <label><b>End Date</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="endDate" id="endDate" type="date" onchange="if(this.value){document.getElementById('startDate').max = this.value;} if(null!=this.value) {document.getElementById('recurNum').value=0;document.getElementById('recurNum').disabled=true;} if(''==this.value) {document.getElementById('recurNum').value=1;document.getElementById('recurNum').disabled=false;}"></label>
+                        <label><b>End Date</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="endDate" id="endDate" type="date" onchange="if(this.value){document.getElementById('startDate').max = this.value;} if(null!=this.value) {document.getElementById('recurNum').value=0;document.getElementById('recurNum').disabled=true;} if(''==this.value) {document.getElementById('startDate').max ='';document.getElementById('recurNum').value=1;document.getElementById('recurNum').disabled=false;}"></label>
                         
                         <font style="color:gray;font-size: 12px;">
-                            Defaults to "<em>2019-12-31</em>"
+                            Defaults to "<em>2099-12-31</em>"
                         </font>
 
                         <br>
@@ -109,27 +113,27 @@
                             <br>
                             <b>Starting from</b>&nbsp;&nbsp;
                             <select multiple id="weekPattern" hidden>
-                                <option id="16" value="Sun" default>Sunday</option>
-                                <option id="10" value="Mon">Monday</option>
-                                <option id="11" value="Tue">Tuesday</option>
-                                <option id="12" value="Wed">Wednesday</option>
-                                <option id="13" value="Thu">Thursday</option>
-                                <option id="14" value="Fri">Friday</option>
-                                <option id="15" value="Sat">Saturday</option>
+                                <option id="10" value="mon" default selected>Monday</option>
+                                <option id="11" value="tue">Tuesday</option>
+                                <option id="12" value="wed">Wednesday</option>
+                                <option id="13" value="thu">Thursday</option>
+                                <option id="14" value="fri">Friday</option>
+                                <option id="15" value="sat">Saturday</option>
+                                <option id="16" value="sun">Sunday</option>
                             </select>
                             <select id="startMonth" hidden>
-                                <option id="200" value="0" default>January</option>
-                                <option id="201" value="1">February</option>
-                                <option id="202" value="2">March</option>
-                                <option id="203" value="3">April</option>
-                                <option id="204" value="4">May</option>
-                                <option id="205" value="5">June</option>
-                                <option id="206" value="6">July</option>
-                                <option id="207" value="7">August</option>
-                                <option id="208" value="8">September</option>
-                                <option id="209" value="9">October</option>
-                                <option id="210" value="10">November</option>
-                                <option id="211" value="11">December</option>
+                                <option id="200" value="jan" default selected>January</option>
+                                <option id="201" value="feb">February</option>
+                                <option id="202" value="mar">March</option>
+                                <option id="203" value="apr">April</option>
+                                <option id="204" value="may">May</option>
+                                <option id="205" value="jun">June</option>
+                                <option id="206" value="jul">July</option>
+                                <option id="207" value="aug">August</option>
+                                <option id="208" value="sep">September</option>
+                                <option id="209" value="oct">October</option>
+                                <option id="210" value="nov">November</option>
+                                <option id="211" value="dec">December</option>
                             </select>
 
                             <br>
@@ -145,16 +149,16 @@
             <td>
                 <ul style="margin-top:0px;color:gray;font-size: 12px;">
                     <li>Enter one row in each line</li>
-                    <li>monthPattern parameter starts with January=0</li>
-                    <li>weekPattern parameter starts with Sunday=1</li>
+                    <li>monthPattern parameter is first three characters of month (January=jan=1)</li>
+                    <li>weekPattern parameter is first three characters of week (Monday=mon=1) </li>
                     <li>Date format is yyyy-MM-dd</li>
-                    <li>recurNum is how many times the pattern is repeated</li>
+                    <li>recurNum is the stop after value. If this and end date are both mentioned, recurNum value takes precedence</li>
                     <li>recurFreq is how frequently event needs to recur i.e. once in 2 weeks etc.</li>
                 </ul>
                 <br>
                 <br>
-                <textarea id="multiEvents" style="height:130px;width:550px;text-align:left">{"eventName":"Holiday","startDate":"2019-03-17","endDate":"2019-03-19","recurNum":"2","recurPattern":"w","weekPattern":"7,1","startMonth":"","recurFreq":"2"}
-{"eventName":"Bonus","startDate":"2019-03-18","endDate":"","recurNum":"1","recurPattern":"m","weekPattern":"","startMonth":"0","recurFreq":"1"}</textarea>
+                <textarea id="multiEvents" style="height:130px;width:550px;text-align:left">{"eventName":"Holiday","startDate":"2019-03-17","endDate":"2019-03-19","recurNum":"2","recurPattern":"w","weekPattern":"sat,sun","startMonth":"","recurFreq":"2"}
+{"eventName":"Bonus","startDate":"2019-03-18","endDate":"","recurNum":"1","recurPattern":"m","weekPattern":"","startMonth":"jan","recurFreq":"1"}</textarea>
             
                 <br>
                 <br>

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.calendar.scheduler.SchedulerApplication;
 import com.calendar.scheduler.dto.IEventsMongoDB;
 import com.calendar.scheduler.model.EventObj;
 import com.calendar.scheduler.util.EventScheduleUtil;
@@ -34,7 +33,7 @@ public class EventController implements SchedulerConstants {
 	        return INDEX_HTML;
 	    }
 	}
-	private static final Logger logger = LoggerFactory.getLogger(SchedulerApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(EventController.class);
 	
     /**
      * Autowired annotation to resolve and inject IEventsMongoDB interface
@@ -74,12 +73,10 @@ public class EventController implements SchedulerConstants {
 			eventObj = EventScheduleUtil.createEventObj(jpObj);
 
 		    eventObj = eventMongo.save(eventObj);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ParseException pe) {
+			logger.debug(pe.toString());
+		} catch (NullPointerException npe) {
+			logger.debug(npe.toString());
 		}
 		
 		logger.debug("Result of saveSingleEvent: "+eventObj.toString());

@@ -64,13 +64,13 @@ This library supports the following use cases:
 
 Usage
 ======
-1. Get started by grabbing the executable [![EXE-BADGE]](https://storage.googleapis.com/n-r_scheduler_project/scheduler-0.1.0-exec.jar).
-2. Then open the localhost URL [![[DEMO-BADGE]](http://localhost:8080).
+1. Get started by grabbing the executable [![EXE-BADGE]](https://storage.googleapis.com/n-r_scheduler_project/scheduler-0.1.0-exec.jar)
+2. Then open the [localhost URL](http://localhost:8080)
 
 Single Request
 --------------
 
-The resultant data is fetched from and saved to a Mongo DB backend. The properties of this database can be adjusted in application.properties file [![Open File][OPEN-FILE]](https://github.com/nrajesh/scheduler/blob/master/src/main/resources/application.properties)
+The resultant data is fetched from and saved to a Mongo DB backend. The properties of this database can be adjusted in application.properties file [![OPEN-FILE]](https://github.com/nrajesh/scheduler/blob/master/src/main/resources/application.properties)
 
 Code
 =========

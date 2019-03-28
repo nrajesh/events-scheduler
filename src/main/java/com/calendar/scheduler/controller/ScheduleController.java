@@ -1,12 +1,9 @@
 package com.calendar.scheduler.controller;
 
-import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -19,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -47,8 +45,6 @@ public class ScheduleController implements SchedulerConstants {
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(ScheduleController.class);
 	private DateFormat format = new SimpleDateFormat(DATE_FORMAT_SHORT);
-	Calendar startCalendar = new GregorianCalendar();
-	Calendar endCalendar = new GregorianCalendar();
 	
 	/**
      * Autowired annotation to resolve and inject IScheduleMongoDB interface
@@ -60,6 +56,7 @@ public class ScheduleController implements SchedulerConstants {
 	 * Method to fetch all schedules that gets invoked on receiving the /fetchAllSchedules message
 	 * @return List of @ScheduleObj
 	 */
+    @PostMapping("/fetchAllSchedules")
 	@RequestMapping(value = "/fetchAllSchedules", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	private List<ScheduleObj> fetchAllSchedules() {
@@ -73,6 +70,7 @@ public class ScheduleController implements SchedulerConstants {
 	 * @param Single @EventObj
 	 * @return List of @ScheduleObj is conveyed to the topic URL used as @SendTo destination for the reply
 	 */
+    @PostMapping("/fetchSchedules")
 	@MessageMapping(value="/fetchSchedules")
 	@ResponseBody
 	@SendTo(value="/topic/fetchSchedules")
@@ -125,6 +123,7 @@ public class ScheduleController implements SchedulerConstants {
 	 * @param searchEvtName specific event name
 	 * @return count of schedules for an event is conveyed to the topic URL used as @SendTo destination for the reply
 	 */
+    @PostMapping("/fetchScheduleCount")
 	@MessageMapping(value="/fetchScheduleCount")
 	@ResponseBody
 	@SendTo(value="/topic/fetchScheduleCount")
@@ -161,6 +160,7 @@ public class ScheduleController implements SchedulerConstants {
 	 * @param Single @EventObj
 	 * @return ScheduleObj populated with id
 	 */
+    @PostMapping("/insertSchedule")
 	@MessageMapping(value = "/insertSchedule")
 	@ResponseBody
 	public ScheduleObj insertSchedule(@RequestBody String selectedData) {
@@ -173,8 +173,8 @@ public class ScheduleController implements SchedulerConstants {
 			// Takes the user inputs and maps it to the corresponding fields
 			Map<String, Object> jpObj = jp.object();
 			
-			int recurNum = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_NUM)),0);
-			int recurFreq = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(RECUR_FREQ)),1);
+			int recurNum = EventScheduleUtil.intFormat(String.valueOf(jpObj.get(RECUR_NUM)),0);
+			int recurFreq = EventScheduleUtil.intFormat(String.valueOf(jpObj.get(RECUR_FREQ)),1);
 			
 			// Obtains start date from user input and sets it to today if it is empty
 			LocalDate startDate = EventScheduleUtil.dateFormat(jpObj.get(START_DATE), START);
@@ -183,7 +183,7 @@ public class ScheduleController implements SchedulerConstants {
 			
 			char recurPattern = EventScheduleUtil.charFormat(jpObj.get(RECUR_PATTERN));
 			int[] weekDays = EventScheduleUtil.getWeekDays((String)jpObj.get(WEEK_PATTERN));
-			int month = EventScheduleUtil.intFormat(String.valueOf((BigInteger) jpObj.get(START_MONTH)),1);
+			int month = EventScheduleUtil.intFormat(String.valueOf(jpObj.get(START_MONTH)),1);
 			
 			LocalDate currDate = startDate;
 			
@@ -284,6 +284,7 @@ public class ScheduleController implements SchedulerConstants {
 	 * Method to purge all schedules from DB
 	 * @return Returns a string to confirm schedules are purged
 	 */
+    @PostMapping("/purgeAllSchedules")
 	@RequestMapping(value = "/purgeAllSchedules", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public String purgeAllSchedules() {

@@ -68,7 +68,8 @@ function fnSubmit(eventObj) {
         +'"startMonth":"'+eventObj.startMonth+'",'
         +'"recurFreq":"'+eventObj.recurFreq+'"'
         +'}';
-        
+    console.log('Event JSON is:\n'+(jsonObj));
+    
     stompClient.send("/saveSingleEvent", {}, jsonObj);
     
     if (document.getElementById('weekPattern').hidden)
@@ -78,6 +79,7 @@ function fnSubmit(eventObj) {
 }
 
 function fnInsertSchedule(jsonObj) {
+    console.log('Schedule JSON is:\n'+(jsonObj));
     stompClient.send("/insertSchedule", {}, jsonObj);
 }
 

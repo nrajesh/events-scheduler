@@ -16,7 +16,6 @@ public interface SchedulerConstants {
 	public static final String EVENT_NAME = "eventName";
 	public static final String ID = "id";
 	public static final String INDEX_HTML = "index.html";
-	public static final String INVALID_DATE_FORMAT = "T00:00:00";
 	public static final String NUM_SCHEDULES = "numSchedules";
 	public static final String RECUR_FREQ = "recurFreq";
 	public static final String RECUR_NUM = "recurNum";
@@ -26,5 +25,6 @@ public interface SchedulerConstants {
 	public static final String START = "start";
 	public static final String START_DATE = "startDate";
 	public static final String START_MONTH = "startMonth";
+	public static final String UNDEFINED = "undefined";
 	public static final String WEEK_PATTERN = "weekPattern";
 }

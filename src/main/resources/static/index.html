@@ -147,18 +147,28 @@
                 <div class="vl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
             </td>
             <td>
+                <font style="margin-top:0px;color:gray;font-size: 12px;">Enter one row in each line. Following parameters are supported:</font>
                 <ul style="margin-top:0px;color:gray;font-size: 12px;">
-                    <li>Enter one row in each line</li>
-                    <li>monthPattern parameter is first three characters of month (January=jan=1)</li>
-                    <li>weekPattern parameter is first three characters of week (Monday=mon=1) </li>
-                    <li>Date format is yyyy-MM-dd</li>
-                    <li>recurNum is the stop after value. If this and end date are both mentioned, recurNum value takes precedence</li>
+                    <li>eventName: Name of event</li>
+                    <li>startDate & endDate: Date boundaries of event; Date format is yyyy-MM-dd</li>
+                    <li>recurNum is the 'Stop After' value. If this and end date are both mentioned, recurNum value takes precedence</li>
+                    <li>recurPattern can be <em>d (daily), w (weekly), m (monthly) or y (yearly)</em></li>
+                    <li>weekPattern parameter is first three characters of week (ex. Monday=mon) </li>
+                    <li>startMonth parameter is first three characters of month (ex. January=jan)</li>
                     <li>recurFreq is how frequently event needs to recur i.e. once in 2 weeks etc.</li>
                 </ul>
+                <em style="margin-top:0px;color:gray;font-size: 12px;">Note: Most events are capped to 10 or 100 occurrences (recurNum)</em>
                 <br>
                 <br>
-                <textarea id="multiEvents" style="height:130px;width:550px;text-align:left">{"eventName":"Holiday","startDate":"2019-03-17","endDate":"2019-03-19","recurNum":"2","recurPattern":"w","weekPattern":"sat,sun","startMonth":"","recurFreq":"2"}
-{"eventName":"Bonus","startDate":"2019-03-18","endDate":"","recurNum":"1","recurPattern":"m","weekPattern":"","startMonth":"jan","recurFreq":"1"}</textarea>
+                <textarea id="multiEvents" style="margin-top:0px;height:130px;width:750px;text-align:left">{"eventName":"Holiday","recurPattern":"w","weekPattern":"sat","recurFreq":"2"}
+{"eventName":"Pay bill", "startDate":"2019-04-10","recurNum":"100","recurPattern":"m","startMonth":"apr","recurFreq":"1"}
+{"eventName":"Anniversary", "startDate":"2019-09-02","recurPattern":"y","recurFreq":"1"}
+{"eventName":"Team catch-up", "recurNum":"10","recurPattern":"w","weekPattern":"tue,thu","recurFreq":"1"}
+{"eventName":"Visit hospital", "recurNum":"10","recurPattern":"w","weekPattern":"sat","recurFreq":"2"}
+{"eventName":"School reunion", "startDate":"2017-12-02","recurNum":"1","recurPattern":"y","recurFreq":"1"}
+{"eventName":"Sprint ends", "recurNum":"10","recurPattern":"w","weekPattern":"wed","recurFreq":"2"}
+{"eventName":"Credit card bill", "startDate":"2019-04-10","recurNum":"10","recurPattern":"m","startMonth":"apr","recurFreq":"2"}
+{"eventName":"Shareholders meeting", "startDate":"2019-04-05","recurNum":"10","recurPattern":"m","startMonth":"apr","recurFreq":"3"}</textarea>
             
                 <br>
                 <br>
@@ -255,7 +265,7 @@
         var lines = document.getElementById('multiEvents').value.split('\n');
         
         for(var i = 0;i < lines.length;i++){
-
+            
             if(""!=lines[i]) {
                 fnSubmit(JSON.parse(lines[i]));
             }

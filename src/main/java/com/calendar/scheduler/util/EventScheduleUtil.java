@@ -36,24 +36,31 @@ public class EventScheduleUtil implements SchedulerConstants {
 	 * @return @Date value
 	 */
 	public static LocalDate dateFormat(Object inputDate,String dateType) {
-		logger.debug("Input for dateFormat: inputDate = "+inputDate.toString()+" ~ dateType = "+dateType);
 	    
 		LocalDate outputDate = LocalDate.now();
-		
-		if(dateType.equals(END) && (EMPTY_STRING.equals(inputDate.toString()) || INVALID_DATE_FORMAT.equals(inputDate.toString()))) {
-
-	    	c.set(2099,11,31);
-	    	outputDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, c.get(Calendar.DATE));
-		} else if(dateType.equals(START) && EMPTY_STRING.equals(inputDate.toString())){
-			outputDate = LocalDate.now();
-		} else {
-			Date tempDate=new Date();
-			try {
-				tempDate = new SimpleDateFormat(DATE_FORMAT_SHORT).parse(inputDate.toString());
-			} catch (ParseException pe) {
-				logger.debug(pe.toString());
+		if(null!=inputDate) {
+			if(dateType.equals(END) && (EMPTY_STRING.equals(inputDate.toString()) || UNDEFINED.equals(inputDate.toString()))) {
+	
+		    	c.set(2099,11,31);
+		    	outputDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, c.get(Calendar.DATE));
+			} else if(dateType.equals(START) && (EMPTY_STRING.equals(inputDate.toString()) || UNDEFINED.equals(inputDate.toString()))){
+				outputDate = LocalDate.now();
+			} else {
+				Date tempDate=new Date();
+				try {
+					tempDate = new SimpleDateFormat(DATE_FORMAT_SHORT).parse(inputDate.toString());
+				} catch (ParseException pe) {
+					logger.debug(pe.toString());
+				}
+				outputDate=tempDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			}
-			outputDate=tempDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		} else {
+			if(dateType.equals(END)) {
+				c.set(2099,11,31);
+		    	outputDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, c.get(Calendar.DATE));
+			} else if(dateType.equals(START)) {
+				outputDate = LocalDate.now();
+			}
 		}
 		
 		logger.debug("Result of dateFormat: "+outputDate.toString());
@@ -67,15 +74,18 @@ public class EventScheduleUtil implements SchedulerConstants {
 	 * @return Integer value
 	 */
 	public static int intFormat(Object inputInt, int expnVal) {
-		logger.debug("Input for intFormat: inputInt = "+inputInt.toString()+" ~ expnVal = "+expnVal);
-		int outputInt = 1;
+		int outputInt = expnVal;
 		try {
 			if(null!=inputInt) {
+				logger.debug("Input for intFormat: inputInt = "+inputInt.toString()+" ~ expnVal = "+expnVal);
 				outputInt=Integer.valueOf((String)inputInt).intValue();
 			}
 		} catch (NumberFormatException nfe) {
 			outputInt=expnVal;
 			logger.debug(nfe.toString());
+		} catch (ClassCastException ce) {
+			outputInt=expnVal;
+			logger.debug(ce.toString());
 		}
 
 		logger.debug("Result of intFormat: "+outputInt);
@@ -118,7 +128,7 @@ public class EventScheduleUtil implements SchedulerConstants {
 			eliminateNull((String)jpObj.get(EVENT_NAME)),
 			startDate,
 			endDate,
-			intFormat(jpObj.get(RECUR_NUM),1),
+			intFormat(jpObj.get(RECUR_NUM),0),
 			charFormat(jpObj.get(RECUR_PATTERN)),
 			eliminateNull((String)jpObj.get(WEEK_PATTERN)),
 			getMonth((String)jpObj.get(START_MONTH)),
@@ -172,30 +182,36 @@ public class EventScheduleUtil implements SchedulerConstants {
 		logger.debug("Input for getWeekDays: "+inputWeekDays);
 		int[] weekDays=null;
 		int itr = 0;
-		StringTokenizer strTkn = new StringTokenizer(inputWeekDays,COMMA);
+		StringTokenizer strTkn = null;
 		String tknVal = EMPTY_STRING;
 		
 		try {
-			weekDays = new int[strTkn.countTokens()];
-			while (strTkn.hasMoreElements()) {
-				tknVal = strTkn.nextToken();
-				final Map<Integer, String> weekDayMap = new HashMap<Integer, String>();
-				weekDayMap.put(1,"mon");
-				weekDayMap.put(2,"tue");
-				weekDayMap.put(3,"wed");
-				weekDayMap.put(4,"thu");
-				weekDayMap.put(5,"fri");
-				weekDayMap.put(6,"sat");
-				weekDayMap.put(7,"sun");
-				
-				for(int tempKey=1;tempKey<=weekDayMap.size();) {
-					String tempVal=weekDayMap.get(tempKey);
-					if(tknVal.toLowerCase().startsWith(tempVal)) {
-						weekDays[itr] = tempKey;
-						itr++;
+			if(null!=inputWeekDays) {
+				strTkn = new StringTokenizer(inputWeekDays,COMMA);
+				weekDays = new int[strTkn.countTokens()];
+				while (strTkn.hasMoreElements()) {
+					tknVal = strTkn.nextToken();
+					final Map<Integer, String> weekDayMap = new HashMap<Integer, String>();
+					weekDayMap.put(1,"mon");
+					weekDayMap.put(2,"tue");
+					weekDayMap.put(3,"wed");
+					weekDayMap.put(4,"thu");
+					weekDayMap.put(5,"fri");
+					weekDayMap.put(6,"sat");
+					weekDayMap.put(7,"sun");
+					
+					for(int tempKey=1;tempKey<=weekDayMap.size();) {
+						String tempVal=weekDayMap.get(tempKey);
+						if(tknVal.toLowerCase().startsWith(tempVal)) {
+							weekDays[itr] = tempKey;
+							itr++;
+						}
+						tempKey++;
 					}
-					tempKey++;
 				}
+			} else {
+				weekDays = new int[1];
+				weekDays[0] = 1;
 			}
 		} catch (NumberFormatException nfe) {
 			logger.debug(nfe.toString());
@@ -216,7 +232,11 @@ public class EventScheduleUtil implements SchedulerConstants {
 		int monthVal = 0;
 		
 		try {
-			monthVal = Integer.valueOf((String)inputMonth).intValue();
+			if(null!=inputMonth) {
+				monthVal = Integer.valueOf((String)inputMonth).intValue();
+			} else {
+				monthVal = 1;
+			}
 		} catch (NumberFormatException e) {
 			final Map<Integer, String> monthMap = new HashMap<Integer, String>();
 			monthMap.put(1,"jan");

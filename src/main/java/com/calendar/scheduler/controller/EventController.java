@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,6 +46,7 @@ public class EventController implements SchedulerConstants {
 	 * Method to fetch all events
 	 * @return List of @EventObj
 	 */
+    @PostMapping("/fetchAllEvents")
 	@RequestMapping(value="/fetchAllEvents", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<EventObj> fetchAllEvents() {
@@ -58,6 +60,7 @@ public class EventController implements SchedulerConstants {
 	 * @param A single @EventObj with null id
 	 * @return @EventObj with id populated after save is conveyed to the topic URL used as @SendTo destination for the reply
 	 */
+    @PostMapping("/saveSingleEvent")
 	@MessageMapping(value="/saveSingleEvent")
 	@ResponseBody
 	@SendTo(value="/topic/saveSingleEvent")
@@ -87,6 +90,7 @@ public class EventController implements SchedulerConstants {
 	 * Method to purge all events from DB
 	 * @return Returns a string to confirm events are purged
 	 */
+    @PostMapping("/purgeAllEvents")
 	@RequestMapping(value="/purgeAllEvents", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public String purgeAllEvents() {

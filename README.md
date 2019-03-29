@@ -18,6 +18,7 @@ Contents
 * [Introduction](#introduction)
 * [Sample Use Cases](#sample-use-cases)
 * [Usage](#usage)
+  * [UI Layout](#ui-layout)
   * [Single Request](#single-request)
   * [Multi-line Request](#multi-line-request)
   * [SOAP Request](#soap-request)
@@ -66,6 +67,13 @@ Usage
 ======
 1. Get started by grabbing the executable [![EXE-BADGE]](https://storage.googleapis.com/n-r_scheduler_project/scheduler-0.1.0-exec.jar)
 2. Then open the [localhost URL](http://localhost:8080)
+
+UI Layout
+---------
+![Default Screen](https://storage.googleapis.com/n-r_scheduler_project/defaultScreen.png)
+
+The UI comprises of a search section at the top with a drop-down to search schedules by 
+
 
 Single Request
 --------------

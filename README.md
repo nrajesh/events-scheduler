@@ -19,9 +19,11 @@ Contents
 * [Sample Use Cases](#sample-use-cases)
 * [Usage](#usage)
   * [UI Layout](#ui-layout)
+  * [Search](#search)
   * [Single Request](#single-request)
   * [Multi-line Request](#multi-line-request)
-  * [SOAP Request](#soap-request)
+  * [Fetch and Purge](#fetch-and-purge)
+  * [RESTful Requests](#restful-requests)
 * [Code](#code)
   * [Stack](#stack)
   * [Patterns](#patterns)
@@ -67,18 +69,82 @@ Usage
 ======
 1. Get started by grabbing the executable [![EXE-BADGE]](https://storage.googleapis.com/n-r_scheduler_project/scheduler-0.1.0-exec.jar)
 2. Then open the [localhost URL](http://localhost:8080)
+3. The resultant data is fetched from and saved to a Mongo DB backend. The properties of this database can be adjusted in application.properties file [![OPEN-FILE]](https://github.com/nrajesh/scheduler/blob/master/src/main/resources/application.properties)
 
-UI Layout
----------
 ![Default Screen](https://storage.googleapis.com/n-r_scheduler_project/defaultScreen.png)
 
-The UI comprises of a search section at the top with a drop-down to search schedules by 
-
+Search
+-------
+The section at the top has a drop-down to:
+* Search schedules by **exact** event name and occurance date (from date).
+    * If no date is mentioned all schedule occurances from today will be displayed.
+    * If occurance count is marked as 0, all event occurances will be displayed, else only first 'n' recurrances will show up.
+* Obtain count of recurrances of an event by specifying an **exact** event name.
+* Search results are displayed between search and entry sections (one schedule in each line)
 
 Single Request
 --------------
+The left side of the screen is meant to submit one event at a time. There are no mandatory fields by design, although it will be good to have an event name entered (for looking up schedules via search).
 
-The resultant data is fetched from and saved to a Mongo DB backend. The properties of this database can be adjusted in application.properties file [![OPEN-FILE]](https://github.com/nrajesh/scheduler/blob/master/src/main/resources/application.properties)
+Start and end dates represent the event boundary dates. If left blank, they default to today and an arbitrary end date (31st Dec 2099) respectively.
+
+Either an end date or recurrence count number is needed. If both are entered, recurrence count takes precedence. If end date is left blank & recurrence count is left as 0, the event end date will be capped to the above mentioned arbitrary end date.
+
+Multi-line Request
+------------------
+The multi-line request makes it possible to schedule multiple events at any given time. It accepts following parameters (dates in yyyy-MM-dd format):
+* *eventName*: Name of the event
+* *startDate*: Start date of event
+* *endDate*: End date of event
+* *recurNum*: Max. count of scheduled recurrences of the event
+* *recurPattern*: This can take a value of _'d' or 'w' or 'm' or 'y'_ to represent adaily, weekly, monthly or yearly pattern in the schedule
+* *weekPattern*: The first 3 characters of weekday in lower case. Defaults to '_mon_'
+* *startMonth*: The first 3 characters of month name in lower case. Defaults to '_jan_'
+* *recurFreq*: The frequency of event recurrence mentioned as a number. Ex.: fortnightly=2, once a quarter=3
+
+Fetch and Purge
+---------------
+The three buttons at the bottom of the page make it possible to:
+* Fetch all events
+* Purge all events
+* Purge all schedules
+
+Please note that there are no confirmations asked before purging! All deletions are permanent.
+
+RESTful Requests
+----------------
+The core functionalities of the event scheduler i.e. fetch, insert and purge (of both event and schedules) can be managed via REST API calls done over POST requests. Fetch and insertion actions may require an input payload that is managed via raw messages in request body that are structured in JSON format
+
+> _/saveSingleEvent_: This API call makes it possible to save a single event object. This requires an input payload as shown below (one row for each parameter)
+
+![Save Single Event](https://storage.googleapis.com/n-r_scheduler_project/saveSingleEvent.png)
+
+The resulting JSON object represents a single event object
+
+![Save Single Event DB](https://storage.googleapis.com/n-r_scheduler_project/saveSingleEventDB.png)
+
+> _/insertSchedule_: This API call makes it possible to insert multiple schedule objects for any given event. This requires an input payload as shown below (one row for each parameter)
+
+![Insert Schedule](https://storage.googleapis.com/n-r_scheduler_project/insertSchedule.png)
+
+The resulting JSON object represents schedule objects
+
+![Insert Schedule DB](https://storage.googleapis.com/n-r_scheduler_project/insertScheduleDB.png)
+
+> _/fetchSchedules_: This API call makes it possible to fetch schedule objects given an event name and schedule start date in input payload.
+
+![Fetch Schedules](https://storage.googleapis.com/n-r_scheduler_project/fetchSchedules.png)
+
+> _/fetchScheduleCount_: This API call makes it possible to count the number of occurrences of any given event name (in input payload).
+
+![Fetch Schedule Count](https://storage.googleapis.com/n-r_scheduler_project/fetchScheduleCount.png)
 
 Code
-=========
+=====
+
+
+Stack
+------
+
+Patterns
+--------

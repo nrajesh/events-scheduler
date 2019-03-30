@@ -1,4 +1,4 @@
-package com.calendar.scheduler.util;
+package com.events.scheduler.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,9 +13,9 @@ import java.util.StringTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.calendar.scheduler.SchedulerApplication;
-import com.calendar.scheduler.model.EventObj;
-import com.calendar.scheduler.model.ScheduleObj;
+import com.events.scheduler.SchedulerApplication;
+import com.events.scheduler.model.EventObj;
+import com.events.scheduler.model.ScheduleObj;
 
 /**
  * @author nrajesh

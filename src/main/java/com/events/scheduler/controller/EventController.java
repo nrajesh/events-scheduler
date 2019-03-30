@@ -1,4 +1,4 @@
-package com.calendar.scheduler.controller;
+package com.events.scheduler.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.calendar.scheduler.dto.IEventsMongoDB;
-import com.calendar.scheduler.model.EventObj;
-import com.calendar.scheduler.util.EventScheduleUtil;
-import com.calendar.scheduler.util.SchedulerConstants;
+import com.events.scheduler.dto.IEventsMongoDB;
+import com.events.scheduler.model.EventObj;
+import com.events.scheduler.util.EventScheduleUtil;
+import com.events.scheduler.util.SchedulerConstants;
 
 @Controller
 public class EventController implements SchedulerConstants {

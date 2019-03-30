@@ -1,4 +1,4 @@
-package com.calendar.scheduler.util;
+package com.events.scheduler.util;
 
 public interface SchedulerConstants {
 	public static final String COMMA = ",";

@@ -1,4 +1,4 @@
-package com.calendar.scheduler.dto;
+package com.events.scheduler.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -17,8 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.calendar.scheduler.model.EventObj;
-import com.calendar.scheduler.model.ScheduleObj;
+import com.events.scheduler.dto.IEventsMongoDB;
+import com.events.scheduler.dto.IScheduleMongoDB;
+import com.events.scheduler.model.EventObj;
+import com.events.scheduler.model.ScheduleObj;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

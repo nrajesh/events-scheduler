@@ -1,4 +1,4 @@
-package com.calendar.scheduler.controller;
+package com.events.scheduler.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.calendar.scheduler.dto.IScheduleMongoDB;
-import com.calendar.scheduler.model.ScheduleObj;
-import com.calendar.scheduler.util.EventScheduleUtil;
-import com.calendar.scheduler.util.SchedulerConstants;
+import com.events.scheduler.dto.IScheduleMongoDB;
+import com.events.scheduler.model.ScheduleObj;
+import com.events.scheduler.util.EventScheduleUtil;
+import com.events.scheduler.util.SchedulerConstants;
 
 @Controller
 public class ScheduleController implements SchedulerConstants {
@@ -101,14 +101,15 @@ public class ScheduleController implements SchedulerConstants {
 							|| (cntr < cntOccurances && 
 										!schObj.getOccurrenceDate().isBefore(startDate))) {
 							rsltLst.add(schObj);
+							cntr++;
 					}
 				} else if(EMPTY_STRING.equals(eventName)) {
 					// Perform fetch of all schedules up to number of occurrences or from start date specified
 					if(cntr < cntOccurances || !schObj.getOccurrenceDate().isBefore(startDate)) {
 						rsltLst.add(schObj);
+						cntr++;
 					}
 				}
-				cntr++;
 			}
 		} catch (ParseException pe) {
 			logger.debug(pe.toString());

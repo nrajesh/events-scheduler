@@ -23,10 +23,11 @@ Contents
   * [Single Request](#single-request)
   * [Multi-line Request](#multi-line-request)
   * [Fetch and Purge](#fetch-and-purge)
-  * [RESTful Requests](#restful-requests)
 * [Code](#code)
   * [Stack](#stack)
   * [Patterns](#patterns)
+* [Testing](#testing)
+  * [RESTful Requests](#restful-requests)
 
 
 Introduction
@@ -111,9 +112,30 @@ The three buttons at the bottom of the page make it possible to:
 
 Please note that there are no confirmations asked before purging! All deletions are permanent.
 
+Code
+=====
+That was the design. Here is a look at the underlying code.
+
+* The _main()_ method in SchedulerApplication class is the starting point of the application.
+
+* This initial class also includes _SpringBootApplication_ & _EnableAutoConfiguration_ annotations of SpringBoot. These convenience annotations automatically configure the Spring application using the included jar files, based on dependencies in pom.xml
+
+* 
+
+Stack
+------
+At the core, the _Events Scheduler_ uses _Java 1.8_, _HTML5/ JavaScript_ for front end and _Spring Boot_ as the backend REST API. _Maven_ is used as the build tool. MongoDB is used as the storage layer.
+
+Patterns
+--------
+_MVC_: The code is decoupled as model, view and controller. The models events and schedule represent objects carrying data that get eventually stored in their respective MongoDB Collections. The objects themselves are loosely coupled. Each schedule object has an event id field that can optionally link it to an event object. The main eventing and scheduling logic is written in the EventController and ScheduleController classes. All 
+
+Testing
+=======
+
 RESTful Requests
 ----------------
-The core functionalities of the event scheduler i.e. fetch, insert and purge (of both event and schedules) can be managed via REST API calls done over POST requests. Fetch and insertion actions may require an input payload that is managed via raw messages in request body that are structured in JSON format
+The core functionalities of the event scheduler i.e. fetch, insert and purge (of both event and schedules) can be accessed via REST API calls done over POST requests. Fetch and insertion actions may require an input payload that is managed via raw messages in request body that are structured in JSON format
 
 > _/saveSingleEvent_: This API call makes it possible to save a single event object. This requires an input payload as shown below (one row for each parameter)
 
@@ -138,15 +160,3 @@ The resulting JSON object represents schedule objects
 > _/fetchScheduleCount_: This API call makes it possible to count the number of occurrences of any given event name (in input payload).
 
 ![Fetch Schedule Count](https://storage.googleapis.com/n-r_scheduler_project/fetchScheduleCount.png)
-
-Code
-=====
-That was the design. Here is a look at the underlying code.
-
-Stack
-------
-At the core, the _Events Scheduler_ uses _Java 1.8_, _HTML5/ JavaScript_ for front end and _Spring Boot_ as the backend REST API. _Maven_ is used as the build tool. MongoDB is used as the storage layer.
-
-Patterns
---------
-_MVC_: The code is decoupled as model, view and controller. The models events and schedule represent objects carrying data that get eventually stored in their respective MongoDB Collections. The objects themselves are loosely coupled. Each schedule object has an event id field that can optionally link it to an event object.

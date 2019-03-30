@@ -33,3 +33,5 @@
 .vscode/
 eventscheduler.log
 eventscheduler.log
+*.log
+*.log

@@ -1,4 +1,4 @@
-package com.calendar.scheduler.model;
+package com.events.scheduler.model;
 
 import java.time.LocalDate;
 

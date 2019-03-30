@@ -1,4 +1,4 @@
-package com.calendar.scheduler.dto;
+package com.events.scheduler.dto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import com.calendar.scheduler.model.ScheduleObj;
+import com.events.scheduler.model.ScheduleObj;
 
 public class ScheduleDTO implements IScheduleMongoDB {
 	

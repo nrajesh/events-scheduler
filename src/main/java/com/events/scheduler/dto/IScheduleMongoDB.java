@@ -1,10 +1,10 @@
-package com.calendar.scheduler.dto;
+package com.events.scheduler.dto;
 
 import java.time.LocalDate;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.calendar.scheduler.model.ScheduleObj;
+import com.events.scheduler.model.ScheduleObj;
  
 public interface IScheduleMongoDB extends MongoRepository<ScheduleObj, Integer> {
 	ScheduleObj findByEventName(String eventName);

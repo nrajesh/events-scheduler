@@ -3,7 +3,7 @@
 A simple recurring schedule library written in Java. Springboot and Mongo DB are utilized to quickly showcase a working demo of this utility
 
 [![View Source][SOURCE-BADGE]](https://github.com/nrajesh/scheduler)
-[![Download Source][EXE-BADGE]](https://raw.githubusercontent.com/nrajesh/events-scheduler/master/img/scheduler-0.1.0-exec.jar)
+[![Download Source][EXE-BADGE]](https://raw.githubusercontent.com/nrajesh/events-scheduler/master/scheduler-1.0.0-exec.jar)
 [![View Demo][DEMO-BADGE]](http://localhost:8080)
 [![MIT License][LICENSE-BADGE]](LICENSE)
 

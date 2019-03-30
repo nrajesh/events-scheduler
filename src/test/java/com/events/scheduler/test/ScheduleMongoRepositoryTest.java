@@ -42,7 +42,7 @@ public class ScheduleMongoRepositoryTest {
     	LocalDate endDate = startDate.plusDays(1);
     	
     	//Every second Saturday is a holiday
-    	EventObj evtObj1 = new EventObj(
+    	EventObj evtObj = new EventObj(
         		"Holiday",
         		startDate, 
         		endDate,
@@ -52,20 +52,8 @@ public class ScheduleMongoRepositoryTest {
         		0,
         		2);
 
-		setupEvtObj(evtObj1);
-    	
-    	/*Every Tuesday and Thursday is team catch-up
-    	EventObj evtObj2 = new EventObj(
-        		"Team catch-up",
-        		startDate, 
-        		endDate,
-        		0,
-        		'w',
-        		"Tue,Thu",
-        		0,
-        		1);
-    	
-		setupEvtObj(evtObj2);*/
+		setupEvtObj(evtObj);
+		
 		logger.debug("Exiting test setup");
     }
 

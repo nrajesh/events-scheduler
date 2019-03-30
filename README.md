@@ -141,10 +141,12 @@ The resulting JSON object represents schedule objects
 
 Code
 =====
-
+That was the design. Here is a look at the underlying code.
 
 Stack
 ------
+At the core, the _Events Scheduler_ uses _Java 1.8_, _HTML5/ JavaScript_ for front end and _Spring Boot_ as the backend REST API. _Maven_ is used as the build tool. MongoDB is used as the storage layer.
 
 Patterns
 --------
+_MVC_: The code is decoupled as model, view and controller. The models events and schedule represent objects carrying data that get eventually stored in their respective MongoDB Collections. The objects themselves are loosely coupled. Each schedule object has an event id field that can optionally link it to an event object.

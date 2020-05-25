@@ -3,10 +3,10 @@ version: 2.1
 orbs:
   maven: circleci/maven@0.0.12
 
-workflows:
-  maven_test:
-    jobs:
-      - maven/test # checkout, build, test, and upload test results
+#workflows:
+#  maven_test:
+#    jobs:
+#      - maven/test # checkout, build, test, and upload test results
 
 jobs:
   build:
@@ -18,8 +18,8 @@ jobs:
           name: Analyze on SonarCloud
           command: mvn verify sonar:sonar
 
-#workflows:
-#  main:
-#    jobs:
-#      - build:
-#          context: SonarCloud
+workflows:
+  main:
+    jobs:
+      - build:
+          context: SonarCloud

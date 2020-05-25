@@ -18,8 +18,8 @@ jobs:
           name: Analyze on SonarCloud
           command: mvn verify sonar:sonar
 
-workflows:
-  main:
-    jobs:
-      - build:
-          context: SonarCloud
+#workflows:
+#  main:
+#    jobs:
+#      - build:
+#          context: SonarCloud

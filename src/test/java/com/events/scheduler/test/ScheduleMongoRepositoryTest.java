@@ -62,7 +62,7 @@ public class ScheduleMongoRepositoryTest {
     	
         //save event, verify it has ID value before save
         assertNull(evtObj.getId());
-        this.eventMongo.save(evtObj);
+        //this.eventMongo.save(evtObj);
         
         //Verify if saved event has ID value after save
         assertNotNull(evtObj.getId());
@@ -75,7 +75,7 @@ public class ScheduleMongoRepositoryTest {
         
         //save schedule, verify it has ID value before save
         assertNull(scheduleObj1.getId());
-        this.schedulerMongo.save(scheduleObj1);
+        //this.schedulerMongo.save(scheduleObj1);
         
         //Verify if saved schedule has ID value after save
         assertNotNull(scheduleObj1.getId());
@@ -121,7 +121,7 @@ public class ScheduleMongoRepositoryTest {
     
     @After
     public void tearDown() throws Exception {
-    	this.eventMongo.deleteAll();
-    	this.schedulerMongo.deleteAll();
+    	//this.eventMongo.deleteAll();
+    	//this.schedulerMongo.deleteAll();
     }
 }

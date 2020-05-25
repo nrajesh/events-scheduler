@@ -94,6 +94,9 @@
 				    <mainClass>com.events.scheduler.SchedulerApplication</mainClass>
 					<layout>ZIP</layout>
               		<classifier>exec</classifier>
+				<excludes>
+					<exclude>com.events.scheduler.test</exclude>
+				</excludes>
 				</configuration>
 				<executions>
 					<execution>

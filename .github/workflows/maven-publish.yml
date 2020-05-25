@@ -28,3 +28,9 @@ jobs:
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
+
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@v1.2
+      with:
+        # Set the sonar.projectBaseDir analysis property
+        projectBaseDir: .
